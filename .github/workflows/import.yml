@@ -1,0 +1,457 @@
+name: import
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Grundgeruest schreiben, pruefen, committen
+        run: |
+          mkdir -p bin test tools werkbank/de/Werkbank/Regeln werkbank/de/Werkbank/Rollen/Sparringpartner werkbank/de/Werkbank/Workflows
+          cat > package.json <<'__WB_EOF__'
+          {
+            "name": "holderbaum-werkbank",
+            "version": "0.1.0",
+            "description": "Richtet eine Werkbank ein: ein strukturiertes Verzeichnis, in dem ein Mensch mit KI-Agenten arbeitet.",
+            "bin": {
+              "holderbaum-werkbank": "bin/holderbaum-werkbank.js"
+            },
+            "files": [
+              "bin",
+              "werkbank"
+            ],
+            "scripts": {
+              "test": "node test/smoke.js"
+            },
+            "engines": {
+              "node": ">=18"
+            },
+            "keywords": ["werkbank", "claude", "cowork", "ki", "agent"],
+            "author": "Jakob Holderbaum",
+            "license": "MIT",
+            "homepage": "https://github.com/holderbaum/werkbank",
+            "repository": {
+              "type": "git",
+              "url": "git+https://github.com/holderbaum/werkbank.git"
+            },
+            "bugs": {
+              "url": "https://github.com/holderbaum/werkbank/issues"
+            }
+          }
+          __WB_EOF__
+          cat > bin/holderbaum-werkbank.js <<'__WB_EOF__'
+          #!/usr/bin/env node
+          'use strict';
+
+          // holderbaum-werkbank — legt eine Werkbank im aktuellen Ordner an.
+          // Keine Abhängigkeiten. Überschreibt nie eine vorhandene Datei.
+
+          const fs = require('fs');
+          const path = require('path');
+
+          const PKG = require('../package.json');
+          const QUELLE = path.join(__dirname, '..', 'werkbank');
+          const MARKER = '===== HOLDERBAUM-WERKSTATT · DATEI VOLLSTÄNDIG GELADEN =====';
+          const WERKZEUGE = [
+            ['Werkbank/Regeln/werkbank.md', 150],
+            ['Werkbank/Rollen/Sparringpartner/SYSTEM.md', 150],
+            ['Werkbank/Workflows/FORMAT.md', 100],
+          ];
+
+          function abbruch(text) {
+            process.stderr.write('\nholderbaum-werkbank: ' + text + '\n\n');
+            process.exit(1);
+          }
+
+          function hilfe() {
+            process.stdout.write(
+              'holderbaum-werkbank ' + PKG.version + '\n\n' +
+              'Aufruf (im Ordner, der die Werkbank werden soll):\n' +
+              '  npx holderbaum-werkbank@latest\n\n' +
+              'Optionen:\n' +
+              '  --dir <pfad>   Zielordner statt des aktuellen Ordners\n' +
+              '  --en           Englische Fassung (noch nicht verfügbar)\n' +
+              '  --version      Version ausgeben\n' +
+              '  --help         Diese Hilfe\n\n' +
+              'Quelle: ' + PKG.homepage + '\n'
+            );
+          }
+
+          // Zeitstempel in Europe/Berlin, Format JJJJ-MM-TTTHH-MM-SS
+          function zeitstempel() {
+            const teile = new Intl.DateTimeFormat('de-DE', {
+              timeZone: 'Europe/Berlin',
+              year: 'numeric', month: '2-digit', day: '2-digit',
+              hour: '2-digit', minute: '2-digit', second: '2-digit',
+              hour12: false,
+            }).formatToParts(new Date());
+            const t = {};
+            for (const p of teile) t[p.type] = p.value;
+            return `${t.year}-${t.month}-${t.day}T${t.hour}-${t.minute}-${t.second}`;
+          }
+
+          function kopiere(von, nach, bericht) {
+            for (const eintrag of fs.readdirSync(von, { withFileTypes: true })) {
+              const a = path.join(von, eintrag.name);
+              const b = path.join(nach, eintrag.name);
+              if (eintrag.isDirectory()) {
+                fs.mkdirSync(b, { recursive: true });
+                kopiere(a, b, bericht);
+              } else if (fs.existsSync(b)) {
+                bericht.uebersprungen.push(b);
+              } else {
+                fs.copyFileSync(a, b);
+                bericht.angelegt.push(b);
+              }
+            }
+          }
+
+          function pruefeWerkzeug(ziel, rel, minZeilen) {
+            const datei = path.join(ziel, rel);
+            if (!fs.existsSync(datei)) return rel + ': fehlt';
+            const zeilen = fs.readFileSync(datei, 'utf8').split('\n');
+            const inhalt = zeilen.filter((z) => z.trim() !== '');
+            if (zeilen.length < minZeilen) return rel + ': nur ' + zeilen.length + ' Zeilen';
+            if (inhalt[inhalt.length - 1] !== MARKER) return rel + ': End-Marker fehlt';
+            return null;
+          }
+
+          function main() {
+            const args = process.argv.slice(2);
+            if (args.includes('--help') || args.includes('-h')) return hilfe();
+            if (args.includes('--version') || args.includes('-v')) {
+              return process.stdout.write(PKG.version + '\n');
+            }
+            if (args.includes('--en')) {
+              abbruch('Die englische Fassung ist noch nicht verfügbar. Ohne --en starten.');
+            }
+
+            const i = args.indexOf('--dir');
+            const ziel = path.resolve(i >= 0 && args[i + 1] ? args[i + 1] : process.cwd());
+
+            // Schutz: Cowork startet Terminal-Befehle im Sandbox-Home, nicht im
+            // Ordner des Nutzers. Dort darf keine Werkbank entstehen.
+            if (/^\/sessions\/[^/]+\/?$/.test(ziel)) {
+              abbruch(
+                'Falscher Ordner: ' + ziel + ' ist das Sandbox-Verzeichnis, nicht der Ordner des Nutzers.\n' +
+                'Wechsle mit cd in den verbundenen Ordner (unter ' + ziel.replace(/\/$/, '') + '/mnt/…) und starte erneut.'
+              );
+            }
+            if (!fs.existsSync(ziel) || !fs.statSync(ziel).isDirectory()) {
+              abbruch('Zielordner existiert nicht: ' + ziel);
+            }
+            try {
+              fs.accessSync(ziel, fs.constants.W_OK);
+            } catch (e) {
+              abbruch('Kein Schreibrecht im Zielordner: ' + ziel);
+            }
+
+            const stempel = zeitstempel();
+            const laufRel = path.join('Werkbank', 'protokolle', 'werkbank-setup-' + stempel);
+            const lauf = path.join(ziel, laufRel);
+            const bericht = { angelegt: [], uebersprungen: [] };
+
+            // Schritt 1: Verzeichnisse
+            for (const d of [
+              'Werkbank/Regeln', 'Werkbank/Rollen/Sparringpartner', 'Werkbank/Workflows',
+              path.join(laufRel, 'kladde'), 'Quellen/unterlagen', 'Quellen/website', 'Projekte',
+            ]) {
+              fs.mkdirSync(path.join(ziel, d), { recursive: true });
+            }
+
+            // Schritt 2: Werkzeuge (SETUP.md kommt in den Lauf-Ordner, nicht ins Root)
+            const de = path.join(QUELLE, 'de');
+            kopiere(path.join(de, 'Werkbank'), path.join(ziel, 'Werkbank'), bericht);
+            fs.copyFileSync(path.join(de, 'SETUP.md'), path.join(lauf, 'SETUP.md'));
+
+            const fehler = WERKZEUGE.map(([rel, n]) => pruefeWerkzeug(ziel, rel, n)).filter(Boolean);
+            if (fehler.length) {
+              abbruch('Werkzeuge unvollständig:\n  ' + fehler.join('\n  ') + '\nNichts zusammenraten — Paket neu ausführen.');
+            }
+
+            const zeilenzahl = (rel) => fs.readFileSync(path.join(ziel, rel), 'utf8').replace(/\n$/, '').split('\n').length;
+            fs.writeFileSync(path.join(lauf, 'lauf.md'),
+              '# Lauf werkbank-setup-' + stempel + '\n' +
+              '- Paket: holderbaum-werkbank ' + PKG.version + ' (Bauanleitung v4.0)\n' +
+              '- Start: ' + stempel + '\n' +
+              '- Schritte:\n' +
+              '  - Schritt 1, ' + stempel + ': Verzeichnisse angelegt (Paket)\n' +
+              '  - Schritt 2, ' + stempel + ': Werkzeuge ' +
+                WERKZEUGE.map(([rel]) => path.basename(path.dirname(rel)) + '/' + path.basename(rel) + ' (' + zeilenzahl(rel) + ' Zeilen)').join(', ') +
+                (bericht.uebersprungen.length ? '; vorhanden und nicht überschrieben: ' + bericht.uebersprungen.map((p) => path.relative(ziel, p)).join(', ') : '') +
+                '\n'
+            );
+
+            const setupRel = path.join(laufRel, 'SETUP.md');
+            process.stdout.write(
+              'Werkbank-Gerüst angelegt in: ' + ziel + '\n' +
+              'Paket holderbaum-werkbank ' + PKG.version + ' · Werkzeuge v4.0 vollständig\n' +
+              (bericht.uebersprungen.length
+                ? 'Vorhanden, nicht überschrieben: ' + bericht.uebersprungen.map((p) => path.relative(ziel, p)).join(', ') + '\n'
+                : '') +
+              '\n' +
+              'NÄCHSTER SCHRITT FÜR DEN AGENTEN:\n' +
+              'Lies ' + setupRel + ' (relativ zu diesem Ordner) vollständig mit dem Read-Tool\n' +
+              'und folge der Anleitung ab SCHRITT 3. Der Nutzer muss nichts tun.\n'
+            );
+          }
+
+          main();
+          __WB_EOF__
+          cat > test/smoke.js <<'__WB_EOF__'
+          'use strict';
+          // Rauchtest: Installation in leeren Ordner, zweiter Lauf überschreibt nichts.
+          const { execFileSync } = require('child_process');
+          const fs = require('fs');
+          const os = require('os');
+          const path = require('path');
+          const assert = require('assert');
+
+          const bin = path.join(__dirname, '..', 'bin', 'holderbaum-werkbank.js');
+          const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'werkbank-test-'));
+
+          const out1 = execFileSync('node', [bin], { cwd: tmp, encoding: 'utf8' });
+          assert.match(out1, /NÄCHSTER SCHRITT/);
+          for (const f of ['Werkbank/Regeln/werkbank.md', 'Werkbank/Rollen/Sparringpartner/SYSTEM.md', 'Werkbank/Workflows/FORMAT.md']) {
+            assert.ok(fs.existsSync(path.join(tmp, f)), f + ' fehlt');
+          }
+          for (const d of ['Quellen/unterlagen', 'Quellen/website', 'Projekte']) {
+            assert.ok(fs.statSync(path.join(tmp, d)).isDirectory(), d + ' fehlt');
+          }
+          const laeufe = fs.readdirSync(path.join(tmp, 'Werkbank/protokolle'));
+          assert.strictEqual(laeufe.length, 1);
+          assert.match(laeufe[0], /^werkbank-setup-\d{4}-\d\d-\d\dT\d\d-\d\d-\d\d$/);
+          const lauf = path.join(tmp, 'Werkbank/protokolle', laeufe[0]);
+          assert.ok(fs.existsSync(path.join(lauf, 'SETUP.md')));
+          assert.ok(fs.existsSync(path.join(lauf, 'lauf.md')));
+          assert.ok(fs.statSync(path.join(lauf, 'kladde')).isDirectory());
+          assert.ok(!fs.existsSync(path.join(tmp, 'KONTEXT.md')), 'KONTEXT.md darf das Paket nicht anlegen');
+
+          // Zweiter Lauf: eigene Änderung bleibt erhalten
+          const regel = path.join(tmp, 'Werkbank/Regeln/werkbank.md');
+          fs.writeFileSync(path.join(tmp, 'KONTEXT.md'), '# Meine KONTEXT\n');
+          const inhalt = fs.readFileSync(path.join(__dirname, '..', 'werkbank/de/Werkbank/Regeln/werkbank.md'), 'utf8');
+          fs.writeFileSync(regel, inhalt.replace('# ', '# <!-- eigene Ergänzung --> '));
+          const out2 = execFileSync('node', [bin], { cwd: tmp, encoding: 'utf8' });
+          assert.match(out2, /nicht überschrieben/);
+          assert.match(fs.readFileSync(regel, 'utf8'), /eigene Ergänzung/);
+          assert.strictEqual(fs.readFileSync(path.join(tmp, 'KONTEXT.md'), 'utf8'), '# Meine KONTEXT\n');
+
+          // --version, --help
+          assert.strictEqual(execFileSync('node', [bin, '--version'], { encoding: 'utf8' }).trim(), require('../package.json').version);
+          assert.match(execFileSync('node', [bin, '--help'], { encoding: 'utf8' }), /npx holderbaum-werkbank@latest/);
+
+          fs.rmSync(tmp, { recursive: true, force: true });
+          console.log('smoke: ok');
+          __WB_EOF__
+          cat > README.md <<'__WB_EOF__'
+          # Werkbank
+
+          Die Werkbank ist ein strukturiertes Verzeichnis, in dem ein Mensch mit KI-Agenten arbeitet: eine `KONTEXT.md` als Schild an der Wand, dazu Regeln, Rollen und Workflows. Gedacht für Claude Cowork.
+
+          Mehr zur Idee: [holderbaum.io](https://holderbaum.io)
+
+          ## Einrichten
+
+          Ordner in Cowork verbinden, neue Session starten, diesen Text hineinkopieren:
+
+          ```
+          Hallo! Ich möchte in diesem Ordner meine Werkbank einrichten. Das ist eine
+          Arbeitsumgebung, in der wir beide gut zusammenarbeiten können.
+
+          Lade sie bitte herunter und folge der Anleitung, die dabei ist. Wenn du etwas
+          von mir brauchst, frag mich einfach.
+
+          ---
+          Für den Agenten:
+          npx holderbaum-werkbank@latest
+          ```
+
+          Der Agent legt das Gerüst an, sammelt Material über dich ein (Website, Unterlagen, ChatGPT-/Claude-Gedächtnis) und baut daraus deine `KONTEXT.md`. Am Ende zeigt er zwei kurze Textblöcke, die du selbst in deine Claude-Einstellungen kopierst.
+
+          ## Was das Paket tut
+
+          - legt `Werkbank/`, `Quellen/` und `Projekte/` im aktuellen Ordner an
+          - kopiert drei Werkzeuge: Werkbank-Regel, Sparringpartner, Workflow-Format
+          - überschreibt keine vorhandene Datei
+          - legt die Setup-Anleitung in `Werkbank/protokolle/werkbank-setup-<Zeitstempel>/SETUP.md`
+          - hat keine Abhängigkeiten und lädt nichts nach
+
+          Der Inhalt liegt offen in [`werkbank/de/`](werkbank/de/).
+
+          ## Für den Agenten: wenn etwas schiefgeht
+
+          - **Befehl lief im falschen Ordner:** Cowork startet Terminal-Befehle im Sandbox-Verzeichnis. Vorher mit `cd` in den verbundenen Ordner des Nutzers wechseln (unter `/sessions/<id>/mnt/<Ordner>`).
+          - **npm nicht erreichbar:** Dem Nutzer die Fehlermeldung zeigen. Nichts zusammenraten, keine Datei aus dem Gedächtnis schreiben.
+
+          ## Releases
+
+          Ein Tag `vX.Y.Z` auf `main` veröffentlicht das Paket per GitHub Action auf npm (`.github/workflows/release.yml`). Die Version in `package.json` muss zum Tag passen. `npm test` prüft die Installation in einem leeren und einem befüllten Ordner.
+
+          ## Lizenz
+
+          MIT
+          __WB_EOF__
+          cat > LICENSE <<'__WB_EOF__'
+          MIT License
+
+          Copyright (c) 2026 Jakob Holderbaum
+
+          Permission is hereby granted, free of charge, to any person obtaining a copy
+          of this software and associated documentation files (the "Software"), to deal
+          in the Software without restriction, including without limitation the rights
+          to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+          copies of the Software, and to permit persons to whom the Software is
+          furnished to do so, subject to the following conditions:
+
+          The above copyright notice and this permission notice shall be included in all
+          copies or substantial portions of the Software.
+
+          THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+          IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+          FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+          AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+          LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+          OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+          SOFTWARE.
+          __WB_EOF__
+          cat > .gitignore <<'__WB_EOF__'
+          node_modules/
+          *.tgz
+          .DS_Store
+          __WB_EOF__
+          cat > tools/setup-aus-bauanleitung.py <<'__WB_EOF__'
+          """Erzeugt werkbank/de/SETUP.md aus der Bauanleitung v4.0.
+
+          Aufruf: python3 tools/setup-aus-bauanleitung.py <bauanleitung-v4.0.txt> <ziel/SETUP.md>
+
+          SCHRITT 1 und 2 der Bauanleitung erledigt das Paket; SETUP.md beginnt
+          deshalb mit dem Stand nach der Installation und übernimmt ab SCHRITT 3
+          den Wortlaut der Bauanleitung unverändert.
+          """
+          import re
+          import sys
+
+          src = open(sys.argv[1], encoding="utf-8").read()
+          rest = src[src.index("================================================================\nSCHRITT 3 — QUELLEN EINSAMMELN"):]
+          ton = re.search(r"TONFALL DES AUFBAUS\n.*?(?=\n={10,}\nSCHRITT 1)", src, re.S).group(0)
+
+          KOPF = """================================================================
+          HOLDERBAUM WERKBANK — SETUP
+          Paket holderbaum-werkbank · Inhalt: Bauanleitung v4.0
+          ================================================================
+
+          Diese Datei ist eine Anweisung an einen Cowork-Agenten. Der
+          Nutzer hat `npx holderbaum-werkbank@latest` ausführen lassen; das
+          Paket hat diese Datei in den Lauf-Ordner gelegt. Sie beschreibt,
+          wie aus dem angelegten Gerüst eine Starter-Werkbank wird — ein
+          strukturiertes Verzeichnis, in dem ein Mensch mit KI-Agenten
+          arbeitet.
+
+          Quelle, offen lesbar: https://github.com/holderbaum/werkbank
+
+          Nichts in dieser Anleitung verändert Konto- oder
+          Projektanweisungen — das macht der Nutzer von Hand.
+
+          ================================================================
+          STAND NACH DER INSTALLATION
+          ================================================================
+
+          Das Paket hat SCHRITT 1 und 2 bereits erledigt:
+
+            KONTEXT.md                            (Schritt 6, fehlt noch)
+            Werkbank/
+              Regeln/werkbank.md                  Werkbank-Regel v4.0
+              Rollen/Sparringpartner/SYSTEM.md    Sparringpartner v4.0
+              Workflows/FORMAT.md                 Workflow-Format v4.0
+              protokolle/
+                werkbank-setup-<Zeitstempel>/
+                  lauf.md                         Schritt 1–2 eingetragen
+                  kladde/
+                  SETUP.md                        diese Datei
+            Quellen/unterlagen/ · Quellen/website/
+            Projekte/
+
+          Die drei Werkzeuge sind vollständig (Version in der ersten
+          Zeile, End-Marker in der letzten — vom Paket geprüft). Sie
+          werden für den Aufbau nicht gelesen.
+
+          ================================================================
+          AN DEN BAUENDEN AGENTEN
+          ================================================================
+
+          Reihenfolge ab hier:
+            3. Quellen einsammeln — Website, Marken-Unterlagen,
+               ChatGPT-/Claude-Gedächtnis (eine Nachricht)
+            4. Quellen auswerten
+            5. Profil vorlegen — eine Korrekturrunde plus Anrede
+            6. KONTEXT.md erstellen
+            7. Zwei Blöcke präsentieren — About Me in die Konto-
+               Anweisungen, Projektanweisung in das Cowork-Projekt
+            8. Self-Check
+            9. Übergabe an die Werkbank
+
+          Erste Nachricht an den Nutzer, vor Schritt 3, wörtlich:
+
+          "Werkbank-Gerüst steht. Jetzt entsteht die KONTEXT.md — das
+          Schild an der Wand, das jeder Agent zuerst liest."
+
+          Die zwei Ebenen (für Schritt 7): Das About Me gehört zur Person
+          — es steht in den Konto-Anweisungen und gilt in jedem Chat. Die
+          Projektanweisung gehört zum Projekt — sie sagt, dass dieser
+          Ordner eine Werkbank ist. Zwei Blöcke, zwei Orte.
+
+          Sprache: Deutsch. Anrede an den Nutzer: Duzen.
+
+          Lauf-Ordner: der Ordner, in dem diese SETUP.md liegt. `lauf.md`
+          und `kladde/` dort weiterführen.
+
+          """
+
+          out = KOPF + ton + "\n\n" + rest
+          out = out.replace(
+              "> Bootstrap-Info: Diese Werkbank wurde mit der\n"
+              "> Holderbaum-Werkbank-Bauanleitung v4.0 angelegt.\n"
+              "> Aktuelle Version und Updates:\n"
+              "> https://holderbaum.io/werkstatt/bauanleitung.txt",
+              "> Bootstrap-Info: Diese Werkbank wurde mit der\n"
+              "> Holderbaum-Werkbank-Bauanleitung v4.0 angelegt\n"
+              "> (Paket holderbaum-werkbank).\n"
+              "> Quelle und Updates: https://github.com/holderbaum/werkbank",
+          )
+          out = out.replace("ENDE DER BAUANLEITUNG", "ENDE DES SETUPS")
+          open(sys.argv[2], "w", encoding="utf-8").write(out)
+          __WB_EOF__
+          chmod +x bin/holderbaum-werkbank.js
+          B=https://holderbaum.io/werkstatt/bauanleitung
+          curl -fsS "$B/werkbank-regel-v4.0.md" -o werkbank/de/Werkbank/Regeln/werkbank.md
+          curl -fsS "$B/sparringpartner-system-v4.0.md" -o werkbank/de/Werkbank/Rollen/Sparringpartner/SYSTEM.md
+          curl -fsS "$B/format-v4.0.md" -o werkbank/de/Werkbank/Workflows/FORMAT.md
+          curl -fsS "$B/bauanleitung-v4.0.txt" -o /tmp/bauanleitung-v4.0.txt
+          python3 tools/setup-aus-bauanleitung.py /tmp/bauanleitung-v4.0.txt werkbank/de/SETUP.md
+          cat > /tmp/sums <<'__WB_EOF__'
+          04e6010c1c3bd94193cece76cad633ef509aa339ff0fd102f989a6ec478f7002  package.json
+          6fd520f6f30cdbec9e876b1b0f8d88bac629ef28252c4e343ecdc7f61ac843c3  bin/holderbaum-werkbank.js
+          034f979f931e1e29dbe95dc6f3319428e2f249600077daf41166b62ea6eb8f0d  test/smoke.js
+          6157ecf80e848991d40b49991a3b1066b85cfb234348cf61335ac16299d8aa33  README.md
+          1ce9c420817c939d4ea72e59bcf3e489bb35de2768ed9eb9a6e70362640a9139  LICENSE
+          63edb613f4ad0e8fb35ecf08a37c63012efbaafa08012d85b1aa608964606016  .gitignore
+          60d9f9738d67db51e65fd767edc1131d49494620528ffc1dc123310877f8bdb0  tools/setup-aus-bauanleitung.py
+          31c3374f6d4198c7219ffeba092982149a1422a49b7e9a3b880c54383d0d2e94  werkbank/de/Werkbank/Regeln/werkbank.md
+          c2d16ccd902906eb8a2bbb96b239fd38b0828197c3b5437ca21dbab558b3e985  werkbank/de/Werkbank/Rollen/Sparringpartner/SYSTEM.md
+          5c560125084d1527e0afaa2428972af7b94fdfbd84ecfc3c589d85845299fa72  werkbank/de/Werkbank/Workflows/FORMAT.md
+          69e41d6612e36a22164d61d54e6ab4f35fff45f384ef389f1079221b9d59019f  werkbank/de/SETUP.md
+          __WB_EOF__
+          sha256sum -c /tmp/sums
+          npm test
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Grundgerüst: Paket holderbaum-werkbank 0.1.0 (Werkzeuge v4.0)"
+          git push
