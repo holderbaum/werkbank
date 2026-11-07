@@ -1,0 +1,29 @@
+{
+  "name": "holderbaum-werkbank",
+  "version": "0.1.0",
+  "description": "Richtet eine Werkbank ein: ein strukturiertes Verzeichnis, in dem ein Mensch mit KI-Agenten arbeitet.",
+  "bin": {
+    "holderbaum-werkbank": "bin/holderbaum-werkbank.js"
+  },
+  "files": [
+    "bin",
+    "werkbank"
+  ],
+  "scripts": {
+    "test": "node test/smoke.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": ["werkbank", "claude", "cowork", "ki", "agent"],
+  "author": "Jakob Holderbaum",
+  "license": "MIT",
+  "homepage": "https://github.com/holderbaum/werkbank",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/holderbaum/werkbank.git"
+  },
+  "bugs": {
+    "url": "https://github.com/holderbaum/werkbank/issues"
+  }
+}
