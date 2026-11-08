@@ -43,4 +43,7 @@ Ein Tag `vX.Y.Z` auf `main` veröffentlicht das Paket per GitHub Action auf npm 
 
 ## Lizenz
 
-MIT
+- **Werkbank-Inhalt** (`werkbank/`: Werkbank-Regel, Sparringpartner, Workflow-Format, SETUP): [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.de). Nutzen, ändern, weitergeben, auch kommerziell, mit Namensnennung: „Holderbaum Werkbank von Jakob Holderbaum, https://github.com/holderbaum/werkbank“. Änderungen kennzeichnen. Details: [`werkbank/LICENSE.md`](werkbank/LICENSE.md).
+- **Code** (`bin/`, `tools/`, `test/`): MIT, siehe [`LICENSE`](LICENSE).
+- **Deine Werkbank gehört dir.** Was in deiner Werkbank entsteht (KONTEXT.md, eigene Regeln, Rollen, Workflows, Quellen), fällt nicht unter diese Lizenzen.
+- **Der Name ist nicht lizenziert.** „Holderbaum“ und „Holderbaum Werkbank“ sind nicht Teil der Lizenz. Abgewandelte Fassungen bitte unter eigenem Namen anbieten.
