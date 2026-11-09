@@ -14,11 +14,12 @@ jobs:
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org
+      - name: npm-CLI mit Trusted Publishing (>= 11.5.1)
+        run: npm install -g npm@latest && npm --version
       - name: Tag passt zur Paketversion
         run: |
           V="v$(node -p "require('./package.json').version")"
           if [ "$V" != "$GITHUB_REF_NAME" ]; then echo "Tag $GITHUB_REF_NAME != package.json $V"; exit 1; fi
       - run: npm test
+      # Veroeffentlicht per Trusted Publishing (OIDC), kein Token im Repo.
       - run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
