@@ -20,10 +20,16 @@ Without it, the workflow does not run in plan mode. The orchestrator sets it at 
 
 ## What changes
 
-Every write to a path outside the scratch goes to `scratch/plan/<path relative to the workbench>`.
+Every write to a path outside the scratch goes to `scratch/plan/<path relative to the original's
+workbench>`. If the original lives in a different workbench than the run folder, the path starts
+with that workbench's folder name (`scratch/plan/<folder name>/<path>`).
 Reading stays the same; if a later step reads a file an earlier one wrote in the same run, it reads
 the plan copy. External effects that are reversible and part of the purpose (a mail draft) happen in
 plan mode too; irreversible ones never.
+
+**Halts in plan mode:** nobody is at the chat. A halt does not stop; its content goes into
+`summary.md` under `## Proposals`, the run continues. A ⚠ step writes into the plan — approving the
+plan is its halt.
 
 This line goes verbatim into every subagent task (in addition to the line from § Changing files,
 `<Scratch>` as an absolute path):
@@ -33,12 +39,14 @@ This line goes verbatim into every subagent task (in addition to the line from �
 **Acceptance (4):** after every step
 
 ```
-cd "<Scratch>/plan" && find . -type f ! -name plan.md ! -name summary.md | while read -r p; do
-  TZ=<Zone> find "<Workbench>/${p#./}" -maxdepth 0 -newermt "<start>" 2>/dev/null; done
+TZ=<Zone> find "<Workbench>" -newermt "<start>" -type f -not -path "*/Workbench/logs/*"
 ```
 
-returns nothing. A hit: acceptance `✗ write access <path>`, the run halts, question with path and
-change time whether the state stays or is reset.
+returns nothing — for every connected workbench the workflow writes into. This catches every write
+to an original, including a newly created file without a plan copy. A hit: acceptance
+`✗ write access <path>`, the run halts (in plan mode: under `## Questions`), with path and change
+time, whether the state stays or is reset. Parallel activity in the same workbench can produce hits
+not caused by the run — report them anyway, don't guess.
 
 ## What exists at the end
 
@@ -53,8 +61,8 @@ change time whether the state stays or is reset.
 ## Applying
 
 Not the workflow applies, but the caller after approval: compare mtimes from `plan.md` with the
-originals; if all are unchanged, write the plan copies to their paths (in place); otherwise
-recompute the plan.
+originals — for "new" the file must not exist yet; if everything matches, write the plan copies to
+their paths (in place); otherwise recompute the plan.
 
 **Correction:** start the workflow again in plan mode, with the correction instruction as
 `scratch/input-correction.md` in the first step's `reads:`.

@@ -27,12 +27,17 @@ outputs it unchanged.
 change request at a halt), the orchestrator stores it verbatim as `scratch/input-<name>.md` and
 passes the absolute path to the step that needs it.
 
-**No subagent startable → halt.** At start, check whether subagents with model choice can be
-started. No — or a start fails later: the run halts before the step, row in the step table
-`not started — no subagent startable`, message to the human (in plan mode under `## Questions`). No
-substitute by running it yourself, no self-review in the check step. Continue only in an
-environment with subagents or on the human's explicit instruction for exactly this run — quote the
-instruction in the step table.
+**No subagent startable → halt.** At start, check whether a tool exists that starts a new agent
+with its own task and a selectable model (e.g. Agent/Task). No — or a start fails later: create the
+run folder and `run.md`, row `<step> | … | — | — | — | not started — no subagent startable`, no step
+runs. Message to the human in everyday language: what was done (nothing but the log), why, and two
+ways — restart in an environment with helpers or approve working without them for exactly this run
+(in plan mode under `## Questions`). There is no resume; a new run starts.
+
+**Exception on instruction.** If the human instructs, for exactly this run, to work without
+subagents, the orchestrator runs the steps itself, each based only on its `reads:` files. In the
+step table: subagent ID `self — instruction "<quote>"`, model `—`. Acceptance (2) then counts as
+met; a check step recomputes against the source instead of its own memory.
 
 **Role.** If the workflow names one (frontmatter `role:` or at the step), the subagent loads it. If
 it names none, none is loaded — the workflow is the working mode.
@@ -61,8 +66,9 @@ Workbench/logs/<workflow>-<YYYY-MM-DDThh-mm-ss>-<6 chars>/
 | Step | Demand | Model | Subagent ID | writes: files | Acceptance |
 |---|---|---|---|---|---|
 
-The subagent ID is the identifier from starting the subagent. Empty, "orchestrator", "self" or the
-same ID in two rows are format errors. Fan-out: all IDs in the row. Repeats get their own row
+Rows only for steps; halts and notes go below the table. The subagent ID is the identifier from
+starting the subagent. Empty, "orchestrator", "self" (except with instruction, see above) or the same
+ID in two rows are format errors. Fan-out: all IDs in the row. Repeats get their own row
 (`2 (2)`).
 
 ## Changing files

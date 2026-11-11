@@ -27,12 +27,18 @@ Chat-Nachricht ist, schreibt sie als Kladde-Datei; der Orchestrator gibt sie unv
 Änderungswunsch am Halt), legt der Orchestrator sie wörtlich als `kladde/eingabe-<name>.md` ab und
 gibt den absoluten Pfad an den Schritt, der sie braucht.
 
-**Kein Subagent startbar → Halt.** Beim Start prüfen, ob Subagenten mit Modellwahl startbar sind.
-Nein — oder scheitert ein Start später: Der Lauf hält vor dem Schritt, Zeile in der Schritt-Tabelle
-`nicht gestartet — kein Subagent startbar`, Meldung an den Menschen (im Plan-Modus unter `## Fragen`).
-Kein Ersatz durch eigene Ausführung, kein Selbst-Review im Prüfschritt. Weiter nur in einer
-Umgebung mit Subagenten oder auf ausdrückliche Anweisung des Menschen für genau diesen Lauf — die
-Anweisung wörtlich in die Schritt-Tabelle.
+**Kein Subagent startbar → Halt.** Beim Start prüfen, ob ein Werkzeug da ist, das einen neuen
+Agenten mit eigenem Auftrag und wählbarem Modell startet (z. B. Agent/Task). Nein — oder scheitert
+ein Start später: Lauf-Ordner und `lauf.md` anlegen, Zeile `<Schritt> | … | — | — | — | nicht
+gestartet — kein Subagent startbar`, kein Schritt läuft. Meldung an den Menschen in Alltagssprache:
+was getan wurde (nichts außer dem Protokoll), warum, und zwei Wege — in einer Umgebung mit Helfern
+neu starten oder für genau diesen Lauf ohne sie freigeben (im Plan-Modus unter `## Fragen`).
+Fortgesetzt wird nicht; es startet ein neuer Lauf.
+
+**Ausnahme auf Anweisung.** Weist der Mensch für genau diesen Lauf an, ohne Subagenten zu arbeiten,
+führt der Orchestrator die Schritte selbst aus, je Schritt nur mit den `liest:`-Dateien. In der
+Schritt-Tabelle: Subagent-ID `selbst — Anweisung „<Zitat>"`, Modell `—`. Abnahme (2) gilt dann als
+erfüllt; ein Prüfschritt rechnet gegen die Quelle nach statt gegen die eigene Erinnerung.
 
 **Rolle.** Nennt der Workflow eine (Frontmatter `rolle:` oder am Schritt), lädt der Subagent sie.
 Nennt er keine, wird keine geladen — der Workflow ist der Arbeitsmodus.
@@ -61,8 +67,9 @@ Werkbank/protokolle/<workflow>-<JJJJ-MM-TTThh-mm-ss>-<6 Zeichen>/
 | Schritt | Anspruch | Modell | Subagent-ID | schreibt:-Dateien | Abnahme |
 |---|---|---|---|---|---|
 
-Subagent-ID ist die Kennung aus dem Start des Subagenten. Leer, „Orchestrator", „selbst" oder
-dieselbe ID in zwei Zeilen sind Formatfehler. Fan-out: alle IDs in die Zeile. Wiederholungen
+Zeilen nur für Schritte; Halte und Notizen stehen unter der Tabelle. Subagent-ID ist die Kennung aus
+dem Start des Subagenten. Leer, „Orchestrator", „selbst" (außer mit Anweisung, s. o.) oder dieselbe
+ID in zwei Zeilen sind Formatfehler. Fan-out: alle IDs in die Zeile. Wiederholungen
 bekommen eine eigene Zeile (`2 (2)`).
 
 ## Dateien ändern

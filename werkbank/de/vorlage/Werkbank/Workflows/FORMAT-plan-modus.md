@@ -22,9 +22,15 @@ Fehlt er, läuft der Workflow nicht im Plan-Modus. Der Orchestrator setzt ihn be
 ## Was sich ändert
 
 Jedes Schreiben in einen Pfad außerhalb der Kladde geht nach
-`kladde/plan/<pfad relativ zur Werkbank>`. Lesen bleibt gleich; liest ein späterer Schritt eine
+`kladde/plan/<pfad relativ zur Werkbank des Originals>`. Liegt das Original in einer anderen
+Werkbank als der Lauf-Ordner, beginnt der Pfad mit deren Ordnernamen
+(`kladde/plan/<Ordnername>/<pfad>`). Lesen bleibt gleich; liest ein späterer Schritt eine
 Datei, die ein früherer im selben Lauf geschrieben hat, liest er die Plan-Kopie. Außenwirkung, die
 umkehrbar und Teil des Zwecks ist (ein Mail-Entwurf), passiert auch im Plan-Modus; Unumkehrbares nie.
+
+**Halte im Plan-Modus:** Es sitzt niemand am Chat. Ein Halt hält nicht; sein Inhalt kommt in
+`schluss.md` unter `## Vorschläge`, der Lauf geht weiter. Ein ⚠-Schritt schreibt in den Plan — die
+Freigabe des Plans ist sein Halt.
 
 Diese Zeile geht wörtlich in jeden Subagenten-Auftrag (zusätzlich zur Zeile aus § Dateien ändern,
 `<Kladde>` als absoluter Pfad):
@@ -34,12 +40,14 @@ Diese Zeile geht wörtlich in jeden Subagenten-Auftrag (zusätzlich zur Zeile au
 **Abnahme (4):** Nach jedem Schritt liefert
 
 ```
-cd "<Kladde>/plan" && find . -type f ! -name plan.md ! -name schluss.md | while read -r p; do
-  TZ=<Zone> find "<Werkbank>/${p#./}" -maxdepth 0 -newermt "<Start>" 2>/dev/null; done
+TZ=<Zone> find "<Werkbank>" -newermt "<Start>" -type f -not -path "*/Werkbank/protokolle/*"
 ```
 
-nichts. Ein Treffer: Abnahme `✗ Schreibzugriff <Pfad>`, der Lauf hält, Frage mit Pfad und
-Änderungszeit, ob der Stand bleibt oder zurückgesetzt wird.
+nichts — für jede verbundene Werkbank, in die der Workflow schreibt. Damit fällt jedes Schreiben an
+einem Original auf, auch eine neu angelegte Datei ohne Plan-Kopie. Ein Treffer: Abnahme
+`✗ Schreibzugriff <Pfad>`, der Lauf hält (im Plan-Modus: unter `## Fragen`), mit Pfad und
+Änderungszeit, ob der Stand bleibt oder zurückgesetzt wird. Paralleler Betrieb in derselben Werkbank
+kann Treffer erzeugen, die nicht vom Lauf stammen — dann trotzdem melden, nicht raten.
 
 ## Was am Ende vorliegt
 
@@ -54,8 +62,8 @@ nichts. Ein Treffer: Abnahme `✗ Schreibzugriff <Pfad>`, der Lauf hält, Frage 
 ## Übernehmen
 
 Übernimmt nicht der Workflow, sondern der Aufrufer nach Freigabe: mtimes aus `plan.md` mit den
-Originalen vergleichen; sind alle unverändert, die Plan-Kopien an ihre Pfade schreiben (in place);
-sonst den Plan neu rechnen.
+Originalen vergleichen — bei „neu" darf die Datei noch nicht existieren; stimmt alles, die
+Plan-Kopien an ihre Pfade schreiben (in place); sonst den Plan neu rechnen.
 
 **Korrektur:** den Workflow erneut im Plan-Modus starten, mit der Korrekturanweisung als
 `kladde/eingabe-korrektur.md` in `liest:` des ersten Schritts.
