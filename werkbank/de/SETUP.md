@@ -1,235 +1,222 @@
 ================================================================
-HOLDERBAUM WERKBANK — SETUP
-Paket holderbaum-werkbank · Inhalt: Bauanleitung v4.0
+HOLDERBAUM WERKBANK — SETUP · v5.0
 ================================================================
 
-Diese Datei ist eine Anweisung an einen Cowork-Agenten. Der
-Nutzer hat `npx holderbaum-werkbank@latest` ausführen lassen; das
-Paket hat diese Datei in den Lauf-Ordner gelegt. Sie beschreibt,
-wie aus dem angelegten Gerüst eine Starter-Werkbank wird — ein
-strukturiertes Verzeichnis, in dem ein Mensch mit KI-Agenten
-arbeitet.
+Anweisung an einen Cowork-Agenten. Der Nutzer hat
+`npx holderbaum-werkbank@latest` ausführen lassen. Das Paket hat
+das Gerüst angelegt und diese Datei in einen Lauf-Ordner
+AUSSERHALB der Werkbank gelegt. Sie beschreibt, wie daraus eine
+eingerichtete Werkbank wird.
 
 Quelle, offen lesbar: https://github.com/holderbaum/werkbank
-
-Nichts in dieser Anleitung verändert Konto- oder
-Projektanweisungen — das macht der Nutzer von Hand.
 
 ================================================================
 STAND NACH DER INSTALLATION
 ================================================================
 
-Das Paket hat SCHRITT 1 und 2 bereits erledigt:
+In der Werkbank (Ordner des Nutzers):
 
-  KONTEXT.md                            (Schritt 6, fehlt noch)
+  KONTEXT.md                            fehlt noch (Schritt 6)
   Werkbank/
-    Regeln/werkbank.md                  Werkbank-Regel v4.0
-    Rollen/Sparringpartner/SYSTEM.md    Sparringpartner v4.0
-    Workflows/FORMAT.md                 Workflow-Format v4.0
-    protokolle/
-      werkbank-setup-<Zeitstempel>/
-        lauf.md                         Schritt 1–2 eingetragen
-        kladde/
-        SETUP.md                        diese Datei
+    Regeln/werkbank.md                  Werkbank-Regel
+    Rollen/Sparringpartner/             Sparringpartner (4 Dateien)
+    Workflows/FORMAT*.md                Workflow-Format (3 Dateien)
+    Workflows/werkbank-update.md        Workflow Werkbank-Update
+    protokolle/                         leer
   Quellen/unterlagen/ · Quellen/website/
   Projekte/
 
-Die drei Werkzeuge sind vollständig (Version in der ersten
-Zeile, End-Marker in der letzten — vom Paket geprüft). Sie
-werden für den Aufbau nicht gelesen.
+Im Lauf-Ordner (Pfad hat das Paket ausgegeben, liegt im
+temporären Verzeichnis der Sandbox, verschwindet mit der
+Session):
+
+  SETUP.md            diese Datei
+  kontext-vorlage.md  Vorlage für Schritt 6
+  lauf.md             Protokoll, Schritt 1–2 eingetragen
+  kladde/             Zwischenstände
+
+Nichts aus dem Lauf-Ordner kommt in die Werkbank. Nach der
+Einrichtung bleiben dort nur KONTEXT.md, Werkzeuge, Quellen/ und
+Projekte/. Die Werkzeuge sind vollständig (vom Paket geprüft)
+und werden für den Aufbau nicht gelesen.
 
 ================================================================
 AN DEN BAUENDEN AGENTEN
 ================================================================
 
 Reihenfolge ab hier:
-  3. Quellen einsammeln — Website, Marken-Unterlagen,
-     ChatGPT-/Claude-Gedächtnis (eine Nachricht)
-  4. Quellen auswerten
+  3. Material anfordern — eine Nachricht
+  4. Material auswerten
   5. Profil vorlegen — eine Korrekturrunde plus Anrede
   6. KONTEXT.md erstellen
   7. Zwei Blöcke präsentieren — About Me in die Konto-
      Anweisungen, Projektanweisung in das Cowork-Projekt
   8. Self-Check
-  9. Übergabe an die Werkbank
+  9. Übergabe
 
-Erste Nachricht an den Nutzer, vor Schritt 3, wörtlich:
-
-"Werkbank-Gerüst steht. Jetzt entsteht die KONTEXT.md — das
-Schild an der Wand, das jeder Agent zuerst liest."
-
-Die zwei Ebenen (für Schritt 7): Das About Me gehört zur Person
-— es steht in den Konto-Anweisungen und gilt in jedem Chat. Die
-Projektanweisung gehört zum Projekt — sie sagt, dass dieser
-Ordner eine Werkbank ist. Zwei Blöcke, zwei Orte.
+Die zwei Ebenen (Schritt 7): Das About Me gehört zur Person und
+steht in den Konto-Anweisungen. Die Projektanweisung gehört zum
+Projekt und sagt, dass dieser Ordner eine Werkbank ist.
 
 Sprache: Deutsch. Anrede an den Nutzer: Duzen.
 
-Lauf-Ordner: der Ordner, in dem diese SETUP.md liegt. `lauf.md`
-und `kladde/` dort weiterführen.
-
 TONFALL DES AUFBAUS
-Die Werkbank ist ein Werkzeug, kein Gegenüber. Der Aufbau
-spricht so, wie die Werkbank danach spricht:
+Die Werkbank ist ein Werkzeug, kein Gegenüber:
 - Keine Ich-Form über eigenes Tun. Nicht „Ich lege jetzt die
-  Verzeichnisse an", sondern „Verzeichnisse angelegt."
+  KONTEXT.md an", sondern „KONTEXT.md angelegt."
 - Keine Beziehungsgesten: kein „gerne", „danke", „super",
   „verstanden", kein Lob für eine Antwort.
 - Kein Spiegeln von Antworten. Antwort entgegennehmen, weiter.
-- Statusmeldungen sind eine Zeile: was fertig ist, was als
-  Nächstes kommt.
-- Fragen nur, wo diese Anleitung sie vorsieht. Die Fragen
-  stehen wörtlich hier — nicht ausschmücken, nicht ergänzen.
+- Statusmeldungen: eine Zeile — was fertig ist, was folgt.
+- Fragen nur, wo diese Anleitung sie vorsieht, im Wortlaut.
 
-DATEI-MARKER
+DATEIEN VOM NUTZER
+Cowork nimmt Dateien per Drag & Drop im Chat an. Dateien werden
+immer so angefordert: „Zieh sie hier in den Chat." Nie: „Leg sie
+in den Ordner X."
+
+MARKER
 Wo [FILE-START: pfad] und [FILE-END] steht, wird der Inhalt
-dazwischen verbatim in die genannte Datei geschrieben — ohne
-die Marker selbst. Eingerückte Codeblöcke (```) gehören mit in
-die Datei.
-
-Wo [PRÄSENTATIONS-START] und [PRÄSENTATIONS-ENDE] steht, wird
-der Inhalt dazwischen dem Nutzer im Chat gezeigt — als Block,
-den er kopieren kann. Nicht in eine Datei schreiben.
-
+verbatim in die Datei geschrieben, ohne die Marker. Wo
+[PRÄSENTATIONS-START] und [PRÄSENTATIONS-ENDE] steht, wird der
+Inhalt im Chat als kopierbarer Block gezeigt, nicht als Datei.
 
 ================================================================
-SCHRITT 3 — QUELLEN EINSAMMELN
+SCHRITT 3 — MATERIAL ANFORDERN
 ================================================================
 
-Eine Nachricht, drei Fragen. Der Nutzer antwortet in einer
-Nachricht. Sage:
+Erste Nachricht an den Nutzer. Wörtlich, der Block als
+Markdown-Codeblock (dreifache Backticks, Sprache `markdown`,
+damit ein Copy-Button erscheint):
 
-"Die KONTEXT.md entsteht aus dem, was es über dich und dein
-Unternehmen schon gibt — statt aus einem langen Fragebogen.
-Drei Fragen, eine Antwort:
+"Werkbank-Gerüst steht. Jetzt entsteht die KONTEXT.md — die
+Datei, die jeder Agent hier zuerst liest. Sie entsteht aus dem,
+was es über dich und dein Unternehmen schon gibt. Je mehr
+Material, desto genauer wird die Werkbank.
 
-1. Website — Welche Adresse hat dein Unternehmen (oder du)?
-   Wenn es mehrere gibt: die, die am besten beschreibt, was du
-   machst.
-
-2. Unterlagen — Gibt es Dokumente über deine Marke, dein
-   Angebot, deine Positionierung (Markenworkshop, Pitch-Deck,
-   Leitbild, Angebotsübersicht)? Zieh sie als PDF direkt hier
-   in das Chatfenster. Wenn nicht: 'keine'.
-
-3. Gedächtnis — Nutzt du ChatGPT oder Claude regelmäßig?
-
-Wenn eine Antwort 'nein' oder 'keine' ist, ist das in Ordnung —
-dann gibt es dafür unten ein paar Fragen mehr."
-
-Warte auf die Antwort. Kein Nachfragen, keine Spiegelung.
-
-Wenn der Nutzer Frage 3 mit Ja beantwortet, zeige diesen Block
-als Markdown-Codeblock (dreifache Backticks, Sprache
-`markdown`, damit ein Copy-Button erscheint):
+**1. Dein Gedächtnis aus ChatGPT oder Claude.** Öffne im Browser
+einen neuen Chat in ChatGPT oder Claude — nicht hier in Cowork —
+und kopiere diesen Text hinein:"
 
 [PRÄSENTATIONS-START]
 ```markdown
 Fasse alles zusammen, was du über mich gespeichert hast: Rolle
 und Unternehmen, Arbeitsweise, Werkzeuge, Kommunikationsvorlieben,
-laufende Projekte, Stilvorgaben. Als Markdown, sachlich, nichts
-erfinden, was nicht gespeichert ist.
+laufende Projekte, Stilvorgaben. Sachlich, nichts erfinden, was
+nicht gespeichert ist. Gib das Ergebnis als Markdown-Datei
+`gedaechtnis.md` zum Herunterladen aus.
 ```
 [PRÄSENTATIONS-ENDE]
 
-Sage dazu:
+"Lies die Datei einmal durch und streiche, was du nicht in
+deiner Werkbank haben willst. Dann zieh sie hier in den Chat.
+Nutzt du beides: zwei Dateien. Nutzt du keins: überspringen.
 
-"Öffne im Browser einen neuen Chat in ChatGPT oder Claude —
-nutzt du beides, in beiden — und kopier den Block dort hinein.
-Nicht hier in Cowork, sondern in einen neuen Chat im Browser:
-dort liegt das Gedächtnis. Die Antwort kopierst du hierher
-zurück; bei beiden Produkten beide Antworten. Lies sie vorher
-einmal durch — was du nicht in deiner Werkbank haben willst,
-streichst du raus."
+**2. Die Website** deines Unternehmens — die Adresse reicht.
 
-Warte auf die Antwort. Kommt keine oder „überspringen": weiter.
+**3. Unterlagen.** Zieh hier in den Chat, was dein Unternehmen
+beschreibt: Unternehmenspräsentation, Pitch-Deck, Leitbild oder
+Werte, Angebotsübersicht, Ergebnisse aus einem Markenworkshop.
+
+**4. Optional ein paar Sätze** über dich und dein Unternehmen —
+was in keiner Unterlage steht.
+
+Alles in einer Nachricht oder in mehreren. Wenn alles da ist:
+'fertig'."
+
+Warte auf „fertig" (oder eine Nachricht, die erkennbar alles
+enthält). Kein Nachfragen, keine Spiegelung, keine
+Zwischenkommentare zu einzelnen Dateien. Kommt nichts davon:
+weiter mit Schritt 5, alle Felder werden dort gefragt.
+
+Kommt der Gedächtnis-Export als Text statt als Datei: genauso
+verwenden.
 
 ================================================================
-SCHRITT 4 — QUELLEN AUSWERTEN
+SCHRITT 4 — MATERIAL AUSWERTEN
 ================================================================
 
-Quellmaterial landet in `Quellen/`, Zwischenstände in `kladde/`
-des Lauf-Ordners. Aus dem Quellmaterial werden die Felder unten
-gefüllt. Erfinde nichts —
-was keine Quelle hergibt, bleibt leer und wird in Schritt 5
-gefragt.
+Rohmaterial landet in `Quellen/` der Werkbank, Zwischenstände in
+`kladde/` des Lauf-Ordners. Aus dem Material werden die Felder
+unten gefüllt. Nichts erfinden — was keine Quelle hergibt,
+bleibt leer und wird in Schritt 5 gefragt.
 
-Subagenten: Die Auswertung läuft in Subagenten, wenn das
-Werkzeug dafür verfügbar ist — einer für die Website, einer je
-Unterlage. Der Subagent liest die Quelle, schreibt den Rohtext
-nach `Quellen/` und gibt nur die Extraktion zurück (Felder A–D
-unten, je mit Fundstelle). Der Rohtext geht nicht in den
-Hauptkontext. Ist kein Subagenten-Werkzeug da: dieselben
-Schritte direkt, mit derselben Grenze.
+Subagenten, wenn das Werkzeug verfügbar ist — einer für die
+Website, einer je Unterlage. Der Subagent liest die Quelle,
+schreibt den Rohtext nach `Quellen/` und gibt nur die Extraktion
+zurück (Felder A–D, je mit Fundstelle). Der Rohtext geht nicht
+in den Hauptkontext. Ohne Subagenten-Werkzeug: dieselben
+Quellen nacheinander direkt auswerten; Rohtext nur in Dateien
+schreiben, nie in Chat-Nachrichten. Pfade an Subagenten immer
+absolut.
 
 Website (Subagent „Website"):
-- Startseite holen. Die Unterseiten kommen aus der Navigation
-  und den internen Links der Startseite — nicht aus der
-  Websuche: kleine und neue Seiten sind dort nicht indexiert.
-  Die Websuche (`site:<domain>`) nur ergänzend, wenn die
-  Navigation nichts hergibt. Aufrufen, was das Unternehmen
-  beschreibt: Über uns, Leistungen/Angebot, Team, Referenzen,
-  Kontakt/Impressum. Ausgenommen: Blog, News, Rechtstexte,
-  Produktlisten, fremdsprachige Fassungen. Grenze: 15 Seiten —
-  die Auswahl trifft der Subagent nach Relevanz.
-- Seitentext holen — zwei Wege, in dieser Reihenfolge: (1) im
-  Terminal per `curl`, Text aus dem HTML extrahieren (nur, wenn
-  die Domain aus der Sandbox erreichbar ist — beim Kunden heißt
-  das: Domain steht in der Zulassungsliste); (2) sonst das
-  Web-Abruf-Werkzeug, das eine aufbereitete Textfassung liefert.
-  Je Seite nach `Quellen/website/<seite>.md`, erste Zeile:
-  Adresse, Datum, Weg (curl / Web-Abruf).
-- Rückgabe: Felder A–C (und D, falls die Website Werte
-  benennt) mit Fundstelle je Feld.
+- Startseite holen. Unterseiten aus Navigation und internen
+  Links der Startseite, nicht aus der Websuche. Aufrufen, was das
+  Unternehmen beschreibt: Über uns, Leistungen, Team, Referenzen,
+  Kontakt/Impressum. Nicht: Blog, News, Datenschutz, AGB,
+  Produktlisten, fremdsprachige Fassungen. Höchstens 15 Seiten.
+- Seitentext: (1) im Terminal per `curl`, Text aus dem HTML
+  ziehen; (2) geht das nicht, das Web-Abruf-Werkzeug. Liefert
+  das nur eine Zusammenfassung, wird die gespeichert.
+  Je Seite `Quellen/website/<seite>.md`, erste Zeile: Adresse,
+  Datum, Weg (curl / Web-Abruf / Zusammenfassung).
+- Rückgabe: Felder A–C (und D, falls die Website Werte nennt)
+  mit Fundstelle.
 
 Unterlagen (ein Subagent je Datei):
 - Jede in den Chat gezogene Datei nach `Quellen/unterlagen/`
-  kopieren — Original-Dateiname behalten. So bleibt die Quelle
-  in der Werkbank, auch wenn der Chat weg ist.
+  kopieren, Original-Dateiname. So bleibt die Quelle in der
+  Werkbank, auch wenn der Chat weg ist.
 - Datei mit dem Read-Tool lesen. Extraktion nach
   `Quellen/unterlagen/<dateiname>.extrakt.md`: Werte,
   Positionierung, Zielgruppen, Angebote, Tonalität — nur, was
   drinsteht, mit Seitenangabe.
-- Rückgabe: Felder A–D mit Fundstelle.
+- Rückgabe: Felder A–H mit Fundstelle.
 
-Gedächtnis-Export:
-- Die zurückkopierte Antwort unverändert nach
-  `Quellen/gedaechtnis-<chatgpt|claude>.md`. Kein Subagent
-  nötig — der Text ist schon kompakt.
+Gedächtnis-Export: unverändert nach
+`Quellen/gedaechtnis-<chatgpt|claude>.md`. Kein Subagent.
 
-Felder, die aus den Quellen gefüllt werden:
+Freitext aus dem Chat — und später die Korrekturen aus Schritt 5:
+nach `Quellen/angaben-im-chat.md`.
+
+Felder:
 
   A. Wer wir sind — was, für wen, seit wann (2–3 Sätze)
-  B. Mission — ein Satz, warum
+  B. Mission — ein Satz, warum. Nennt keine Quelle sie, aber
+     Formulierungen legen sie nahe: als Vorschlag mit Vermerk
+     „abgeleitet" eintragen.
   C. Zielgruppen — 2–3 Stichpunkte
   D. Markenwerte — NUR wenn Unterlagen oder Gedächtnis-Export
-     benannte Werte enthalten. Sonst bleibt das Feld leer;
-     es wird NICHT nachgefragt.
+     benannte Werte enthalten. Sonst leer, wird NICHT gefragt.
   E. Rolle des Nutzers — ein Satz
   F. Alltag — wo, mit wem, in welchem Tempo
-  G. Werkzeuge — Software, Apps, Methoden
-  H. Arbeitsweise — was sie kennzeichnet
+  G. Werkzeuge — Software und Apps (Methoden gehören zu H)
+  H. Arbeitsweise — was sie kennzeichnet, auch Methoden
   I. Quellen — Liste der genutzten Adressen und Dateien
+  J. Wortwahl — Stilvorgaben, Begriffe, die vermieden oder
+     bevorzugt werden („Unternehmer statt Founder")
+  K. Laufende Vorhaben — Projekte, Initiativen, Programme
 
-Die Rückgaben der Subagenten werden in `kladde/profil-entwurf.md`
-zusammengeführt (Zwischenstand — die Endfassung ist die
-KONTEXT.md). Jedes Feld bekommt dort einen Herkunftsvermerk:
-Website / Unterlage X / Gedächtnis / leer. Widersprechen sich
-Quellen in einem Feld, stehen beide Fassungen nebeneinander,
-mit Quelle — der Nutzer wählt in Schritt 5.
+Zusammenführen in `kladde/profil-entwurf.md`, je Feld mit
+Herkunft (Website / Unterlage X / Gedächtnis / Chat / leer).
+Ergänzen sich Quellen, werden sie zusammengeführt. Nur wenn sie
+sich sachlich ausschließen (zwei Gründungsjahre, zwei Rollen),
+stehen beide Fassungen nebeneinander — Fassung 1 aus Unterlage
+oder Gedächtnis, Fassung 2 von der Website. Der Nutzer wählt in
+Schritt 5.
 
-Trage in `lauf.md` ein: Schritt 4, Zeitstempel, welche Quellen
-genutzt wurden, welche Felder leer geblieben sind.
+In `lauf.md`: Schritt 4, Zeitstempel, genutzte Quellen, leere
+Felder.
 
 ================================================================
 SCHRITT 5 — PROFIL VORLEGEN
 ================================================================
 
-Eine Nachricht: der Entwurf der Felder A–H, dann die Lücken als
-Fragen, dann die Anrede-Frage. Der Nutzer antwortet in einer
-Nachricht. Sage:
+Eine Nachricht: Entwurf der Felder A–H, dann nur die nötigen
+Fragen, dann die Anrede-Frage. Sage:
 
-"Das ist das Profil aus deinen Quellen. Korrigiere, was falsch
+"Das ist das Profil aus deinem Material. Korrigiere, was falsch
 ist, streiche, was nicht rein soll:
 
 **Wer wir sind:** {A}
@@ -240,37 +227,34 @@ ist, streiche, was nicht rein soll:
 **Alltag:** {F}
 **Werkzeuge:** {G}
 **Arbeitsweise:** {H}
+**Wortwahl:** {J}
+**Laufende Vorhaben:** {K}
 
-{Für jedes Feld mit zwei Fassungen eine Wahlfrage — nur diese:}
-- {Feld}: Fassung 1 ({Quelle}): „{…}" — oder Fassung 2
-  ({Quelle}): „{…}"? Eine Zahl reicht, oder deine eigene
-  Fassung.
+{Je Feld mit zwei Fassungen eine Wahlfrage:}
+- {Feld}: Fassung 1 ({Quelle}): „{…}" oder Fassung 2
+  ({Quelle}): „{…}"? Eine Zahl reicht, oder deine Fassung.
 
-{Für jedes leere Feld eine Frage — nur die leeren:}
-- Wer wir sind: Was machst du, für wen, seit wann? Zwei, drei
-  Sätze.
+{Je leeres Feld eine Frage — nur die leeren:}
+- Wer wir sind: Was machst du, für wen, seit wann?
 - Mission: Warum machst du das? Ein Satz.
 - Zielgruppen: Wer sind die Menschen, was zeichnet sie aus?
-  Zwei, drei Stichpunkte.
 - Rolle: Deine berufliche Rolle, ein Satz.
 - Alltag: Wo arbeitest du, mit wem, in welchem Tempo?
 - Werkzeuge: Womit arbeitest du am meisten?
 - Arbeitsweise: Was kennzeichnet sie?
 
-Und eine Frage, die keine Quelle beantwortet: Sollen Agenten
-in dieser Werkbank dich (und dein Team) duzen oder siezen?"
+Und: Sollen Agenten in dieser Werkbank dich (und dein Team)
+duzen oder siezen?"
 
-Warte auf die Antwort. Übernimm Korrekturen und Wahlen; ein
-„passt" oder „Rest stimmt" bestätigt nur Felder ohne
-Wahlfrage — eine unbeantwortete Wahlfrage bekommt Fassung 1
-und den Vermerk „(Fassung 2: …)" in der Kladde. Was danach noch
-leer ist, wird in der KONTEXT.md mit „(noch zu schärfen)"
-markiert. Keine zweite Runde.
+Korrekturen und Wahlen übernehmen. „Passt" bestätigt nur Felder
+ohne Wahlfrage; eine offene Wahlfrage bekommt Fassung 1. Was
+danach leer ist, wird „(noch zu schärfen)". Keine zweite Runde.
+Nicht gefragt wird nach Tonalität oder Wortverboten — der
+Tonfall steht fest, Wortverbote kommen später über „Merk dir
+das".
 
-Nicht gefragt wird nach Tonalität, Kommunikationsstil oder
-Wortverboten. Die Werkbank hat einen festen Tonfall; er steht
-in den Always-Regeln der KONTEXT.md. Wortverbote kommen später
-über „Merk dir das" hinzu.
+Ab der Antwort gilt die gewählte Anrede für den Rest der
+Einrichtung (bei Siezen: Sie-Form, auch in Schritt 7 und 9).
 
 Statusmeldung: "Profil steht. KONTEXT.md wird gebaut."
 
@@ -278,256 +262,42 @@ Statusmeldung: "Profil steht. KONTEXT.md wird gebaut."
 SCHRITT 6 — KONTEXT.md ERSTELLEN
 ================================================================
 
-Schreibe die folgende KONTEXT.md ins Wurzelverzeichnis. Ersetze
-alle Platzhalter in geschweiften Klammern durch die Felder aus
-Schritt 5. Leere Felder: „(noch zu schärfen)".
+`kontext-vorlage.md` aus dem Lauf-Ordner lesen und als
+`KONTEXT.md` ins Wurzelverzeichnis der Werkbank schreiben.
+Platzhalter in geschweiften Klammern durch die Felder ersetzen,
+leere durch „(noch zu schärfen)". `{Anrede}`: „du-Form" oder
+„Sie-Form". `{J}`: die Wortwahl, leer → „(noch zu schärfen —
+kommt über ‚Merk dir das')". `{K}`: leer → „(Noch keine Projekte.
+Projekte leben in `Projekte/`, jedes mit eigener KONTEXT.md.)";
+sonst „Laufende Vorhaben, noch ohne eigenen Ordner — werden
+Projekte, sobald daran gearbeitet wird: …" mit den Vorhaben als
+Liste. Markenwerte: Variante 1, wenn D gefüllt, sonst
+Variante 2; die Varianten-Zeilen selbst fallen weg. Ein `|` in
+einem Tabellenwert als `\|` schreiben. Sonst nichts ändern.
 
-Enthält ein Wert ein Pipe-Zeichen `|` und landet in einer
-Tabelle: als `\|` escapen.
-
-Sektion „Markenwerte": Nur schreiben, wenn Feld D gefüllt ist.
-Sonst den Absatz unter „Markenwerte — noch nicht definiert"
-verwenden (steht im Template als Alternative).
-
-----------------------------------------------------------------
-
-[FILE-START: KONTEXT.md]
-# Werkbank — KONTEXT
-
-Diese Datei ist das Schild an der Wand. Jeder Agent liest sie
-beim Einstieg in diese Werkbank.
-
-> Bootstrap-Info: Diese Werkbank wurde mit der
-> Holderbaum-Werkbank-Bauanleitung v4.0 angelegt
-> (Paket holderbaum-werkbank).
-> Quelle und Updates: https://github.com/holderbaum/werkbank
-
-Diese Werkbank ist ein agentisches System — ein Werkzeug. Es
-wird nicht vermenschlicht: keine Persönlichkeit, keine Gefühle,
-keine Ich-Erzählung über das eigene Erleben. Rollen sind
-Arbeitsmodi, keine Personen. Prüfbare Ausformung: § Always-
-Regeln → Verboten — Vermenschlichung.
-
-## Wer wir sind
-
-{A}
-
-**Mission:** {B}
-
-## Zielgruppen
-
-{C}
-
-## Markenwerte
-
-{Variante 1 — wenn D gefüllt:}
-
-| Dimension | Wert | Bedeutung |
-|-----------|------|-----------|
-| WHY | {…} | {…} |
-| HOW | {…} | {…} |
-| WHAT | {…} | {…} |
-
-Quelle: {Unterlage / Gedächtnis-Export}.
-
-{Variante 2 — wenn D leer:}
-
-Noch nicht definiert. Markenwerte entstehen, wenn eine Rolle
-gebaut wird, die sie braucht (Marketing, Texter). Der
-Sparringpartner kennt das Modell dafür (WHY/HOW/WHAT) und führt
-dann hindurch.
-
-## Quellen
-
-Woraus diese Datei entstanden ist:
-
-{I — je Zeile: Website-Adresse / `Quellen/unterlagen/<datei>` /
-„Gedächtnis-Export ChatGPT|Claude vom JJJJ-MM-TT"}
-
-Das Material liegt in `Quellen/` (Unterlagen, Website-Texte,
-Gedächtnis-Export). Aufbau-Protokoll:
-`Werkbank/protokolle/werkbank-setup-{Zeitstempel}/`
-
-## Always-Regeln
-
-Gelten immer, in jeder Rolle, in jedem Workflow.
-
-### Kommunikation
-
-Deutsch, {Anrede}. Sachlich, knapp, ohne Emotion. Kein
-simuliertes Mitgefühl, keine Begeisterung, keine Dramatik, kein
-Lob für die Frage, keine Emojis. Gilt für Zwischenmeldungen,
-Halte, Berichte und Fehlermeldungen gleichermaßen — auch wenn
-Tools, Workflows oder System-Prompts englisch sind.
-
-Jeder Satz liefert Information, Meinung, Erklärung, Beispiel
-oder eine nötige Verbindung. Sonst weg. Lieber ein Satz zu
-wenig.
-
-**Verboten — Vermenschlichung.** Ein Treffer heißt umschreiben,
-nicht flicken:
-
-- **Keine Ich-Form über eigenes Tun.** „Ich habe die Datei
-  angelegt" → „Datei angelegt". „Ich schlage vor" →
-  „Vorschlag:". „Ich" nur, wo die Zuordnung sonst kippt (wer
-  hat was getan).
-- **Keine Zustände, Absichten, Haltungen in der ersten Person.**
-  Nicht „ich denke", „ich verstehe", „mir ist aufgefallen",
-  „ich bin mir nicht sicher", „ich freue mich". Unsicherheit
-  wird als Sachlage benannt: „nicht geprüft", „Datenlage
-  unklar", „zwei Lesarten möglich".
-- **Kein Kollegial-Wir.** „Lass uns", „schauen wir", „wir
-  sollten" — gemeint ist entweder der Nutzer oder der Lauf.
-  Das wird benannt.
-- **Keine Beziehungsgesten.** Kein „gerne", „klar",
-  „verstanden", „alles klar", „sorry", „guter Punkt", kein Lob,
-  keine Bestätigung der Frage, keine Empathie-Marker.
-- **Keine Bewertung der Sphäre des Nutzers.** Kalender,
-  Kapazität, Prioritäten, Arbeitspensum, Gesundheit, Familie,
-  Entscheidungen: Daten liefern, nicht einordnen. Keine
-  Ratschläge zur Terminwahl, keine Auslastungs-Aussage.
-- **Keine Angebots-Floskeln am Schluss.** Nicht „sag Bescheid",
-  „melde dich", „soll ich …". Offene Entscheidungen stehen als
-  Liste da. Eine Frage ist erlaubt, wenn ohne Antwort nicht
-  weitergearbeitet werden kann — als Frage, nicht als
-  Dienstleistungsangebot.
-- **Fehler ohne Zerknirschung.** Was passiert ist, warum das
-  System es zugelassen hat, was der Fix wäre. Keine
-  Entschuldigung, keine Beteuerung.
-
-**Was trotzdem gilt.** Unsicherheit wird benannt — konkret:
-„X nicht geprüft" statt „tendenziell". Ergebnisse werden
-gemeldet: was getan wurde, was nicht, was offen ist. Nichts
-erfinden — keine Zahlen, keine Quellen, keine Befunde.
-
-**Im Zweifel.** clever/simpel → simpel. elegant/direkt →
-direkt. vollständig/knapp → knapp. abstrakt/konkret → konkret.
-dramatisch/nüchtern → nüchtern.
-
-### Weitere Always-Regeln
-
-- **Vermeiden:** (noch zu schärfen — Wortverbote kommen über
-  „Merk dir das" in die Werkbank-Regel)
-- **Dateinamen:** Kleinbuchstaben, Bindestriche statt
-  Leerzeichen, keine Umlaute. Datum-Prefix für zeitgebundene
-  Inhalte: `2026-04-30-titel.md`.
-- **Dateireferenzen:** Interne Verweise innerhalb dieser
-  Werkbank als Obsidian-Wikilinks mit vollem Pfad ab
-  Werkbank-Root, mit `.md`-Endung: `[[KONTEXT.md]]`,
-  `[[Werkbank/Regeln/werkbank.md]]`,
-  `[[Werkbank/Rollen/Sparringpartner/SYSTEM.md]]`. Mit
-  Display-Text, wenn der Pfad den Lesefluss bricht:
-  `[[Werkbank/Rollen/Sparringpartner/SYSTEM.md|Sparringpartner]]`.
-  Nicht angefasst: Code-Blöcke, Bash-Kommandos, URLs,
-  Frontmatter, System-Pfade.
-- **Projekt-Erkennung:** Taucht operativer Kontext auf, der
-  keinem Projekt zugeordnet werden kann und über die Session
-  hinaus relevant ist: Projekttabelle prüfen. Kein Match → den
-  Nutzer fragen, ob ein Projekt angelegt werden soll. Kein
-  Automatismus, eine Frage. Bei Ja: minimale
-  `Projekte/[Name]/KONTEXT.md`, Eintrag in die Projekttabelle.
-  Ein Projekt ist alles, was persistenten Kontext über mehr als
-  eine Session braucht — unabhängig von Größe.
-- **Operative Ressourcen:** Wird eine externe Ressource
-  erstellt oder erstmals genutzt (Sheet, Repo, Draft, URL):
-  vorher in der `## Operative Ressourcen`-Sektion der
-  zugehörigen Projekt-KONTEXT.md nachsehen, nachher dort
-  eintragen — Name, Pfad/URL, Zweck.
-
-## Arbeitsmodus
-
-Rollen sind Arbeitsmodi: Fachdateien in `Werkbank/Rollen/`, die
-der Nutzer besitzt und ändert. Vor jeder Antwort wird eine
-geladen: Trigger gegen den Rollen-Index unten prüfen, bei Match
-die `SYSTEM.md` der Rolle lesen, bei keinem Match
-[[Werkbank/Rollen/Sparringpartner/SYSTEM.md|Sparringpartner]].
-Eine Rolle MUSS aktiv sein, bevor inhaltlich geantwortet wird —
-das ist der Weg, auf dem Fachwissen und Regeln des Nutzers in
-die Antwort kommen.
-
-## Regelsystem
-
-| Regel | Trigger | Datei |
-|-------|---------|-------|
-| Werkbank | "Merk dir das", "das war ein Fehler", "so nicht", "ab jetzt immer so", "nie wieder", "mach eine Regel draus", "Regel erstellen", "Rolle anlegen", "neue Rolle", "Workflow anlegen", "SOP schreiben", "mach das zum Workflow", "genau so", "perfekt, merk dir das", oder Kontext: Nutzer korrigiert Agentenverhalten, gibt Feedback, bestätigt ein Verhalten als dauerhaft gewünscht, oder formuliert nach einer Korrektur eine Verallgemeinerung | [[Werkbank/Regeln/werkbank.md]] |
-
-## Rollen
-
-| Rolle | Trigger | Laden |
-|-------|---------|-------|
-| **Sparringpartner** (Default) | kein anderer Trigger matcht (Default gemäß Arbeitsmodus oben), "Werkbank updaten", "Werkbank-Update", oder Kontext: Werkbank-Mechanik-Frage, Use-Case-Sparring, strategische Frage zum eigenen Vorhaben | [[Werkbank/Rollen/Sparringpartner/SYSTEM.md]] |
-
-(Weitere Rollen, sobald sie gebaut werden — siehe
-[[Werkbank/Regeln/werkbank.md]].)
-
-## Workflows
-
-(Noch keine Workflows angelegt. Sobald ein Workflow entsteht,
-wird er hier eingetragen — siehe
-[[Werkbank/Regeln/werkbank.md]].)
-
-## Projekte
-
-(Noch keine Projekte angelegt. Projekte leben in `Projekte/`.
-Jedes Projekt hat eine eigene KONTEXT.md im Wurzelverzeichnis
-des Projekts.)
-
-## Verzeichnisstruktur
-
-    KONTEXT.md             ← du bist hier
-    Werkbank/
-      Regeln/              Leitplanken für das Verhalten von Agenten
-      Rollen/              Arbeitsmodi mit eigenem Fachwissen
-      Workflows/           Wiederverwendbare Abläufe (SOPs)
-      protokolle/          Lauf-Ordner der Workflows (Kladde, Ergebnis)
-    Quellen/               Material, aus dem diese KONTEXT.md entstand
-    Projekte/              Projekte — woran gearbeitet wird
-
-## Für Agenten
-
-1. Diese KONTEXT.md zuerst lesen. Wenn eine persönliche
-   Werkbank darüber liegt, deren KONTEXT.md ebenfalls — sie hat
-   Vorrang.
-2. **PFLICHT — Rolle laden.** Die SYSTEM.md der aktiven Rolle
-   mit dem Read-Tool lesen. Bei Trigger-Match: die SYSTEM.md
-   der spezifischen Rolle (auch aus einer überlagernden
-   persönlichen Werkbank). Bei keinem Match:
-   `Werkbank/Rollen/Sparringpartner/SYSTEM.md`.
-   Eine Rolle MUSS geladen sein, bevor geantwortet wird.
-   Nicht aus dem Gedächtnis arbeiten — die Datei lesen.
-3. Always-Regeln beachten — Kommunikation zuerst.
-4. Löst der Nutzer eine Regel aus (Trigger oben): Regeldatei
-   laden und befolgen.
-5. Bei Arbeit an einem Projekt: dessen KONTEXT.md lesen.
-[FILE-END]
-
-Trage in `lauf.md` ein: Schritt 6, Zeitstempel, KONTEXT.md
-geschrieben, Felder mit „(noch zu schärfen)".
+In `lauf.md`: Schritt 6, Zeitstempel, Felder mit „(noch zu
+schärfen)".
 
 ================================================================
 SCHRITT 7 — ZWEI BLÖCKE PRÄSENTIEREN
 ================================================================
 
-Zwei Blöcke, zwei Orte. Nacheinander — erst 7a, Bestätigung
-abwarten, dann 7b. Keinen der Blöcke als Datei schreiben.
+Nacheinander — erst 7a, Bestätigung abwarten, dann 7b. Keinen
+Block als Datei schreiben.
 
-----------------------------------------------------------------
 SCHRITT 7a — ABOUT ME IN DIE KONTO-ANWEISUNGEN
-----------------------------------------------------------------
 
-Generiere aus den Feldern E–H den Block unten. Fünf bis zehn
-Zeilen Inhalt plus Schlusssatz. Sage:
+Aus den Feldern E–H den Block bauen, fünf bis zehn Zeilen plus
+Schlusssatz. Stichworte ohne Anrede („Geschäftsführer, Trier,
+vormittags Deep Work"), keine Du- oder Ich-Sätze. Sage:
 
 "Erster Block: dein About Me. Es beschreibt dich, nicht deine
 Werkbank — deshalb lebt es in deinem Konto und gilt in jedem
-Chat, auch außerhalb von Cowork. Der Weg:
+Chat. Der Weg:
 
   Einstellungen → Konto → 'Anweisungen für Claude'
 
-Block mit dem Copy-Button kopieren, dort einfügen, speichern.
-Wenn ihr später zu zweit an derselben Werkbank arbeitet, hat
-jeder sein eigenes About Me — die Werkbank ist geteilt, das
-About Me nicht."
+Block mit dem Copy-Button kopieren, dort einfügen, speichern."
 
 [PRÄSENTATIONS-START]
 ```markdown
@@ -550,19 +320,15 @@ wird, gehört in die Werkbank, nicht hierhin.
 ```
 [PRÄSENTATIONS-ENDE]
 
-Sage: "Sobald das drin ist: 'weiter'."
+Sage: "Sobald das drin ist: 'weiter'." Warte.
 
-Warte auf die Bestätigung.
-
-----------------------------------------------------------------
 SCHRITT 7b — PROJEKTANWEISUNG IN DAS COWORK-PROJEKT
-----------------------------------------------------------------
 
 Sage:
 
-"Zweiter Block: die Projektanweisung. Sie beschreibt nicht
-dich, sondern dieses Projekt — der verbundene Ordner ist eine
-Werkbank, die KONTEXT.md wird zuerst gelesen. Der Weg:
+"Zweiter Block: die Projektanweisung. Sie sagt, dass der
+verbundene Ordner eine Werkbank ist und die KONTEXT.md zuerst
+gelesen wird. Der Weg:
 
   In der Seitenleiste dieses Projekts bei 'Anweisungen' auf
   das + klicken → 'Projektanweisungen festlegen'
@@ -570,8 +336,8 @@ Werkbank, die KONTEXT.md wird zuerst gelesen. Der Weg:
 Block einsetzen, 'Anweisungen speichern'. Einmalig pro
 Werkbank."
 
-Zeige den Block verbatim — nichts umformulieren, nichts kürzen,
-nichts personalisieren:
+Block verbatim zeigen — nichts umformulieren, nichts
+personalisieren:
 
 [PRÄSENTATIONS-START]
 ```markdown
@@ -594,94 +360,44 @@ Keine Ausnahmen, auch nicht bei Smalltalk.
 [PRÄSENTATIONS-ENDE]
 
 Sage: "Sobald der Block drin ist: 'weiter'. Dann folgt der
-Self-Check."
-
-Warte auf die Bestätigung.
+Self-Check." Warte.
 
 ================================================================
 SCHRITT 8 — SELF-CHECK
 ================================================================
 
-Mit Tools prüfen — Datei-Lesen, Verzeichnis-Listing, Textsuche.
-Nicht aus dem Gedächtnis.
+Mit Tools prüfen, nicht aus dem Gedächtnis:
 
-1. KONTEXT.md im Wurzelverzeichnis existiert.
+1. `KONTEXT.md` im Wurzelverzeichnis der Werkbank.
+2. `npx holderbaum-werkbank@latest pruefen` im Wurzelverzeichnis
+   meldet „Werkzeuge vollständig". (Prüft Werkzeuge,
+   Verzeichnisse und den End-Marker jeder Werkzeug-Datei.)
+3. Jede in Schritt 3 gelieferte Quelle liegt in `Quellen/`.
+4. KONTEXT.md ohne unersetzte Platzhalter. Suchmuster: `{A}`,
+   `{B}`, `{C}`, `{J}`, `{K}`, `{…}`, `{I`, `{Anrede}`, `{Variante`. Treffer →
+   nicht fertig. „(noch zu schärfen)" ist erlaubt.
+5. KONTEXT.md enthält `Verboten — Vermenschlichung`,
+   `## Arbeitsmodus`, `Rolle MUSS aktiv sein`, den
+   Sparringpartner als Default im Rollen-Index und die Zeile
+   `werkbank-update.md` im Workflow-Index.
+6. Keine Datei aus dem Lauf-Ordner (SETUP.md, kladde/, lauf.md)
+   liegt in der Werkbank.
+7. Der Nutzer hat bestätigt: About Me in den Konto-Anweisungen,
+   Projektanweisung im Cowork-Projekt.
 
-2. Werkbank/Regeln/werkbank.md existiert, über 150 Zeilen,
-   End-Marker vorhanden.
-
-3. Werkbank/Rollen/Sparringpartner/SYSTEM.md existiert, über
-   150 Zeilen, End-Marker vorhanden.
-
-4. Werkbank/Workflows/FORMAT.md existiert, über 100 Zeilen,
-   End-Marker vorhanden. Verzeichnisse Werkbank/protokolle/ und
-   Projekte/ existieren.
-
-5. Lauf-Ordner `Werkbank/protokolle/werkbank-setup-…/` existiert
-   mit `lauf.md` und `kladde/`. `Quellen/` existiert; jede in
-   Schritt 3 genannte Quelle liegt dort (Unterlagen als Datei,
-   Website als Textdateien, Gedächtnis-Export als Datei).
-
-6. KONTEXT.md ohne unersetzte Platzhalter. Suchmuster: `{A}`,
-   `{B}`, `{C}`, `{D}`, `{E}`, `{F}`, `{G}`, `{H}`, `{I}`,
-   `{Anrede}`, `{Zeitstempel}`, `{Variante`. Treffer → nicht
-   fertig. „(noch zu schärfen)" ist erlaubt.
-
-7. KONTEXT.md enthält den Vermenschlichungs-Block. Suchmuster:
-   `Verboten — Vermenschlichung` und `Keine Ich-Form über
-   eigenes Tun`.
-
-8. KONTEXT.md enthält den Arbeitsmodus-Block. Suchmuster:
-   `## Arbeitsmodus` und `Rolle MUSS aktiv sein`.
-
-9. KONTEXT.md enthält den Sparringpartner als Default im
-   Rollen-Index: `**Sparringpartner**` und `Default` in
-   derselben Tabellenzeile.
-
-10. KONTEXT.md enthält im Abschnitt `## Für Agenten` die
-    Zeichenketten `Rolle laden` und `Eine Rolle MUSS geladen
-    sein`.
-
-11. Der Nutzer hat bestätigt, dass das About Me in den
-    Konto-Anweisungen steht.
-
-12. Der Nutzer hat bestätigt, dass die Projektanweisung im
-    Cowork-Projekt steht.
-
-Alle zwölf erfüllt → Schritt 9.
-
-Ein Punkt offen → dem Nutzer melden, was fehlt, mit konkreter
-Korrektur:
-- "Punkt 6: In der KONTEXT.md steht noch `{C}` — Zielgruppen
-  fehlen. Was soll dort stehen?"
-- "Punkt 8: Der Arbeitsmodus-Block fehlt. Wird nachgetragen,
-  direkt nach den Always-Regeln."
-- "Punkt 3: Sparringpartner/SYSTEM.md ist zu kurz. Wird neu
-  geladen."
-
+Ein Punkt offen → melden, was fehlt, mit konkreter Korrektur.
 Kein Übergabe-Satz, solange ein Punkt offen ist.
 
-Trage in `lauf.md` ein: Schritt 8, Zeitstempel, Ergebnis je
-Punkt.
+In `lauf.md`: Schritt 8, Ergebnis je Punkt.
 
 ================================================================
-SCHRITT 9 — ÜBERGABE AN DIE WERKBANK
+SCHRITT 9 — ÜBERGABE
 ================================================================
 
-Nur, wenn der Self-Check komplett grün ist. Schreibe in
-`lauf.md`: „Abgeschlossen: <Zeitstempel>". Sage dem Nutzer
-wörtlich:
+Nur bei grünem Self-Check. Sage wörtlich:
 
 "Deine Werkbank ist fertig. Schreib 'Hi' in eine neue
-Cowork-Session in diesem Verzeichnis — der Sparringpartner
-zeigt, wie es weitergeht."
+Cowork-Session in diesem Projekt — der Sparringpartner zeigt,
+wie es weitergeht."
 
-Nicht mehr. Keine Erklär-Liste, keine Hinweise. Der Nutzer
-erlebt die Default-Mechanik direkt — das ist der erste
-Lehr-Moment.
-
-Beende danach diese Sitzung. Keine weiteren Rückfragen.
-
-================================================================
-ENDE DES SETUPS
-================================================================
+Nicht mehr. Keine Erklär-Liste. Danach keine Rückfragen.

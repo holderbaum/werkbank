@@ -22,4 +22,12 @@ jobs:
           if [ "$V" != "$GITHUB_REF_NAME" ]; then echo "Tag $GITHUB_REF_NAME != package.json $V"; exit 1; fi
       - run: npm test
       # Veroeffentlicht per Trusted Publishing (OIDC), kein Token im Repo.
-      - run: npm publish --provenance --access public
+      # Vorabfassung (Version mit Bindestrich, z. B. 5.0.0-rc.1) → dist-tag next,
+      # sonst latest. Getestet wird mit npx holderbaum-werkbank@next.
+      - name: Veroeffentlichen
+        run: |
+          if node -p "require('./package.json').version" | grep -q -- -; then
+            npm publish --provenance --access public --tag next
+          else
+            npm publish --provenance --access public
+          fi

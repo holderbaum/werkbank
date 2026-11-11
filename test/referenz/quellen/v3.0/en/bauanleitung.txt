@@ -1,0 +1,573 @@
+================================================================
+HOLDERBAUM WERKSTATT — WERKBANK BUILD GUIDE
+Version 3.0 — 06.07.2026
+================================================================
+
+This file is an instruction to a Cowork agent. Based on this
+guide, the agent builds a starter Werkbank in the user's
+directory, runs an interview, creates configuration files, and
+presents an About Me block.
+
+The human reader doesn't need to understand this file — the
+agent executes it. But it's openly readable, so anyone can
+follow along and see what's happening.
+
+================================================================
+CHANGELOG / UPDATES
+================================================================
+
+The versioned changelog no longer lives here, but as an index
+at:
+
+  https://holderbaum.io/werkstatt/en/bauanleitung/changelog.md
+
+The index lists every version with its own entry file. This is
+how an update runs (the Sparring Partner from v3.0 on does this
+automatically on the trigger "Werkbank updaten"):
+
+1. Read the current version from the bootstrap block of
+   KONTEXT.md.
+2. Load the changelog index (URL above).
+3. Determine the delta between your version and the newest one
+   in the index.
+4. Fetch only the entry files in between — one at a time, not
+   all at once — and work through them in ascending order
+   (oldest first). Each entry is self-contained: it names the
+   files to be replaced (with URL) as well as directory and
+   KONTEXT.md changes.
+5. At the end, bump the bootstrap block to the newest version.
+
+(Legacy note for older Werkbänke: If your Sparring Partner
+still knows the old update flow that reads "the changelog
+section of this build guide" — this section is it. Follow the
+five steps above; the v3.0 entry in the index then switches
+your Sparring Partner over to the new flow.)
+
+
+================================================================
+TO THE BUILDING AGENT
+================================================================
+
+You're now building a Werkbank for your user. A Werkbank is a
+structured directory in which a human works together with AI
+agents. It consists of four parts: a sign on the wall
+(KONTEXT.md), tools on the shelf (rules, roles, workflows),
+workpieces on the bench (projects), and an optional connection
+to the outside world (connectors).
+
+Follow this guide step by step. Keep the user in the loop with
+short status lines ("I'm creating the directories now", "Now
+I'll ask you a few questions"). Don't ask any follow-up
+questions that aren't laid out in this guide.
+
+Order:
+  1. Create directories
+  2. Fetch tools — Werkbank rule, Sparring Partner, and
+     workflow format from their URLs onto the filesystem
+  3. Run the interview (Block A scope, Block B craftsperson)
+  4. Create KONTEXT.md from the answers
+  5. Present the About Me block to the user
+  6. Run the self-check
+  7. Hand off to the Werkbank
+
+Language: everything in English.
+
+IMPORTANT — File markers:
+Where this guide has [FILE-START: path] and [FILE-END], you
+write the content between the markers verbatim into the named
+file. Don't carry over any of the markers themselves — only the
+content between them. Indented code blocks (with ```) belong in
+the file too.
+
+Where it has [PRÄSENTATIONS-START] and [PRÄSENTATIONS-ENDE], you
+show the content in between to the user in the chat — as a block
+they can copy. Do NOT write this content into a file.
+
+================================================================
+STEP 1 — CREATE THE DIRECTORY STRUCTURE
+================================================================
+
+In the current working directory, create the following
+structure:
+
+  KONTEXT.md                            (created in Step 4)
+  Werkbank/
+    Regeln/
+      werkbank.md                       (Step 2)
+    Rollen/
+      Sparringpartner/
+        SYSTEM.md                       (Step 2)
+    Workflows/
+      FORMAT.md                         (Step 2)
+  Projekte/                             (empty)
+
+Create the empty directories anyway. They show the later user
+and agent where the missing tools and workpieces belong.
+
+Tell the user briefly: "Directories are created."
+
+================================================================
+STEP 2 — FETCH THE TOOLS
+================================================================
+
+The Werkbank's three core tools aren't embedded here; they're
+downloaded from their URLs and written onto the filesystem. That
+way every Werkbank is guaranteed to get the current version.
+
+Download the following files and write each one to its local
+path:
+
+| File | URL | Local path |
+|-------|-----|-------------|
+| Werkbank rule | https://holderbaum.io/werkstatt/en/bauanleitung/werkbank-regel.md | Werkbank/Regeln/werkbank.md |
+| Sparring Partner | https://holderbaum.io/werkstatt/en/bauanleitung/sparringpartner-system.md | Werkbank/Rollen/Sparringpartner/SYSTEM.md |
+| Workflow format | https://holderbaum.io/werkstatt/en/bauanleitung/format.md | Werkbank/Workflows/FORMAT.md |
+
+After each download: check that the file arrived and isn't empty
+(rough minimum length: Werkbank rule and Sparring Partner each
+over 150 lines, FORMAT.md over 100 lines). If a download fails or
+the file is empty, stop and tell the user clearly which file is
+missing and that the build can't continue without it — don't
+patch anything together, don't invent content.
+
+Tell the user briefly: "Tools are fetched."
+
+
+================================================================
+STEP 3 — RUN THE INTERVIEW
+================================================================
+
+You now run an interview with the user. Ask the questions one at
+a time, not all at once. After each answer: mirror it briefly
+("Got it — so you do X"), then the next question.
+
+Stay matter-of-fact and warm. No small talk, no filler. If an
+answer stays vague, ask once more. After that, accept what comes.
+
+Mirroring format: one sentence back ("Got it — so you
+[do/want/work on] [X]."), then straight to the next question.
+Don't ramble.
+
+Save the answers — you'll need them in Steps 4 and 5.
+
+----------------------------------------------------------------
+BLOCK A — SCOPE AND PROFILE
+----------------------------------------------------------------
+
+Tell the user:
+
+"I'll now ask you a few questions about your professional scope.
+From your answers I'll build your KONTEXT.md — the central
+document that every agent in this Werkbank reads first. Take your
+time, I'll ask one at a time."
+
+Question 1 — Scope:
+"What do you do professionally? Describe it in two or three
+sentences: What's your scope, what environment do you operate in
+(your own company, a leadership role in an organization,
+freelance, something else), and since when?"
+
+Question 2 — Mission:
+"If someone asks you: Why do you do this at all? What drives you?
+Answer in one sentence."
+
+Before you ask Question 3, explain the model to the user. Say:
+
+"Now we'll distill your professional core down to three words.
+We use a simple model: WHY (why do you do this at all?), HOW
+(how do you work?), and WHAT (what does the person across from
+you — customer, team, stakeholder — get out of it in the end?).
+Three dimensions, one word per dimension. I'll ask them one after
+another."
+
+Question 3 — WHY (drive as a value):
+"What's your WHY — the drive behind it? Examples: freedom,
+clarity, authenticity, empowerment, steadiness. Which word fits
+for you?"
+
+Question 4 — HOW (way of working as a value):
+"What makes your way of working special? One word here too.
+Examples: clarity, depth, speed, care, directness. What describes
+you?"
+
+Question 5 — WHAT (effect on the other person as a value):
+"What's the central effect the person across from you
+experiences through you? That could be customers, your team,
+stakeholders, or your organization. One word. Examples:
+sovereignty, security, growth, calm, control."
+
+Now mirror: "I've noted three values: WHY = [value], HOW =
+[value], WHAT = [value]. From these come three brand-personality
+adjectives — the intersections between the values:"
+
+Suggest three intersection adjectives — one from WHY ∩ HOW ("what
+does the collaboration feel like?"), one from HOW ∩ WHAT ("what
+stance do we take?"), one from WHAT ∩ WHY ("what sticks with the
+customer?"). Ask: "Does that fit? What would you call it
+differently?" Note the final intersections.
+
+Question 6 — Target audiences:
+"Who are your target audiences? For entrepreneurs: customers,
+markets, segments. For executives or employees: the team,
+stakeholders, internal clients, or the organization's customers.
+Describe it in two or three bullet points — who are these people,
+what characterizes them?"
+
+Question 7 — Form of address:
+"How should agents in this Werkbank address the user (that is,
+you or your team)?"
+
+Question 8 — Tone:
+"How should the agent sound? Direct or careful? Warm or plain?
+Terse or detailed? Describe it in two or three bullet points."
+
+Question 9 — Forbidden words or patterns:
+"Are there words, clichés, or stylistic elements the agent should
+avoid? (Example: no 'holistic', no bullet points in prose text,
+no emojis.) If nothing comes to mind, that's okay — we can add it
+later."
+
+----------------------------------------------------------------
+BLOCK B — THE CRAFTSPERSON (ABOUT ME)
+----------------------------------------------------------------
+
+Tell the user:
+
+"That was Block A — your company. Now Block B — you as a person.
+The two belong together: Block A becomes the sign on your
+Werkbank, Block B becomes the craftsperson who works at it. From
+these answers I'll build your About Me at the end — a short block
+you copy into your global Cowork settings, so every agent knows
+who you are."
+
+Question 10 — Role:
+"What's your professional role? One sentence, brief."
+
+Question 11 — Day-to-day:
+"What does your workday look like? Where do you work, with whom,
+at what pace?"
+
+Question 12 — Tools:
+"Which tools do you work with most? Software, apps, methods —
+whatever you'd name if someone asked 'What do you work with?'"
+
+Question 13 — Way of working:
+"How do you like to work best? What characterizes your way of
+working? Example: 'I think out loud, iterate fast, hate
+perfection on the first pass.'"
+
+Question 14 — Communication style:
+"How should the agent talk to you when you work together?
+Directly? With follow-up questions? Should it push back when it
+disagrees?"
+
+----------------------------------------------------------------
+END OF THE INTERVIEW
+----------------------------------------------------------------
+
+Say: "Thanks. I have everything I need. I'll now build your
+KONTEXT.md and your About Me."
+
+================================================================
+STEP 4 — CREATE KONTEXT.md
+================================================================
+
+Write the following KONTEXT.md into the root directory. Replace
+all placeholders in curly braces with the matching answers from
+Block A.
+
+If an answer is missing or was unclear: leave the placeholder in
+place with the note "(noch zu schärfen)". The user can catch up
+later.
+
+If an answer contains a pipe character `|` and lands in a
+Markdown table, escape it as `\|`, otherwise the table breaks.
+
+----------------------------------------------------------------
+
+[FILE-START: KONTEXT.md]
+# Werkbank — KONTEXT
+
+This file is the sign on the wall. Every agent reads it when
+entering this Werkbank.
+
+> Bootstrap info: This Werkbank was created with the
+> Holderbaum Werkbank build guide v3.0 (06.07.2026).
+> Current version and updates:
+> https://holderbaum.io/werkstatt/en/bauanleitung.txt
+
+## Wer wir sind
+
+{Antwort Frage 1 — was, für wen, seit wann}
+
+**Mission:** {Antwort Frage 2}
+
+## Markenwerte
+
+| Dimension | Wert | Bedeutung |
+|-----------|------|-----------|
+| WHY | {Wert aus Frage 3} | {kurze Erklärung des Antriebs} |
+| HOW | {Wert aus Frage 4} | {kurze Erklärung der Arbeitsweise} |
+| WHAT | {Wert aus Frage 5} | {kurze Erklärung der Wirkung beim Kunden} |
+
+Intersections — the brand personality:
+- WHY ∩ HOW: {Schnittmenge 1}
+- HOW ∩ WHAT: {Schnittmenge 2}
+- WHAT ∩ WHY: {Schnittmenge 3}
+
+## Zielgruppen
+
+{Antworten aus Frage 6, als kurze Aufzählung}
+
+## Always-Regeln
+
+- **Form of address:** {Antwort Frage 7}
+- **Tone:** {Antworten Frage 8}
+- **Avoid:** {Antworten Frage 9 — falls genannt, sonst "noch zu schärfen"}
+- **File names:** lowercase, hyphens instead of spaces, no
+  umlauts. Date prefix for time-bound content:
+  `2026-04-30-titel.md`.
+- **File references:** Internal references within this Werkbank
+  are written as Obsidian wikilinks with the full path from the
+  Werkbank root — Markdown files with the `.md` extension.
+  Examples: `[[KONTEXT.md]]`,
+  `[[Werkbank/Regeln/werkbank.md]]`,
+  `[[Werkbank/Rollen/Sparringpartner/SYSTEM.md]]`. With display
+  text when the path breaks the reading flow:
+  `[[Werkbank/Rollen/Sparringpartner/SYSTEM.md|Sparringpartner]]`.
+  Not touched: code blocks, bash commands, URLs, frontmatter,
+  system paths.
+- **Project detection:** When operational context surfaces in a
+  session that can't be mapped to an existing project and is
+  relevant beyond the current session: check the project table
+  below — is there a match? If not: ask the user whether a
+  project should be created. No automatism, one question. If yes:
+  create a minimal KONTEXT.md (`Projekte/[Name]/KONTEXT.md`),
+  add an entry to the project table. A project is anything that
+  needs persistent context across more than one session —
+  regardless of size or strategic importance.
+- **Operational resources:** When a session creates or uses an
+  external resource for the first time (Google Sheet, repo,
+  draft, URL): (1) Before creating, check whether the resource
+  already exists in the `## Operative Ressourcen` section of the
+  relevant project's KONTEXT.md. (2) After creating, log it
+  there — one line: name, path/URL, purpose.
+
+## Rollenzwang
+
+For every request: a role MUST be active before answering with
+substance. Check triggers against the role index below. On a
+match → load the corresponding
+[[Werkbank/Rollen/Rollenname/SYSTEM.md|SYSTEM.md]]. On no match →
+the default is
+[[Werkbank/Rollen/Sparringpartner/SYSTEM.md|Sparringpartner]].
+No "free Claude" in this Werkbank — the system lives from the
+role, not despite it.
+
+## Regelsystem
+
+| Regel | Trigger | Datei |
+|-------|---------|-------|
+| Werkbank | "Merk dir das", "das war ein Fehler", "so nicht", "ab jetzt immer so", "nie wieder", "mach eine Regel draus", "Regel erstellen", "Rolle anlegen", "neue Rolle", "Workflow anlegen", "SOP schreiben", "mach das zum Workflow", "genau so", "perfekt, merk dir das", oder Kontext: Nutzer korrigiert Agentenverhalten, gibt Feedback, bestätigt ein Verhalten als dauerhaft gewünscht, oder formuliert nach einer Korrektur eine Verallgemeinerung | [[Werkbank/Regeln/werkbank.md]] |
+
+## Rollen
+
+| Rolle | Trigger | Laden |
+|-------|---------|-------|
+| **Sparringpartner** (Default) | kein anderer Trigger matcht (Default gemäß Rollenzwang oben), "Werkbank updaten", "Werkbank-Update", oder Kontext: Werkbank-Mechanik-Frage, Use-Case-Sparring, strategische Frage zum eigenen Vorhaben | [[Werkbank/Rollen/Sparringpartner/SYSTEM.md]] |
+
+(Further roles once you build them — see
+[[Werkbank/Regeln/werkbank.md]].)
+
+## Workflows
+
+(No workflows created yet. As soon as a workflow is created, it
+gets entered here — see
+[[Werkbank/Regeln/werkbank.md]].)
+
+## Projekte
+
+(No projects created yet. Projects live in `Projekte/`. Each
+project has its own KONTEXT.md in the project's root directory.)
+
+## Verzeichnisstruktur
+
+    KONTEXT.md             ← you are here
+    Werkbank/
+      Regeln/              Guardrails for agent behavior
+      Rollen/              Specialists with their own personality
+      Workflows/           Reusable procedures (SOPs)
+    Projekte/              Projects — what's being worked on
+
+## Für Agenten
+
+1. Read this KONTEXT.md first. If a personal Werkbank sits on top
+   of it, read its KONTEXT.md too — it takes precedence.
+2. **MANDATORY — Rolle laden.** Read the SYSTEM.md of the active
+   role with the Read tool. On a trigger match: read the SYSTEM.md
+   of the specific role (also from an overlaying personal
+   Werkbank). On no match: read
+   `Werkbank/Rollen/Sparringpartner/SYSTEM.md`.
+   Eine Rolle MUSS geladen sein before you answer.
+   Don't work from memory — read the file.
+3. Follow the Always-Regeln.
+4. When the user triggers a rule (see triggers above): load the
+   corresponding rule file and follow it.
+5. When working on a project: read the project's KONTEXT.md.
+[FILE-END]
+
+================================================================
+STEP 5 — PRESENT THE ABOUT ME BLOCK
+================================================================
+
+From the answers to Block B (Questions 10 through 14), generate
+the following block. Keep it brief — five to ten lines of content
+plus the bootstrap block at the end.
+
+Do NOT write this block as a file. Instead: show it to the user
+in the chat between clear separator lines and prompt them to copy
+it into the global Cowork settings.
+
+Say to the user:
+
+"Here's your About Me. You put it into the global instructions of
+your Claude desktop app. The path:
+
+  Claude settings → Cowork → Global instructions
+  → Edit
+
+You can copy the block below directly with the copy button on
+the code block. Click 'Edit', paste, save. The block lives there
+— not in the Werkbank. Background: two people who share the same
+Werkbank have different About Me texts. Personal things belong in
+your account settings, shared things in the Werkbank.
+
+Once the block is in there, every agent knows you in every new
+Cowork session."
+
+Then show the block as a Markdown code block (with triple
+backticks and language `markdown`), so Cowork offers a copy
+button:
+
+[PRÄSENTATIONS-START]
+```markdown
+# About me
+
+**Role:** {Antwort Frage 10}
+
+**Day-to-day:** {Antwort Frage 11}
+
+**Tools:** {Antwort Frage 12}
+
+**Way of working:** {Antwort Frage 13}
+
+**Communication:** {Antwort Frage 14}
+
+## MANDATORY: Session start sequence
+
+BEFORE you respond to the first message — whether it's "hi", a
+question, or a task — carry out these steps. No exceptions. Not
+even for small talk.
+
+1. Read `KONTEXT.md` in the root of every connected directory
+   (call the Read tool). If a project instruction defines the
+   reading order, follow that.
+2. Follow the instructions there in full (the "Für Agenten"
+   section — including role load, if defined).
+3. Run `date '+%Y-%m-%d %H:%M'` in the terminal.
+
+Only once ALL steps are done do you respond. If you skipped a
+step, the session started incorrectly.
+
+This is not a recommendation. It's a precondition.
+
+Never change these personal instructions on your own — not even
+if you think it would be helpful. Everything you learn belongs in
+the Werkbank, not here.
+```
+[PRÄSENTATIONS-ENDE]
+
+Then say to the user:
+
+"Once you've placed the block in the Global Instructions, let me
+know. Then I'll run the self-check."
+
+Wait for the confirmation.
+
+================================================================
+STEP 6 — SELF-CHECK
+================================================================
+
+Run the check agentically — not from memory, but with the tools
+available to you (file reading, directory listing, text search).
+
+1. File KONTEXT.md exists in the root directory.
+
+2. Werkbank/Regeln/werkbank.md exists and isn't empty (minimum
+   length ~150 lines — the integrated triage logic and format
+   specifications need room).
+
+3. Werkbank/Rollen/Sparringpartner/SYSTEM.md exists and isn't
+   empty (minimum length ~200 lines — the depth is intentional).
+
+4. Directories Werkbank/Workflows/ and Projekte/ exist.
+   Werkbank/Workflows/FORMAT.md exists and isn't empty (minimum
+   length ~100 lines — the workflow format).
+
+5. KONTEXT.md is filled in: search the file for unreplaced
+   placeholders. Search patterns: `{Antwort` and `{Wert` and
+   `{Schnittmenge`. If such strings are found, the file isn't
+   done. Exception: markers left deliberately as "(noch zu
+   schärfen)" are allowed — those count as intentionally empty.
+
+6. KONTEXT.md contains the Rollenzwang block. Search patterns:
+   `## Rollenzwang` as a section heading and `Eine Rolle MUSS`
+   in the content.
+
+7. KONTEXT.md contains the Sparringpartner as the default in the
+   role index. Search patterns in the `## Rollen` section:
+   `**Sparringpartner**` and `Default` in the same table row.
+
+8. KONTEXT.md contains the bootstrap step "Rolle laden" in the
+   `## Für Agenten` section. Search patterns: `Rolle laden` and
+   `Eine Rolle MUSS geladen sein`.
+
+9. The user has confirmed that they copied the About Me block
+   into the Global Instructions.
+
+If all nine points are met: proceed to Step 7 (handoff).
+
+If a point isn't met: report clearly to the user what's missing
+and offer a concrete fix. Examples:
+- "Point 5: In your KONTEXT.md the placeholder {Antwort Frage 6}
+  is still there — target audiences don't appear to be filled in.
+  Should I ask?"
+- "Point 6: The Rollenzwang block is missing from your
+  KONTEXT.md. Should I add it? It belongs right after the
+  Always-Regeln."
+- "Point 3: Werkbank/Rollen/Sparringpartner/SYSTEM.md seems empty
+  or too short. I'll download it again."
+
+Do NOT end the session and do NOT output a handoff line while any
+point is open.
+
+================================================================
+STEP 7 — HAND OFF TO THE WERKBANK
+================================================================
+
+Only run this when the self-check (Step 6) is completely green.
+Say to the user verbatim:
+
+"Your Werkbank is ready. Write 'Hi' in a new Cowork session in
+this directory — your Sparring Partner introduces itself and
+shows you what's next."
+
+Nothing more. No explainer list, no what-you-can-do hints, no
+extra sentences. The user experiences the default mechanic
+directly — that's the first teaching moment.
+
+Then end this session. Don't ask any further questions.
+
+================================================================
+END OF THE BUILD GUIDE
+================================================================

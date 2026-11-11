@@ -1,0 +1,800 @@
+================================================================
+HOLDERBAUM WERKSTATT — WORKBENCH BUILD GUIDE
+Version 4.0 — 28.09.2026
+================================================================
+
+This file is an instruction to a Cowork agent. The user
+downloaded it from holderbaum.io and is handing it to the
+agent. It describes what they want in their folder: a starter
+Workbench — a structured directory in which a human works with
+AI agents.
+
+The agent creates directories, fetches three tool files,
+gathers sources about the user, builds a CONTEXT.md from them,
+and shows two text blocks that the user enters into two places
+in their Claude app. Nothing in this guide changes account or
+project instructions — the user does that by hand.
+
+The human reader doesn't need to understand this file. It is
+openly readable so anyone can follow what happens.
+
+================================================================
+PREREQUISITE — ALLOW holderbaum.io
+================================================================
+
+The tool files are downloaded in the sandbox terminal. The
+sandbox only reaches domains that are on the allowlist. Check
+that first:
+
+  curl -sS -o /dev/null -w "%{http_code}" https://holderbaum.io/werkstatt/en/bauanleitung/changelog.md
+
+Response 200 → continue with STEP 1.
+No response or an error → tell the user:
+
+"The sandbox can't reach holderbaum.io. The domain needs to go
+on the allowlist:
+
+  Settings → Organization → Capabilities
+  → 'Allow network egress' (on)
+  → Domain allowlist → 'Additional allowed domains'
+  → enter holderbaum.io → Add
+
+The setting lives at organization level. If you don't see it,
+your admin adds it. Then write 'continue' here."
+
+The web tools (web fetch, web search) aren't bound by the
+list, but they don't work for the tool files: they summarize,
+and they only fetch addresses the user typed in themselves.
+The tools come exclusively through the terminal.
+
+No allowlisting, no build — don't piece anything together,
+don't invent a file from memory.
+
+================================================================
+VERSIONS — FIXED FILES, NO AUTO-UPDATE
+================================================================
+
+Every version of the tools lives under its own fixed file
+name. A file, once published, never changes; a new version
+gets a new name. This guide (v4.0) names exactly the files
+with the suffix `-v4.0`. Each file carries its version in the
+first line and an end marker in the last — both get checked.
+
+The same applies to the changelog: one fixed entry file per
+version (`changelog-v4.0.md`) that never changes. The only
+moving part is the changelog index — it points to the newest
+version and is therefore downloaded fresh on an update.
+
+An update never happens on its own. It only runs when the
+user explicitly tells the Sparring Partner "update the
+Workbench". The procedure is in the Sparring Partner (§
+Workbench Update). Changelog index:
+
+  https://holderbaum.io/werkstatt/en/bauanleitung/changelog.md
+
+================================================================
+TO THE BUILDING AGENT
+================================================================
+
+Order:
+  1. Create directories
+  2. Fetch tools — Workbench rule, Sparring Partner, workflow
+     format (one terminal command), check, read
+  3. Gather sources — website, brand documents,
+     ChatGPT/Claude memory (one message)
+  4. Evaluate sources
+  5. Present profile — one correction round plus address
+  6. Create CONTEXT.md
+  7. Present two blocks — About Me into the account
+     instructions, project instruction into the Cowork project
+  8. Self-check
+  9. Hand off to the Workbench
+
+The two levels (for Step 7): the About Me belongs to the
+person — it sits in the account instructions and applies in
+every chat. The project instruction belongs to the project —
+it says that this folder is a Workbench. Two blocks, two places.
+
+Language: English. Address the user informally (you).
+
+TONE OF THE BUILD
+The Workbench is a tool, not a counterpart. The build speaks
+the way the Workbench speaks afterwards:
+- No first person about own actions. Not "I'm creating the
+  directories now", but "Directories created."
+- No relationship gestures: no "happy to", "thanks", "great",
+  "got it", no praise for an answer.
+- No mirroring of answers. Take the answer, move on.
+- Status lines are one line: what is done, what comes
+  next.
+- Questions only where this guide provides for them. The
+  questions are written out here — don't embellish, don't add.
+
+FILE MARKERS
+Where [FILE-START: path] and [FILE-END] appear, the content
+between them is written verbatim into the named file — without
+the markers themselves. Indented code blocks (```) belong in
+the file too.
+
+Where [PRÄSENTATIONS-START] and [PRÄSENTATIONS-ENDE] appear,
+the content between them is shown to the user in the chat — as
+a block they can copy. Not written into a file.
+
+================================================================
+STEP 1 — CREATE THE DIRECTORY STRUCTURE
+================================================================
+
+In the current working directory:
+
+  CONTEXT.md                            (Step 6)
+  Workbench/
+    Rules/
+      workbench.md                      (Step 2)
+    Roles/
+      SparringPartner/
+        SYSTEM.md                       (Step 2)
+    Workflows/
+      FORMAT.md                         (Step 2)
+    logs/
+      workbench-setup-<YYYY-MM-DDTHH-MM-SS>/
+        run.md                          (Step 1, kept up to date)
+        scratch/                        (Step 4: intermediate states)
+  Sources/                              (Step 4: stays)
+    documents/
+    website/
+  Projects/                             (empty)
+
+The timestamp comes from `date '+%Y-%m-%dT%H-%M-%S'`. The
+folder `workbench-setup-…` is the run folder of this build:
+`run.md` records what happened when, `scratch/` takes
+intermediate states. A scratch folder is disposable. What must
+stay — documents, website texts, memory export — goes into
+`Sources/` next to the CONTEXT.md: there the user can look up
+what their CONTEXT.md was built from, and there the Sparring
+Partner finds the material again later.
+
+Create empty directories anyway. They show where tools and
+workpieces belong.
+
+Write into `run.md`:
+
+  # Run workbench-setup-<timestamp>
+  - Build guide: v4.0
+  - Start: <timestamp>
+  - Steps: (kept up to date)
+
+Status line: "Directories created."
+
+================================================================
+STEP 2 — FETCH THE TOOLS
+================================================================
+
+The three tools are downloaded in the terminal — not through a
+fetch tool that summarizes content, and not through the chat.
+The content doesn't pass through the agent; it lands on disk
+unchanged. In the Workbench root directory, run exactly this
+command:
+
+  B=https://holderbaum.io/werkstatt/en/bauanleitung; \
+  curl -sS --fail \
+    "$B/werkbank-regel-v4.0.md"         -o Workbench/Rules/workbench.md \
+    "$B/sparringpartner-system-v4.0.md" -o Workbench/Roles/SparringPartner/SYSTEM.md \
+    "$B/format-v4.0.md"                 -o Workbench/Workflows/FORMAT.md \
+  && for f in Workbench/Rules/workbench.md Workbench/Roles/SparringPartner/SYSTEM.md Workbench/Workflows/FORMAT.md; do \
+       printf '%s | %s lines | %s | %s\n' "$f" "$(wc -l < "$f")" "$(head -1 "$f")" "$(grep -v '^[[:space:]]*$' "$f" | tail -1)"; \
+     done
+
+Check the output, three conditions per file:
+- Minimum length: Workbench rule and Sparring Partner each over
+  150 lines, FORMAT.md over 100 lines.
+- First line contains `v4.0`.
+- Last non-empty line reads exactly
+  `===== HOLDERBAUM WERKSTATT · FILE FULLY LOADED =====`.
+
+If a condition fails: stop, tell the user which file is
+affected and that the build can't continue without it. Don't
+piece anything together, don't invent content.
+
+Then read each of the three files once in full with the Read
+tool. What goes into the user's folder is known to the agent —
+not from this guide, but from the file.
+
+Status line: "Tools fetched: Sparring Partner, Workbench
+rule, workflow format — v4.0, complete."
+
+Record in `run.md`: Step 2, timestamp, three files with line
+count.
+
+================================================================
+STEP 3 — GATHER SOURCES
+================================================================
+
+One message, three questions. The user answers in one
+message. Say:
+
+"The CONTEXT.md is built from what already exists about you
+and your company — instead of from a long questionnaire.
+Three questions, one answer:
+
+1. Website — What's the address of your company (or yours)?
+   If there are several: the one that best describes what you
+   do.
+
+2. Documents — Are there documents about your brand, your
+   offering, your positioning (brand workshop, pitch deck,
+   mission statement, service overview)? Drag them as PDFs
+   straight into this chat window. If not: 'none'.
+
+3. Memory — Do you use ChatGPT or Claude regularly?
+
+If an answer is 'no' or 'none', that's fine — there are a few
+more questions for it further down."
+
+Wait for the answer. No follow-up questions, no mirroring.
+
+If the user answers question 3 with yes, show this block as a
+Markdown code block (triple backticks, language `markdown`,
+so a copy button appears):
+
+[PRÄSENTATIONS-START]
+```markdown
+Summarize everything you have stored about me: role and
+company, way of working, tools, communication preferences,
+ongoing projects, style guidelines. As Markdown, factual, don't
+invent anything that isn't stored.
+```
+[PRÄSENTATIONS-ENDE]
+
+Say with it:
+
+"In your browser, open a new chat in ChatGPT or Claude — if
+you use both, in both — and paste the block there. Not here in
+Cowork, but in a new chat in the browser: that's where the
+memory lives. Copy the answer back here; with both products,
+both answers. Read it through once first — anything you don't
+want in your Workbench, delete."
+
+Wait for the answer. If none comes, or "skip": continue.
+
+================================================================
+STEP 4 — EVALUATE SOURCES
+================================================================
+
+Source material goes into `Sources/`, intermediate states into
+`scratch/` of the run folder. The fields below are filled from
+the source material. Don't invent anything —
+what no source provides stays empty and gets asked in Step
+5.
+
+Subagents: the evaluation runs in subagents if the tool for
+it is available — one for the website, one per document. The
+subagent reads the source, writes the raw text to `Sources/`
+and returns only the extraction (fields A–D below, each with
+its location). The raw text doesn't go into the main context.
+If no subagent tool is available: the same steps directly,
+with the same boundary.
+
+Website (subagent "Website"):
+- Fetch the home page. The subpages come from the navigation
+  and the internal links of the home page — not from web
+  search: small and new sites aren't indexed there. Web search
+  (`site:<domain>`) only as a supplement, if the navigation
+  yields nothing. Open what describes the company: About us,
+  Services/Offering, Team, References, Contact/Imprint.
+  Excluded: blog, news, legal texts, product listings,
+  other-language versions. Limit: 15 pages — the subagent
+  selects by relevance.
+- Fetch the page text — two ways, in this order: (1) in the
+  terminal via `curl`, extract the text from the HTML (only if
+  the domain is reachable from the sandbox — for the customer
+  that means: the domain is on the allowlist); (2) otherwise
+  the web fetch tool, which delivers a processed text version.
+  Each page to `Sources/website/<page>.md`, first line:
+  address, date, method (curl / web fetch).
+- Return: fields A–C (and D, if the website names values)
+  with the location for each field.
+
+Documents (one subagent per file):
+- Copy every file dragged into the chat to `Sources/documents/`
+  — keep the original file name. That way the source stays in
+  the Workbench, even when the chat is gone.
+- Read the file with the Read tool. Extraction to
+  `Sources/documents/<filename>.extract.md`: values,
+  positioning, target audiences, offerings, tone — only what's
+  in there, with page reference.
+- Return: fields A–D with location.
+
+Memory export:
+- The copied-back answer unchanged to
+  `Sources/memory-<chatgpt|claude>.md`. No subagent
+  needed — the text is already compact.
+
+Fields filled from the sources:
+
+  A. Who we are — what, for whom, since when (2–3 sentences)
+  B. Mission — one sentence, why
+  C. Target audiences — 2–3 bullet points
+  D. Brand values — ONLY if documents or memory export
+     contain named values. Otherwise the field stays empty;
+     it is NOT asked about.
+  E. User's role — one sentence
+  F. Day-to-day — where, with whom, at what pace
+  G. Tools — software, apps, methods
+  H. Way of working — what characterizes it
+  I. Sources — list of the addresses and files used
+
+The subagents' returns are merged in `scratch/profile-draft.md`
+(intermediate state — the final version is the CONTEXT.md).
+Each field gets an origin note there: website / document X /
+memory / empty. If sources contradict each other in a field,
+both versions stand side by side, with source — the user
+chooses in Step 5.
+
+Record in `run.md`: Step 4, timestamp, which sources were
+used, which fields stayed empty.
+
+================================================================
+STEP 5 — PRESENT THE PROFILE
+================================================================
+
+One message: the draft of fields A–H, then the gaps as
+questions, then the address question. The user answers in one
+message. Say:
+
+"This is the profile from your sources. Correct what's wrong,
+delete what shouldn't go in:
+
+**Who we are:** {A}
+**Mission:** {B}
+**Target audiences:** {C}
+{Only if D is filled: **Brand values:** {D}}
+**Your role:** {E}
+**Day-to-day:** {F}
+**Tools:** {G}
+**Way of working:** {H}
+
+{For each field with two versions, one choice question — only these:}
+- {Field}: version 1 ({source}): "{…}" — or version 2
+  ({source}): "{…}"? A number is enough, or your own
+  version.
+
+{For each empty field, one question — only the empty ones:}
+- Who we are: What do you do, for whom, since when? Two, three
+  sentences.
+- Mission: Why do you do this? One sentence.
+- Target audiences: Who are these people, what characterizes
+  them? Two, three bullet points.
+- Role: Your professional role, one sentence.
+- Day-to-day: Where do you work, with whom, at what pace?
+- Tools: What do you work with most?
+- Way of working: What characterizes it?
+
+And one question no source answers: Should agents in this
+Workbench address you (and your team) on a first-name basis
+or formally?"
+
+Wait for the answer. Apply corrections and choices; a
+"fine" or "rest is correct" only confirms fields without a
+choice question — an unanswered choice question gets version 1
+and the note "(version 2: …)" in the scratch folder. Whatever
+is still empty after that gets marked "(to be sharpened)" in
+the CONTEXT.md. No second round.
+
+Not asked about: tone, communication style or forbidden
+words. The Workbench has a fixed tone; it's in the Always
+rules of the CONTEXT.md. Forbidden words get added later
+via "remember this".
+
+Status line: "Profile done. CONTEXT.md is being built."
+
+================================================================
+STEP 6 — CREATE CONTEXT.md
+================================================================
+
+Write the following CONTEXT.md into the root directory. Replace
+all placeholders in curly braces with the fields from
+Step 5. Empty fields: "(to be sharpened)".
+
+If a value contains a pipe character `|` and lands in a
+table: escape it as `\|`.
+
+Section "Brand values": only write it if field D is filled.
+Otherwise use the paragraph under "Brand values — not yet
+defined" (it's in the template as the alternative).
+
+----------------------------------------------------------------
+
+[FILE-START: CONTEXT.md]
+# Workbench — CONTEXT
+
+This file is the sign on the wall. Every agent reads it when
+entering this Workbench.
+
+> Bootstrap info: This Workbench was created with the
+> Holderbaum Workbench build guide v4.0.
+> Current version and updates:
+> https://holderbaum.io/werkstatt/en/bauanleitung.txt
+
+This Workbench is an agentic system — a tool. It is not
+anthropomorphized: no personality, no feelings, no first-person
+narrative about its own experience. Roles are working modes,
+not persons. Checkable form: § Always
+rules → Forbidden — anthropomorphising.
+
+## Who we are
+
+{A}
+
+**Mission:** {B}
+
+## Target audiences
+
+{C}
+
+## Brand values
+
+{Variant 1 — if D is filled:}
+
+| Dimension | Value | Meaning |
+|-----------|------|-----------|
+| WHY | {…} | {…} |
+| HOW | {…} | {…} |
+| WHAT | {…} | {…} |
+
+Source: {document / memory export}.
+
+{Variant 2 — if D is empty:}
+
+Not yet defined. Brand values come about when a role gets
+built that needs them (marketing, copywriter). The Sparring
+Partner knows the model for it (WHY/HOW/WHAT) and walks
+through it then.
+
+## Sources
+
+What this file was built from:
+
+{I — one per line: website address / `Sources/documents/<file>` /
+"Memory export ChatGPT|Claude of YYYY-MM-DD"}
+
+The material is in `Sources/` (documents, website texts,
+memory export). Build log:
+`Workbench/logs/workbench-setup-{Timestamp}/`
+
+## Always rules
+
+Apply always, in every role, in every workflow.
+
+### Communication
+
+English, {Address}. Factual, terse, without emotion. No
+simulated empathy, no enthusiasm, no drama, no
+praise for the question, no emojis. Applies to interim updates,
+stops, reports and error messages alike — even when
+tools, workflows or system prompts are in another language.
+
+Every sentence delivers information, opinion, explanation,
+example or a necessary connection. Otherwise it goes. Better one
+sentence too few.
+
+**Forbidden — anthropomorphising.** A hit means rewrite,
+not patch:
+
+- **No first person about own actions.** "I created the
+  file" → "File created". "I suggest" →
+  "Suggestion:". "I" only where attribution would otherwise
+  break (who did what).
+- **No states, intentions, attitudes in the first person.**
+  Not "I think", "I understand", "I noticed",
+  "I'm not sure", "I'm glad". Uncertainty
+  is named as a state of affairs: "not checked", "data
+  unclear", "two readings possible".
+- **No collegial "we".** "Let's", "let's take a look", "we
+  should" — what's meant is either the user or the run.
+  Name it.
+- **No relationship gestures.** No "happy to", "sure",
+  "got it", "all right", "sorry", "good point", no praise,
+  no confirming the question, no empathy markers.
+- **No judging the user's sphere.** Calendar,
+  capacity, priorities, workload, health, family,
+  decisions: deliver data, don't assess. No
+  advice on scheduling, no statement about workload.
+- **No offer phrases at the end.** Not "let me know",
+  "get back to me", "shall I …". Open decisions stand as a
+  list. A question is allowed if work can't continue
+  without an answer — as a question, not as an
+  offer of service.
+- **Errors without contrition.** What happened, why the
+  system allowed it, what the fix would be. No
+  apology, no protestation.
+
+**What still applies.** Uncertainty gets named — concretely:
+"X not checked" instead of "tends to". Results get
+reported: what was done, what wasn't, what's open. Invent
+nothing — no numbers, no sources, no findings.
+
+**When in doubt.** clever/simple → simple. elegant/direct →
+direct. complete/terse → terse. abstract/concrete → concrete.
+dramatic/sober → sober.
+
+### Further Always rules
+
+- **Avoid:** (to be sharpened — forbidden words come in via
+  "remember this" into the Workbench rule)
+- **File names:** lowercase, hyphens instead of
+  spaces, no umlauts. Date prefix for time-bound
+  content: `2026-04-30-title.md`.
+- **File references:** Internal references within this
+  Workbench as Obsidian wikilinks with the full path from the
+  Workbench root, with the `.md` extension: `[[CONTEXT.md]]`,
+  `[[Workbench/Rules/workbench.md]]`,
+  `[[Workbench/Roles/SparringPartner/SYSTEM.md]]`. With
+  display text when the path breaks the reading flow:
+  `[[Workbench/Roles/SparringPartner/SYSTEM.md|Sparring Partner]]`.
+  Not touched: code blocks, bash commands, URLs,
+  frontmatter, system paths.
+- **Project detection:** When operational context surfaces that
+  can't be mapped to a project and is relevant beyond the
+  session: check the project table. No match → ask the
+  user whether a project should be created. No
+  automatism, one question. If yes: a minimal
+  `Projects/[Name]/CONTEXT.md`, an entry in the project table.
+  A project is anything that needs persistent context across
+  more than one session — regardless of size.
+- **Operational resources:** When an external resource is
+  created or used for the first time (sheet, repo, draft, URL):
+  check the `## Operational resources` section of the
+  relevant project CONTEXT.md beforehand, log it
+  there afterwards — name, path/URL, purpose.
+
+## Working mode
+
+Roles are working modes: specialist files in `Workbench/Roles/`
+that the user owns and changes. Before every answer, one is
+loaded: check triggers against the role index below, on a match
+read the role's `SYSTEM.md`, on no match
+[[Workbench/Roles/SparringPartner/SYSTEM.md|Sparring Partner]].
+A role MUST be active before answering with substance —
+that's the path by which the user's expertise and rules get
+into the answer.
+
+## Rule system
+
+| Rule | Trigger | File |
+|-------|---------|-------|
+| Workbench | "remember this", "that was a mistake", "not like that", "from now on always like this", "never again", "make a rule out of it", "create a rule", "add a role", "new role", "add a workflow", "write an SOP", "make that a workflow", "exactly like that", "perfect, remember this", or context: user corrects agent behavior, gives feedback, confirms a behavior as permanently desired, or formulates a generalization after a correction | [[Workbench/Rules/workbench.md]] |
+
+## Roles
+
+| Role | Trigger | Load |
+|-------|---------|-------|
+| **Sparring Partner** (Default) | no other trigger matches (default per working mode above), "update the Workbench", "Workbench update", or context: Workbench-mechanics question, use-case sparring, strategic question about your own venture | [[Workbench/Roles/SparringPartner/SYSTEM.md]] |
+
+(Further roles once they get built — see
+[[Workbench/Rules/workbench.md]].)
+
+## Workflows
+
+(No workflows created yet. As soon as a workflow is created,
+it gets entered here — see
+[[Workbench/Rules/workbench.md]].)
+
+## Projects
+
+(No projects created yet. Projects live in `Projects/`.
+Each project has its own CONTEXT.md in the project's root
+directory.)
+
+## Directory structure
+
+    CONTEXT.md             ← you are here
+    Workbench/
+      Rules/               Guardrails for agent behavior
+      Roles/               Working modes with their own expertise
+      Workflows/           Reusable procedures (SOPs)
+      logs/                Run folders of the workflows (scratch, result)
+    Sources/               Material this CONTEXT.md was built from
+    Projects/              Projects — what's being worked on
+
+## For agents
+
+1. Read this CONTEXT.md first. If a personal Workbench sits
+   on top of it, read its CONTEXT.md too — it takes
+   precedence.
+2. **MANDATORY — Load role.** Read the SYSTEM.md of the active
+   role with the Read tool. On a trigger match: the SYSTEM.md
+   of the specific role (also from an overlaying
+   personal Workbench). On no match:
+   `Workbench/Roles/SparringPartner/SYSTEM.md`.
+   A role MUST be loaded before answering.
+   Don't work from memory — read the file.
+3. Follow the Always rules — communication first.
+4. When the user triggers a rule (triggers above): load the rule
+   file and follow it.
+5. When working on a project: read its CONTEXT.md.
+[FILE-END]
+
+Record in `run.md`: Step 6, timestamp, CONTEXT.md
+written, fields with "(to be sharpened)".
+
+================================================================
+STEP 7 — PRESENT TWO BLOCKS
+================================================================
+
+Two blocks, two places. One after the other — first 7a, wait
+for confirmation, then 7b. Don't write either block as a file.
+
+----------------------------------------------------------------
+STEP 7a — ABOUT ME INTO THE ACCOUNT INSTRUCTIONS
+----------------------------------------------------------------
+
+Generate the block below from fields E–H. Five to ten
+lines of content plus the closing sentence. Say:
+
+"First block: your About Me. It describes you, not your
+Workbench — that's why it lives in your account and applies in
+every chat, outside of Cowork too. The path:
+
+  Settings → Account → 'Instructions for Claude'
+
+Copy the block with the copy button, paste it there, save.
+If two of you later work on the same Workbench, each of you
+has their own About Me — the Workbench is shared, the
+About Me isn't."
+
+[PRÄSENTATIONS-START]
+```markdown
+# About me
+
+**Role:** {E}
+
+**Day-to-day:** {F}
+
+**Tools:** {G}
+
+**Way of working:** {H}
+
+**Communication:** Factual, terse, direct. No stock phrases,
+no praise, no first-person narration by the agent about its
+own actions.
+
+Never change these personal instructions on your own
+— not even if it seems helpful. Everything that gets learned
+belongs in the Workbench, not here.
+```
+[PRÄSENTATIONS-ENDE]
+
+Say: "Once that's in: 'continue'."
+
+Wait for the confirmation.
+
+----------------------------------------------------------------
+STEP 7b — PROJECT INSTRUCTION INTO THE COWORK PROJECT
+----------------------------------------------------------------
+
+Say:
+
+"Second block: the project instruction. It doesn't describe
+you, it describes this project — the connected folder is a
+Workbench, the CONTEXT.md gets read first. The path:
+
+  In this project's sidebar, click the + next to 'Instructions'
+  → 'Set project instructions'
+
+Paste the block, 'Save instructions'. A one-time thing per
+Workbench."
+
+Show the block verbatim — don't rephrase, don't shorten,
+don't personalize:
+
+[PRÄSENTATIONS-START]
+```markdown
+# Workbench project
+
+Any connected folder can be a Workbench: a set-up working
+environment with a `CONTEXT.md` in its root that is the manual for
+that Workbench.
+
+## MANDATORY: Session start sequence
+
+Before your first response — whether it's "hi", a question or a
+task. No exceptions, not even for small talk.
+
+1. Use the Read tool to read the `CONTEXT.md` in the root of every
+   connected directory that has one — not from memory — and follow
+   its instructions in full.
+2. Run `date '+%Y-%m-%d %H:%M %A'` in the terminal.
+```
+[PRÄSENTATIONS-ENDE]
+
+Say: "Once the block is in: 'continue'. Then comes the
+self-check."
+
+Wait for the confirmation.
+
+================================================================
+STEP 8 — SELF-CHECK
+================================================================
+
+Check with tools — file reading, directory listing, text search.
+Not from memory.
+
+1. CONTEXT.md exists in the root directory.
+
+2. Workbench/Rules/workbench.md exists, over 150 lines,
+   end marker present.
+
+3. Workbench/Roles/SparringPartner/SYSTEM.md exists, over
+   150 lines, end marker present.
+
+4. Workbench/Workflows/FORMAT.md exists, over 100 lines,
+   end marker present. Directories Workbench/logs/ and
+   Projects/ exist.
+
+5. Run folder `Workbench/logs/workbench-setup-…/` exists
+   with `run.md` and `scratch/`. `Sources/` exists; every source
+   named in Step 3 is there (documents as files,
+   website as text files, memory export as a file).
+
+6. CONTEXT.md without unreplaced placeholders. Search
+   patterns: `{A}`, `{B}`, `{C}`, `{D}`, `{E}`, `{F}`, `{G}`,
+   `{H}`, `{I}`, `{Address}`, `{Timestamp}`, `{Variant`. A hit
+   → not done. "(to be sharpened)" is allowed.
+
+7. CONTEXT.md contains the anthropomorphising block. Search
+   patterns: `Forbidden — anthropomorphising` and `No first
+   person about own actions`.
+
+8. CONTEXT.md contains the working-mode block. Search patterns:
+   `## Working mode` and `A role MUST be active`.
+
+9. CONTEXT.md contains the Sparring Partner as the default in
+   the role index: `**Sparring Partner**` and `Default` in
+   the same table row.
+
+10. CONTEXT.md contains, in the `## For agents` section, the
+    strings `Load role` and `A role MUST be loaded`.
+
+11. The user has confirmed that the About Me is in the
+    account instructions.
+
+12. The user has confirmed that the project instruction is in
+    the Cowork project.
+
+All twelve met → Step 9.
+
+One point open → report to the user what's missing, with a
+concrete fix:
+- "Point 6: CONTEXT.md still contains `{C}` — target audiences
+  missing. What should go there?"
+- "Point 8: The working-mode block is missing. Being added,
+  directly after the Always rules."
+- "Point 3: SparringPartner/SYSTEM.md is too short. Being
+  downloaded again."
+
+No handoff line while any point is open.
+
+Record in `run.md`: Step 8, timestamp, result per
+point.
+
+================================================================
+STEP 9 — HAND OFF TO THE WORKBENCH
+================================================================
+
+Only if the self-check is completely green. Write into
+`run.md`: "Completed: <timestamp>". Tell the user
+verbatim:
+
+"Your Workbench is ready. Write 'Hi' in a new
+Cowork session in this directory — the Sparring Partner
+shows what's next."
+
+Nothing more. No explainer list, no hints. The user
+experiences the default mechanic directly — that's the first
+teaching moment.
+
+Then end this session. No further questions.
+
+================================================================
+END OF THE BUILD GUIDE
+================================================================

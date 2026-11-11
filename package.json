@@ -1,16 +1,17 @@
 {
   "name": "holderbaum-werkbank",
-  "version": "0.1.1",
-  "description": "Richtet eine Werkbank ein: ein strukturiertes Verzeichnis, in dem ein Mensch mit KI-Agenten arbeitet.",
+  "version": "5.0.0",
+  "description": "Richtet eine Werkbank ein und hält sie aktuell: ein strukturiertes Verzeichnis, in dem ein Mensch mit KI-Agenten arbeitet.",
   "bin": {
     "holderbaum-werkbank": "bin/holderbaum-werkbank.js"
   },
   "files": [
     "bin",
+    "lib",
     "werkbank"
   ],
   "scripts": {
-    "test": "node test/smoke.js"
+    "test": "node test/smoke.js && node test/update.js && node tools/bekannt-erzeugen.js --pruefen"
   },
   "engines": {
     "node": ">=18"

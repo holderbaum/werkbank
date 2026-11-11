@@ -1,0 +1,230 @@
+{
+ "de": {
+  "platzhalter": {
+   "{Antwort Frage 1 — was, für wen, seit wann}": "Die Duisburger Wassertechnik GmbH ist ein Familienunternehmen mit rund 55 Mitarbeitenden in Duisburg. Wir bauen und warten Wasseraufbereitungsanlagen für Industriekunden aus Chemie, Lebensmittel und Papier — seit 1987, Geschäftsführung seit 2019 in zweiter Generation.",
+   "{Antwort Frage 2}": "Industriebetriebe haben sauberes Prozesswasser, ohne sich darum kümmern zu müssen.",
+   "{Wert aus Frage 3}": "Verlässlichkeit",
+   "{kurze Erklärung des Antriebs}": "Anlagen laufen, Zusagen gelten — über Jahrzehnte.",
+   "{Wert aus Frage 4}": "Gründlichkeit",
+   "{kurze Erklärung der Arbeitsweise}": "Erst messen, dann bauen; jedes Detail geprüft, bevor es zum Kunden geht.",
+   "{Wert aus Frage 5}": "Ruhe",
+   "{kurze Erklärung der Wirkung beim Kunden}": "Der Kunde denkt nicht mehr an sein Wasser.",
+   "{Schnittmenge 1}": "beständig",
+   "{Schnittmenge 2}": "sorgfältig",
+   "{Schnittmenge 3}": "entlastend",
+   "{Antworten aus Frage 6, als kurze Aufzählung}": "- Produktionsleiter und Instandhaltungsleiter in Chemie, Lebensmittel und Papier\n- Betriebe mit 100 bis 2.000 Mitarbeitenden\n- NRW und Benelux",
+   "{Antwort Frage 7 — Duzen oder Siezen}": "Duzen",
+   "{Antwort Frage 7}": "Duzen",
+   "{Antworten Frage 8}": "knapp, direkt, ohne Einleitung",
+   "{Antworten Frage 9 — falls genannt, sonst \"noch zu schärfen\"}": "keine Anglizismen in Kundentexten, keine Emojis",
+   "{A}": "Duisburger Wassertechnik GmbH is a family business with around 55 employees in Duisburg. It builds and maintains water treatment plants for industrial customers in chemicals, food and paper — since 1987, second-generation management since 2019.",
+   "{B}": "Industrial plants have clean process water without having to think about it.",
+   "{C}": "- Production and maintenance managers in chemicals, food and paper\n- Plants with 100 to 2,000 employees\n- NRW and Benelux",
+   "{Unterlage / Gedächtnis-Export}": "`Quellen/unterlagen/duwat-leitbild.pdf`",
+   "{Zeitstempel}": "2026-10-01T10-00-00",
+   "{Anrede}": "du-Form",
+   "{Answer Question 1 — what, for whom, since when}": "Duisburger Wassertechnik GmbH is a family business with around 55 employees in Duisburg. We build and maintain water treatment plants for industrial customers in chemicals, food and paper — since 1987, second-generation management since 2019.",
+   "{Answer Question 2}": "Industrial plants have clean process water without having to think about it.",
+   "{Value from Question 3}": "Reliability",
+   "{short explanation of the drive}": "Plants run, promises hold — for decades.",
+   "{Value from Question 4}": "Thoroughness",
+   "{short explanation of the way of working}": "Measure first, then build; every detail checked before it reaches the customer.",
+   "{Value from Question 5}": "Calm",
+   "{short explanation of the effect on the customer}": "The customer no longer thinks about their water.",
+   "{Intersection 1}": "steady",
+   "{Intersection 2}": "careful",
+   "{Intersection 3}": "relieving",
+   "{Answers from Question 6, as a short list}": "- Production and maintenance managers in chemicals, food and paper\n- Plants with 100 to 2,000 employees\n- NRW and Benelux",
+   "{Answer Question 7}": "informal (first name)",
+   "{Answers Question 8}": "terse, direct, no preamble",
+   "{Answers Question 9 — if named, otherwise \"noch zu schärfen\"}": "no jargon in customer texts, no emojis",
+   "{Answers Question 9 — if named, otherwise \"to be sharpened later\"}": "no jargon in customer texts, no emojis",
+   "{document / memory export}": "`Sources/documents/duwat-mission-statement.pdf`",
+   "{Timestamp}": "2026-10-01T10-00-00",
+   "{Address}": "informal address"
+  },
+  "werte_tabelle": [
+   "Verlässlichkeit",
+   "Anlagen laufen, Zusagen gelten — über Jahrzehnte.",
+   "Gründlichkeit",
+   "Erst messen, dann bauen.",
+   "Ruhe",
+   "Der Kunde denkt nicht mehr an sein Wasser."
+  ],
+  "quellen_liste": "- https://duwate.lovable.app\n- `Quellen/unterlagen/duwat-leitbild.pdf`\n- Gedächtnis-Export ChatGPT vom 2026-10-01",
+  "struktur": {
+   "werkbank": "Werkbank",
+   "regeln": "Werkbank/Regeln",
+   "rollen": "Werkbank/Rollen",
+   "aufgaben": "Werkbank/Aufgaben",
+   "workflows": "Werkbank/Workflows",
+   "projekte": "Projekte",
+   "protokolle": "Werkbank/protokolle",
+   "kladde": "kladde",
+   "lauf_md": "lauf.md"
+  },
+  "setup_lauf": "werkbank-setup-2026-10-01T10-00-00",
+  "setup_lauf_text": "# Lauf: werkbank-setup\n\n- Schritt 1–2: 2026-10-01 10:00 — Verzeichnisse und Werkzeuge v4.0\n- Schritt 4: 2026-10-01 10:12 — Quellen: Website, 1 Unterlage, Gedächtnis-Export ChatGPT\n- Schritt 6: 2026-10-01 10:20 — KONTEXT.md erstellt\n- Schritt 8: 2026-10-01 10:31 — Self-Check grün\n- Abgeschlossen: 2026-10-01 10:31\n",
+  "quellen_dateien": {
+   "Quellen/website/startseite.md": "https://duwate.lovable.app · 2026-10-01 · curl\n\nDuisburger Wassertechnik — Wasseraufbereitung für die Industrie seit 1987.\n",
+   "Quellen/unterlagen/duwat-leitbild.pdf.extrakt.md": "Werte: Verlässlichkeit, Gründlichkeit, Ruhe (S. 2).\n",
+   "Quellen/gedaechtnis-chatgpt.md": "Naomi Nagata, Geschäftsführerin Duisburger Wassertechnik. Arbeitet mit Excel, Outlook, SAP B1.\n"
+  },
+  "nutzerbestand": [
+   {
+    "pfad": "{regeln}/kundentexte.md",
+    "inhalt": "# Kundentexte\n\nTexte an Kunden: Sie-Form, keine Anglizismen, Fachbegriffe beim ersten Auftreten erklärt.\n\n```regel\nname: kundentexte\ntrigger:\n  - \"Kundentext\", \"Angebotstext\", \"Mail an Kunden\"\n```\n\nAngelegt 2026-10-05 nach einer Korrektur durch Naomi.\n",
+    "abschnitt": [
+     "Regelsystem",
+     "Rule system"
+    ],
+    "zeile": "| Kundentexte | \"Kundentext\", \"Angebotstext\", \"Mail an Kunden\" | [[Werkbank/Regeln/kundentexte.md]] |",
+    "tabelle": "| Kundentexte | \"Kundentext\", \"Angebotstext\", \"Mail an Kunden\" | [[Werkbank/Regeln/kundentexte.md]] |"
+   },
+   {
+    "pfad": "{rollen}/Vertrieb/SYSTEM.md",
+    "inhalt": "# Vertrieb\n\nArbeitsmodus für Angebote und Nachfass bei Industriekunden.\n\n## Trigger\n\n\"Angebot\", \"Nachfass\", \"Kunde X anschreiben\"\n\n## Arbeitsweise\n\n- Erst Bedarf und Anlage klären, dann Preis.\n- Angebote nennen Wartungsintervall und Reaktionszeit.\n",
+    "abschnitt": [
+     "Rollen",
+     "Roles"
+    ],
+    "zeile": "| Vertrieb | \"Angebot\", \"Nachfass\", \"Kunde X anschreiben\" | [[Werkbank/Rollen/Vertrieb/SYSTEM.md]] |",
+    "tabelle": "| Vertrieb | \"Angebot\", \"Nachfass\", \"Kunde X anschreiben\" | [[Werkbank/Rollen/Vertrieb/SYSTEM.md]] |"
+   },
+   {
+    "pfad": "{ablauf}/wochenbericht.md",
+    "inhalt": "# Wochenbericht\n\nJeden Freitag: Servicefälle der Woche aus `Projekte/Servicefaelle/` zusammenfassen, offene Fälle markieren, Bericht an die Geschäftsführung als Entwurf.\n\n## Trigger\n\n\"Wochenbericht\"\n\n## Schritte\n\n1. Servicefälle der Woche lesen.\n2. Offene Fälle mit Anlage und Kunde auflisten.\n3. Entwurf vorlegen. Halt: Freigabe durch Naomi.\n",
+    "abschnitt": [
+     "Aufgaben",
+     "Workflows"
+    ],
+    "zeile": "| Wochenbericht | \"Wochenbericht\" | [[{ablauf}/wochenbericht.md]] |",
+    "tabelle": "| Name | Trigger | Datei |\n|------|---------|-------|\n| Wochenbericht | \"Wochenbericht\" | [[{ablauf}/wochenbericht.md]] |"
+   },
+   {
+    "pfad": "{projekte}/Servicefaelle/KONTEXT.md",
+    "inhalt": "# Servicefälle\n\nLaufende Servicefälle bei Kunden. Eine Datei pro Fall: `2026-10-07-kunde-anlage.md`.\n\n## Operative Ressourcen\n\n| Name | Pfad/URL | Zweck |\n|------|----------|-------|\n| Service-Sheet | https://docs.google.com/spreadsheets/d/beispiel | Einsatzplanung |\n",
+    "abschnitt": [
+     "Projekte",
+     "Projects"
+    ],
+    "zeile": "| Servicefälle | aktiv | [[Projekte/Servicefaelle/KONTEXT.md]] |",
+    "tabelle": "| Projekt | Status | Einstieg |\n|---------|--------|----------|\n| Servicefälle | aktiv | [[Projekte/Servicefaelle/KONTEXT.md]] |"
+   }
+  ]
+ },
+ "en": {
+  "platzhalter": {
+   "{Antwort Frage 1 — was, für wen, seit wann}": "Die Duisburger Wassertechnik GmbH ist ein Familienunternehmen mit rund 55 Mitarbeitenden in Duisburg. Wir bauen und warten Wasseraufbereitungsanlagen für Industriekunden aus Chemie, Lebensmittel und Papier — seit 1987, Geschäftsführung seit 2019 in zweiter Generation.",
+   "{Antwort Frage 2}": "Industriebetriebe haben sauberes Prozesswasser, ohne sich darum kümmern zu müssen.",
+   "{Wert aus Frage 3}": "Verlässlichkeit",
+   "{kurze Erklärung des Antriebs}": "Anlagen laufen, Zusagen gelten — über Jahrzehnte.",
+   "{Wert aus Frage 4}": "Gründlichkeit",
+   "{kurze Erklärung der Arbeitsweise}": "Erst messen, dann bauen; jedes Detail geprüft, bevor es zum Kunden geht.",
+   "{Wert aus Frage 5}": "Ruhe",
+   "{kurze Erklärung der Wirkung beim Kunden}": "Der Kunde denkt nicht mehr an sein Wasser.",
+   "{Schnittmenge 1}": "beständig",
+   "{Schnittmenge 2}": "sorgfältig",
+   "{Schnittmenge 3}": "entlastend",
+   "{Antworten aus Frage 6, als kurze Aufzählung}": "- Produktionsleiter und Instandhaltungsleiter in Chemie, Lebensmittel und Papier\n- Betriebe mit 100 bis 2.000 Mitarbeitenden\n- NRW und Benelux",
+   "{Antwort Frage 7 — Duzen oder Siezen}": "Duzen",
+   "{Antwort Frage 7}": "Duzen",
+   "{Antworten Frage 8}": "knapp, direkt, ohne Einleitung",
+   "{Antworten Frage 9 — falls genannt, sonst \"noch zu schärfen\"}": "keine Anglizismen in Kundentexten, keine Emojis",
+   "{A}": "Duisburger Wassertechnik GmbH is a family business with around 55 employees in Duisburg. It builds and maintains water treatment plants for industrial customers in chemicals, food and paper — since 1987, second-generation management since 2019.",
+   "{B}": "Industrial plants have clean process water without having to think about it.",
+   "{C}": "- Production and maintenance managers in chemicals, food and paper\n- Plants with 100 to 2,000 employees\n- NRW and Benelux",
+   "{Unterlage / Gedächtnis-Export}": "`Quellen/unterlagen/duwat-leitbild.pdf`",
+   "{Zeitstempel}": "2026-10-01T10-00-00",
+   "{Anrede}": "du-Form",
+   "{Answer Question 1 — what, for whom, since when}": "Duisburger Wassertechnik GmbH is a family business with around 55 employees in Duisburg. We build and maintain water treatment plants for industrial customers in chemicals, food and paper — since 1987, second-generation management since 2019.",
+   "{Answer Question 2}": "Industrial plants have clean process water without having to think about it.",
+   "{Value from Question 3}": "Reliability",
+   "{short explanation of the drive}": "Plants run, promises hold — for decades.",
+   "{Value from Question 4}": "Thoroughness",
+   "{short explanation of the way of working}": "Measure first, then build; every detail checked before it reaches the customer.",
+   "{Value from Question 5}": "Calm",
+   "{short explanation of the effect on the customer}": "The customer no longer thinks about their water.",
+   "{Intersection 1}": "steady",
+   "{Intersection 2}": "careful",
+   "{Intersection 3}": "relieving",
+   "{Answers from Question 6, as a short list}": "- Production and maintenance managers in chemicals, food and paper\n- Plants with 100 to 2,000 employees\n- NRW and Benelux",
+   "{Answer Question 7}": "informal (first name)",
+   "{Answers Question 8}": "terse, direct, no preamble",
+   "{Answers Question 9 — if named, otherwise \"noch zu schärfen\"}": "no jargon in customer texts, no emojis",
+   "{Answers Question 9 — if named, otherwise \"to be sharpened later\"}": "no jargon in customer texts, no emojis",
+   "{document / memory export}": "`Sources/documents/duwat-mission-statement.pdf`",
+   "{Timestamp}": "2026-10-01T10-00-00",
+   "{Address}": "informal address"
+  },
+  "werte_tabelle": [
+   "Reliability",
+   "Plants run, promises hold — for decades.",
+   "Thoroughness",
+   "Measure first, then build.",
+   "Calm",
+   "The customer no longer thinks about their water."
+  ],
+  "quellen_liste": "- https://duwate.lovable.app\n- `Sources/documents/duwat-mission-statement.pdf`\n- Memory export ChatGPT of 2026-10-01",
+  "struktur": {
+   "werkbank": "Workbench",
+   "regeln": "Workbench/Rules",
+   "rollen": "Workbench/Roles",
+   "aufgaben": "Workbench/Workflows",
+   "workflows": "Workbench/Workflows",
+   "projekte": "Projects",
+   "protokolle": "Workbench/logs",
+   "kladde": "scratch",
+   "lauf_md": "run.md"
+  },
+  "setup_lauf": "workbench-setup-2026-10-01T10-00-00",
+  "setup_lauf_text": "# Run: workbench-setup\n\n- Step 1–2: 2026-10-01 10:00 — directories and tools v4.0\n- Step 4: 2026-10-01 10:12 — sources: website, 1 document, memory export ChatGPT\n- Step 6: 2026-10-01 10:20 — CONTEXT.md created\n- Step 8: 2026-10-01 10:31 — self-check green\n- Completed: 2026-10-01 10:31\n",
+  "quellen_dateien": {
+   "Sources/website/home.md": "https://duwate.lovable.app · 2026-10-01 · curl\n\nDuisburger Wassertechnik — water treatment for industry since 1987.\n",
+   "Sources/documents/duwat-mission-statement.pdf.extract.md": "Values: reliability, thoroughness, calm (p. 2).\n",
+   "Sources/memory-chatgpt.md": "Naomi Nagata, managing director Duisburger Wassertechnik. Works with Excel, Outlook, SAP B1.\n"
+  },
+  "nutzerbestand": [
+   {
+    "pfad": "{regeln}/customer-texts.md",
+    "inhalt": "# Customer texts\n\nTexts to customers: formal address, no jargon, technical terms explained on first use.\n\n```rule\nname: customer-texts\ntrigger:\n  - \"customer text\", \"quote text\", \"mail to customer\"\n```\n\nCreated 2026-10-05 after a correction by Naomi.\n",
+    "abschnitt": [
+     "Regelsystem",
+     "Rule system"
+    ],
+    "zeile": "| Customer texts | \"customer text\", \"quote text\", \"mail to customer\" | [[Workbench/Rules/customer-texts.md]] |",
+    "tabelle": "| Customer texts | \"customer text\", \"quote text\", \"mail to customer\" | [[Workbench/Rules/customer-texts.md]] |"
+   },
+   {
+    "pfad": "{rollen}/Sales/SYSTEM.md",
+    "inhalt": "# Sales\n\nWorking mode for quotes and follow-ups with industrial customers.\n\n## Trigger\n\n\"quote\", \"follow-up\", \"write to customer X\"\n\n## Way of working\n\n- Clarify need and plant first, then price.\n- Quotes state maintenance interval and response time.\n",
+    "abschnitt": [
+     "Rollen",
+     "Roles"
+    ],
+    "zeile": "| Sales | \"quote\", \"follow-up\", \"write to customer X\" | [[Workbench/Roles/Sales/SYSTEM.md]] |",
+    "tabelle": "| Sales | \"quote\", \"follow-up\", \"write to customer X\" | [[Workbench/Roles/Sales/SYSTEM.md]] |"
+   },
+   {
+    "pfad": "{ablauf}/weekly-report.md",
+    "inhalt": "# Weekly report\n\nEvery Friday: summarise the week's service cases from `Projects/ServiceCases/`, mark open cases, draft a report for management.\n\n## Trigger\n\n\"weekly report\"\n\n## Steps\n\n1. Read the week's service cases.\n2. List open cases with plant and customer.\n3. Present the draft. Halt: approval by Naomi.\n",
+    "abschnitt": [
+     "Aufgaben",
+     "Workflows"
+    ],
+    "zeile": "| Weekly report | \"weekly report\" | [[{ablauf}/weekly-report.md]] |",
+    "tabelle": "| Name | Trigger | File |\n|------|---------|------|\n| Weekly report | \"weekly report\" | [[{ablauf}/weekly-report.md]] |"
+   },
+   {
+    "pfad": "{projekte}/ServiceCases/CONTEXT.md",
+    "inhalt": "# Service cases\n\nOngoing service cases at customers. One file per case: `2026-10-07-customer-plant.md`.\n\n## Operational resources\n\n| Name | Path/URL | Purpose |\n|------|----------|---------|\n| Service sheet | https://docs.google.com/spreadsheets/d/example | Scheduling |\n",
+    "abschnitt": [
+     "Projekte",
+     "Projects"
+    ],
+    "zeile": "| Service cases | active | [[Projects/ServiceCases/CONTEXT.md]] |",
+    "tabelle": "| Project | Status | Entry |\n|---------|--------|-------|\n| Service cases | active | [[Projects/ServiceCases/CONTEXT.md]] |"
+   }
+  ]
+ }
+}

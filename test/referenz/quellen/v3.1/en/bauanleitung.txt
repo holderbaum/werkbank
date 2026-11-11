@@ -1,0 +1,589 @@
+================================================================
+HOLDERBAUM WERKSTATT — WORKBENCH BUILD GUIDE
+Version 3.1 — 12.07.2026
+================================================================
+
+This file is an instruction to a Cowork agent. Based on this
+guide, the agent builds a starter Workbench in the user's
+directory, runs an interview, creates configuration files, and
+presents an About Me block.
+
+The human reader doesn't need to understand this file — the
+agent executes it. But it's openly readable, so anyone can
+follow along and see what's happening.
+
+================================================================
+CACHE — ALWAYS LOAD FRESH (MANDATORY)
+================================================================
+
+Before you fetch ANY holderbaum.io/werkstatt URL — this guide, the
+tools below, the changelog index on update, and every file a
+changelog entry names — append a fresh cache-buster:
+
+  ?cb=<current Unix time>        (in the terminal: date +%s)
+
+Fresh per fetch. Never a fixed number, never a version. Without the
+buster you risk a stale, cached version.
+
+================================================================
+CHANGELOG / UPDATES
+================================================================
+
+The versioned changelog no longer lives here, but as an index
+at:
+
+  https://holderbaum.io/werkstatt/en/bauanleitung/changelog.md
+
+The index lists every version with its own entry file. This is
+how an update runs (the Sparring Partner from v3.0 on does this
+automatically on the trigger "update the Workbench"):
+
+1. Read the current version from the bootstrap block of
+   CONTEXT.md.
+2. Load the changelog index (URL above).
+3. Determine the delta between your version and the newest one
+   in the index.
+4. Fetch only the entry files in between — one at a time, not
+   all at once — and work through them in ascending order
+   (oldest first). Each entry is self-contained: it names the
+   files to be replaced (with URL) as well as directory and
+   CONTEXT.md changes.
+5. At the end, bump the bootstrap block to the newest version.
+
+(Legacy note for older Workbenches: If your Sparring Partner
+still knows the old update flow that reads "the changelog
+section of this build guide" — this section is it. Follow the
+five steps above; the v3.0 entry in the index then switches
+your Sparring Partner over to the new flow.)
+
+
+================================================================
+TO THE BUILDING AGENT
+================================================================
+
+You're now building a Workbench for your user. A Workbench is a
+structured directory in which a human works together with AI
+agents. It consists of four parts: a sign on the wall
+(CONTEXT.md), tools on the shelf (rules, roles, workflows),
+workpieces on the bench (projects), and an optional connection
+to the outside world (connectors).
+
+Follow this guide step by step. Keep the user in the loop with
+short status lines ("I'm creating the directories now", "Now
+I'll ask you a few questions"). Don't ask any follow-up
+questions that aren't laid out in this guide.
+
+Order:
+  1. Create directories
+  2. Fetch tools — Workbench rule, Sparring Partner, and
+     workflow format from their URLs onto the filesystem
+  3. Run the interview (Block A scope, Block B craftsperson)
+  4. Create CONTEXT.md from the answers
+  5. Present the About Me block to the user
+  6. Run the self-check
+  7. Hand off to the Workbench
+
+Language: everything in English.
+
+IMPORTANT — File markers:
+Where this guide has [FILE-START: path] and [FILE-END], you
+write the content between the markers verbatim into the named
+file. Don't carry over any of the markers themselves — only the
+content between them. Indented code blocks (with ```) belong in
+the file too.
+
+Where it has [PRÄSENTATIONS-START] and [PRÄSENTATIONS-ENDE], you
+show the content in between to the user in the chat — as a block
+they can copy. Do NOT write this content into a file.
+
+================================================================
+STEP 1 — CREATE THE DIRECTORY STRUCTURE
+================================================================
+
+In the current working directory, create the following
+structure:
+
+  CONTEXT.md                            (created in Step 4)
+  Workbench/
+    Rules/
+      workbench.md                      (Step 2)
+    Roles/
+      SparringPartner/
+        SYSTEM.md                       (Step 2)
+    Workflows/
+      FORMAT.md                         (Step 2)
+  Projects/                             (empty)
+
+Create the empty directories anyway. They show the later user
+and agent where the missing tools and workpieces belong.
+
+Tell the user briefly: "Directories are created."
+
+================================================================
+STEP 2 — FETCH THE TOOLS
+================================================================
+
+The Workbench's three core tools aren't embedded here; they're
+downloaded from their URLs and written onto the filesystem. That
+way every Workbench is guaranteed to get the current version.
+
+Download the following files and write each one to its local
+path:
+
+| File | URL | Local path |
+|-------|-----|-------------|
+| Workbench rule | https://holderbaum.io/werkstatt/en/bauanleitung/werkbank-regel.md | Workbench/Rules/workbench.md |
+| Sparring Partner | https://holderbaum.io/werkstatt/en/bauanleitung/sparringpartner-system.md | Workbench/Roles/SparringPartner/SYSTEM.md |
+| Workflow format | https://holderbaum.io/werkstatt/en/bauanleitung/format.md | Workbench/Workflows/FORMAT.md |
+
+(Don't forget the cache-buster — append ?cb=<date +%s> to every URL
+above, see the "CACHE" block at the top.)
+
+After each download: check that the file arrived and isn't empty
+(rough minimum length: Workbench rule and Sparring Partner each
+over 150 lines, FORMAT.md over 100 lines). Also check that the last non-empty line of each file reads exactly `===== HOLDERBAUM WERKSTATT · FILE FULLY LOADED =====` — if this end-marker is missing, the file is incomplete (truncated or summarized), so stop. If a download fails or
+the file is empty, stop and tell the user clearly which file is
+missing and that the build can't continue without it — don't
+patch anything together, don't invent content.
+
+Tell the user briefly: "Tools are fetched."
+
+
+================================================================
+STEP 3 — RUN THE INTERVIEW
+================================================================
+
+You now run an interview with the user. Ask the questions one at
+a time, not all at once. After each answer: mirror it briefly
+("Got it — so you do X"), then the next question.
+
+Stay matter-of-fact and warm. No small talk, no filler. If an
+answer stays vague, ask once more. After that, accept what comes.
+
+Mirroring format: one sentence back ("Got it — so you
+[do/want/work on] [X]."), then straight to the next question.
+Don't ramble.
+
+Save the answers — you'll need them in Steps 4 and 5.
+
+----------------------------------------------------------------
+BLOCK A — SCOPE AND PROFILE
+----------------------------------------------------------------
+
+Tell the user:
+
+"I'll now ask you a few questions about your professional scope.
+From your answers I'll build your CONTEXT.md — the central
+document that every agent in this Workbench reads first. Take your
+time, I'll ask one at a time."
+
+Question 1 — Scope:
+"What do you do professionally? Describe it in two or three
+sentences: What's your scope, what environment do you operate in
+(your own company, a leadership role in an organization,
+freelance, something else), and since when?"
+
+Question 2 — Mission:
+"If someone asks you: Why do you do this at all? What drives you?
+Answer in one sentence."
+
+Before you ask Question 3, explain the model to the user. Say:
+
+"Now we'll distill your professional core down to three words.
+We use a simple model: WHY (why do you do this at all?), HOW
+(how do you work?), and WHAT (what does the person across from
+you — customer, team, stakeholder — get out of it in the end?).
+Three dimensions, one word per dimension. I'll ask them one after
+another."
+
+Question 3 — WHY (drive as a value):
+"What's your WHY — the drive behind it? Examples: freedom,
+clarity, authenticity, empowerment, steadiness. Which word fits
+for you?"
+
+Question 4 — HOW (way of working as a value):
+"What makes your way of working special? One word here too.
+Examples: clarity, depth, speed, care, directness. What describes
+you?"
+
+Question 5 — WHAT (effect on the other person as a value):
+"What's the central effect the person across from you
+experiences through you? That could be customers, your team,
+stakeholders, or your organization. One word. Examples:
+sovereignty, security, growth, calm, control."
+
+Now mirror: "I've noted three values: WHY = [value], HOW =
+[value], WHAT = [value]. From these come three brand-personality
+adjectives — the intersections between the values:"
+
+Suggest three intersection adjectives — one from WHY ∩ HOW ("what
+does the collaboration feel like?"), one from HOW ∩ WHAT ("what
+stance do we take?"), one from WHAT ∩ WHY ("what sticks with the
+customer?"). Ask: "Does that fit? What would you call it
+differently?" Note the final intersections.
+
+Question 6 — Target audiences:
+"Who are your target audiences? For entrepreneurs: customers,
+markets, segments. For executives or employees: the team,
+stakeholders, internal clients, or the organization's customers.
+Describe it in two or three bullet points — who are these people,
+what characterizes them?"
+
+Question 7 — Form of address:
+"How should agents in this Workbench address the user (that is,
+you or your team)?"
+
+Question 8 — Tone:
+"How should the agent sound? Direct or careful? Warm or plain?
+Terse or detailed? Describe it in two or three bullet points."
+
+Question 9 — Forbidden words or patterns:
+"Are there words, clichés, or stylistic elements the agent should
+avoid? (Example: no 'holistic', no bullet points in prose text,
+no emojis.) If nothing comes to mind, that's okay — we can add it
+later."
+
+----------------------------------------------------------------
+BLOCK B — THE CRAFTSPERSON (ABOUT ME)
+----------------------------------------------------------------
+
+Tell the user:
+
+"That was Block A — your company. Now Block B — you as a person.
+The two belong together: Block A becomes the sign on your
+Workbench, Block B becomes the craftsperson who works at it. From
+these answers I'll build your About Me at the end — a short block
+you copy into your global Cowork settings, so every agent knows
+who you are."
+
+Question 10 — Role:
+"What's your professional role? One sentence, brief."
+
+Question 11 — Day-to-day:
+"What does your workday look like? Where do you work, with whom,
+at what pace?"
+
+Question 12 — Tools:
+"Which tools do you work with most? Software, apps, methods —
+whatever you'd name if someone asked 'What do you work with?'"
+
+Question 13 — Way of working:
+"How do you like to work best? What characterizes your way of
+working? Example: 'I think out loud, iterate fast, hate
+perfection on the first pass.'"
+
+Question 14 — Communication style:
+"How should the agent talk to you when you work together?
+Directly? With follow-up questions? Should it push back when it
+disagrees?"
+
+----------------------------------------------------------------
+END OF THE INTERVIEW
+----------------------------------------------------------------
+
+Say: "Thanks. I have everything I need. I'll now build your
+CONTEXT.md and your About Me."
+
+================================================================
+STEP 4 — CREATE CONTEXT.md
+================================================================
+
+Write the following CONTEXT.md into the root directory. Replace
+all placeholders in curly braces with the matching answers from
+Block A.
+
+If an answer is missing or was unclear: leave the placeholder in
+place with the note "(noch zu schärfen)". The user can catch up
+later.
+
+If an answer contains a pipe character `|` and lands in a
+Markdown table, escape it as `\|`, otherwise the table breaks.
+
+----------------------------------------------------------------
+
+[FILE-START: CONTEXT.md]
+# Workbench — CONTEXT
+
+This file is the sign on the wall. Every agent reads it when
+entering this Workbench.
+
+> Bootstrap info: This Workbench was created with the
+> Holderbaum Workbench build guide v3.1 (12.07.2026).
+> Current version and updates:
+> https://holderbaum.io/werkstatt/en/bauanleitung.txt
+
+## Who we are
+
+{Answer Question 1 — what, for whom, since when}
+
+**Mission:** {Answer Question 2}
+
+## Brand values
+
+| Dimension | Value | Meaning |
+|-----------|------|-----------|
+| WHY | {Value from Question 3} | {short explanation of the drive} |
+| HOW | {Value from Question 4} | {short explanation of the way of working} |
+| WHAT | {Value from Question 5} | {short explanation of the effect on the customer} |
+
+Intersections — the brand personality:
+- WHY ∩ HOW: {Intersection 1}
+- HOW ∩ WHAT: {Intersection 2}
+- WHAT ∩ WHY: {Intersection 3}
+
+## Target audiences
+
+{Answers from Question 6, as a short list}
+
+## Always rules
+
+- **Form of address:** {Answer Question 7}
+- **Tone:** {Answers Question 8}
+- **Avoid:** {Answers Question 9 — if named, otherwise "noch zu schärfen"}
+- **File names:** lowercase, hyphens instead of spaces, no
+  umlauts. Date prefix for time-bound content:
+  `2026-04-30-titel.md`.
+- **File references:** Internal references within this Workbench
+  are written as Obsidian wikilinks with the full path from the
+  Workbench root — Markdown files with the `.md` extension.
+  Examples: `[[CONTEXT.md]]`,
+  `[[Workbench/Rules/workbench.md]]`,
+  `[[Workbench/Roles/SparringPartner/SYSTEM.md]]`. With display
+  text when the path breaks the reading flow:
+  `[[Workbench/Roles/SparringPartner/SYSTEM.md|SparringPartner]]`.
+  Not touched: code blocks, bash commands, URLs, frontmatter,
+  system paths.
+- **Project detection:** When operational context surfaces in a
+  session that can't be mapped to an existing project and is
+  relevant beyond the current session: check the project table
+  below — is there a match? If not: ask the user whether a
+  project should be created. No automatism, one question. If yes:
+  create a minimal CONTEXT.md (`Projects/[Name]/CONTEXT.md`),
+  add an entry to the project table. A project is anything that
+  needs persistent context across more than one session —
+  regardless of size or strategic importance.
+- **Operational resources:** When a session creates or uses an
+  external resource for the first time (Google Sheet, repo,
+  draft, URL): (1) Before creating, check whether the resource
+  already exists in the `## Operational resources` section of the
+  relevant project's CONTEXT.md. (2) After creating, log it
+  there — one line: name, path/URL, purpose.
+
+## Role mandate
+
+For every request: a role MUST be active before answering with
+substance. Check triggers against the role index below. On a
+match → load the corresponding
+[[Workbench/Roles/Rolename/SYSTEM.md|SYSTEM.md]]. On no match →
+the default is
+[[Workbench/Roles/SparringPartner/SYSTEM.md|SparringPartner]].
+No "free Claude" in this Workbench — the system lives from the
+role, not despite it.
+
+## Rule system
+
+| Rule | Trigger | File |
+|-------|---------|-------|
+| Workbench | "remember this", "that was a mistake", "not like that", "from now on always like this", "never again", "make a rule out of it", "create a rule", "add a role", "new role", "add a workflow", "write an SOP", "make that a workflow", "exactly like that", "perfect, remember this", or context: user corrects agent behavior, gives feedback, confirms a behavior as permanently desired, or formulates a generalization after a correction | [[Workbench/Rules/workbench.md]] |
+
+## Roles
+
+| Role | Trigger | Load |
+|-------|---------|-------|
+| **Sparring Partner** (Default) | no other trigger matches (default per role mandate above), "update the Workbench", or context: Workbench-mechanics question, use-case sparring, strategic question about your own venture | [[Workbench/Roles/SparringPartner/SYSTEM.md]] |
+
+(Further roles once you build them — see
+[[Workbench/Rules/workbench.md]].)
+
+## Workflows
+
+(No workflows created yet. As soon as a workflow is created, it
+gets entered here — see
+[[Workbench/Rules/workbench.md]].)
+
+## Projects
+
+(No projects created yet. Projects live in `Projects/`. Each
+project has its own CONTEXT.md in the project's root directory.)
+
+## Directory structure
+
+    CONTEXT.md             ← you are here
+    Workbench/
+      Rules/               Guardrails for agent behavior
+      Roles/               Specialists with their own personality
+      Workflows/           Reusable procedures (SOPs)
+    Projects/              Projects — what's being worked on
+
+## For agents
+
+1. Read this CONTEXT.md first. If a personal Workbench sits on top
+   of it, read its CONTEXT.md too — it takes precedence.
+2. **MANDATORY — Load role.** Read the SYSTEM.md of the active
+   role with the Read tool. On a trigger match: read the SYSTEM.md
+   of the specific role (also from an overlaying personal
+   Workbench). On no match: read
+   `Workbench/Roles/SparringPartner/SYSTEM.md`.
+   A role MUST be loaded before you answer.
+   Don't work from memory — read the file.
+3. Follow the Always rules.
+4. When the user triggers a rule (see triggers above): load the
+   corresponding rule file and follow it.
+5. When working on a project: read the project's CONTEXT.md.
+[FILE-END]
+
+================================================================
+STEP 5 — PRESENT THE ABOUT ME BLOCK
+================================================================
+
+From the answers to Block B (Questions 10 through 14), generate
+the following block. Keep it brief — five to ten lines of content
+plus the bootstrap block at the end.
+
+Do NOT write this block as a file. Instead: show it to the user
+in the chat between clear separator lines and prompt them to copy
+it into the global Cowork settings.
+
+Say to the user:
+
+"Here's your About Me. You put it into the global instructions of
+your Claude desktop app. The path:
+
+  Claude settings → Cowork → Global instructions
+  → Edit
+
+You can copy the block below directly with the copy button on
+the code block. Click 'Edit', paste, save. The block lives there
+— not in the Workbench. Background: two people who share the same
+Workbench have different About Me texts. Personal things belong in
+your account settings, shared things in the Workbench.
+
+Once the block is in there, every agent knows you in every new
+Cowork session."
+
+Then show the block as a Markdown code block (with triple
+backticks and language `markdown`), so Cowork offers a copy
+button:
+
+[PRÄSENTATIONS-START]
+```markdown
+# About me
+
+**Role:** {Answer Question 10}
+
+**Day-to-day:** {Answer Question 11}
+
+**Tools:** {Answer Question 12}
+
+**Way of working:** {Answer Question 13}
+
+**Communication:** {Answer Question 14}
+
+## MANDATORY: Session start sequence
+
+BEFORE you respond to the first message — whether it's "hi", a
+question, or a task — carry out these steps. No exceptions. Not
+even for small talk.
+
+1. Read `CONTEXT.md` in the root of every connected directory
+   (call the Read tool). If a project instruction defines the
+   reading order, follow that.
+2. Follow the instructions there in full (the "For agents"
+   section — including role load, if defined).
+3. Run `date '+%Y-%m-%d %H:%M'` in the terminal.
+
+Only once ALL steps are done do you respond. If you skipped a
+step, the session started incorrectly.
+
+This is not a recommendation. It's a precondition.
+
+Never change these personal instructions on your own — not even
+if you think it would be helpful. Everything you learn belongs in
+the Workbench, not here.
+```
+[PRÄSENTATIONS-ENDE]
+
+Then say to the user:
+
+"Once you've placed the block in the Global Instructions, let me
+know. Then I'll run the self-check."
+
+Wait for the confirmation.
+
+================================================================
+STEP 6 — SELF-CHECK
+================================================================
+
+Run the check agentically — not from memory, but with the tools
+available to you (file reading, directory listing, text search).
+
+1. File CONTEXT.md exists in the root directory.
+
+2. Workbench/Rules/workbench.md exists and isn't empty (minimum
+   length ~150 lines — the integrated triage logic and format
+   specifications need room).
+
+3. Workbench/Roles/SparringPartner/SYSTEM.md exists and isn't
+   empty (minimum length ~200 lines — the depth is intentional).
+
+4. Directories Workbench/Workflows/ and Projects/ exist.
+   Workbench/Workflows/FORMAT.md exists and isn't empty (minimum
+   length ~100 lines — the workflow format).
+
+5. CONTEXT.md is filled in: search the file for unreplaced
+   placeholders. Search patterns: `{Answer` and `{Value` and
+   `{Intersection`. If such strings are found, the file isn't
+   done. Exception: markers left deliberately as "(noch zu
+   schärfen)" are allowed — those count as intentionally empty.
+
+6. CONTEXT.md contains the role-mandate block. Search patterns:
+   `## Role mandate` as a section heading and `A role MUST`
+   in the content.
+
+7. CONTEXT.md contains the SparringPartner as the default in the
+   role index. Search patterns in the `## Roles` section:
+   `**Sparring Partner**` and `Default` in the same table row.
+
+8. CONTEXT.md contains the bootstrap step "Load role" in the
+   `## For agents` section. Search patterns: `Load role` and
+   `A role MUST be loaded`.
+
+9. The user has confirmed that they copied the About Me block
+   into the Global Instructions.
+
+If all nine points are met: proceed to Step 7 (handoff).
+
+If a point isn't met: report clearly to the user what's missing
+and offer a concrete fix. Examples:
+- "Point 5: In your CONTEXT.md the placeholder {Answer Question 6}
+  is still there — target audiences don't appear to be filled in.
+  Should I ask?"
+- "Point 6: The role-mandate block is missing from your
+  CONTEXT.md. Should I add it? It belongs right after the
+  Always rules."
+- "Point 3: Workbench/Roles/SparringPartner/SYSTEM.md seems empty
+  or too short. I'll download it again."
+
+Do NOT end the session and do NOT output a handoff line while any
+point is open.
+
+================================================================
+STEP 7 — HAND OFF TO THE WORKBENCH
+================================================================
+
+Only run this when the self-check (Step 6) is completely green.
+Say to the user verbatim:
+
+"Your Workbench is ready. Write 'Hi' in a new Cowork session in
+this directory — your Sparring Partner introduces itself and
+shows you what's next."
+
+Nothing more. No explainer list, no what-you-can-do hints, no
+extra sentences. The user experiences the default mechanic
+directly — that's the first teaching moment.
+
+Then end this session. Don't ask any further questions.
+
+================================================================
+END OF THE BUILD GUIDE
+================================================================
