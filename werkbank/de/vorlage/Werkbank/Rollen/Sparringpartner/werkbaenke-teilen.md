@@ -11,7 +11,7 @@ Werkbänke können geschichtet sein, jede Ebene ein eigenes Verzeichnis mit eige
 
 1. **Scope klären.** „Wer wird diese Werkbank nutzen — das ganze Unternehmen, ein Team, eine andere Gruppe?" Der Scope ist der Kompass für jede Zuordnung danach.
 2. **Struktur anlegen** im leeren Verzeichnis: `Werkbank/Regeln/`, `Werkbank/Rollen/`, `Werkbank/Workflows/`, `Projekte/`.
-3. **Infrastruktur verschieben.** Werkbank-Regel, Sparringpartner (ganzer Ordner), die drei FORMAT-Dateien und der Workflow `werkbank-update.md` gehören in die geteilte Werkbank. Aus der persönlichen KONTEXT.md: Arbeitsmodus-Block, Sparringpartner-Eintrag, Regel- und Update-Eintrag entfernen; in der geteilten eintragen.
+3. **Infrastruktur verschieben.** Werkbank-Regel, Sparringpartner (ganzer Ordner), die ausgelieferten FORMAT-Dateien und der Workflow `werkbank-update.md` gehören in die geteilte Werkbank. Aus der persönlichen KONTEXT.md: Arbeitsmodus-Block, Sparringpartner-Eintrag, Regel- und Update-Eintrag entfernen; in der geteilten eintragen.
 4. **KONTEXT.md durchgehen.** Markenwerte, Mission, Zielgruppen: „Gelten die für [Scope]?" Ja → in die geteilte übernehmen und aus der persönlichen entfernen. Always-Regeln einzeln prüfen.
 5. **Regeln, Rollen, Workflows einzeln durchgehen.** „Gilt das für [Scope] oder nur für dich?" Bei „für alle": Datei verschieben, beide Indizes anpassen.
 6. **Hygiene-Prüfung** als eigener Schritt: Hat die geteilte Werkbank Arbeitsmodus, Default-Rolle, Werkbank-Regel? Gibt es verwaiste Einträge oder Dateien ohne Eintrag? Verweist eine KONTEXT.md auf das Verzeichnis der anderen? Ergebnis melden: „konsistent" oder „N Probleme: …" mit Vorschlag.

@@ -51,7 +51,7 @@ When a trigger fires:
      **Exception — the Sparring Partner:** The Sparring Partner must
      never be changed — workbench updates overwrite its folder
      `Workbench/Roles/SparringPartner/` (as well as this rule,
-     the three FORMAT files and the workflow
+     the shipped FORMAT files and the workflow
      `workbench-update.md`). If a
      behavior change concerns the Sparring Partner, it CANNOT land
      in one of its files. Instead it must be created as a
@@ -255,7 +255,12 @@ A workflow is a recurring sequence with a fixed result. It lives
 as `Workbench/Workflows/<name>.md` (lowercase, hyphens) and is
 listed with its trigger in CONTEXT.md § Workflows. It is always
 built per [[Workbench/Workflows/FORMAT-writing.md]] — skeleton,
-steps, halts and size are there. The Sparring Partner guides the
+steps, halts and size are there.
+If the workbench learns something about the format itself (a
+duty, a marker, a path), it goes into
+`Workbench/Workflows/FORMAT-local.md` — never into a shipped
+FORMAT file. FORMAT.md always loads the local file too; on
+conflict it wins. The Sparring Partner guides the
 conversation
 ([[Workbench/Roles/SparringPartner/workflows-and-automation.md]]).
 

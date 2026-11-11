@@ -84,6 +84,8 @@ Im Zweifel: simpel, direkt, knapp, konkret, nüchtern.
   15.000. Würde eine Datei darüber wachsen: auslagern statt
   anhängen. Keine Verläufe in Dateien, die geladen werden.
   Aufräumen: [[Werkbank/Regeln/werkbank.md]] → Kontext-Budget.
+- **Zeitzone:** {Zone}. Jede Zeit mit `TZ={Zone}` erzeugen und
+  vergleichen (`TZ={Zone} date`).
 - **Dateinamen:** klein, Bindestriche, keine Umlaute,
   Datum-Prefix bei Zeitgebundenem (`2026-04-30-titel.md`).
 - **Verweise:** Wikilinks mit vollem Pfad ab Werkbank-Root:

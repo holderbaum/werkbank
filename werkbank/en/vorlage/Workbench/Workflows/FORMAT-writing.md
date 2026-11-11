@@ -73,6 +73,15 @@ Everything a workflow relies on is named visibly.
 - **Forbidden:** relying on workbench operating rules that fire in the background. What the workflow
   needs of them, it carries itself.
 
+## Plan mode and local additions
+
+- If a workflow should be able to run without a chat (scheduled task, caller without a human), its
+  § Zones carries the sentence "Plan mode possible: data paths go to `scratch/plan/`."
+  Details: [[Workbench/Workflows/FORMAT-plan-mode.md]].
+- If the workbench learns something about the format, it goes into
+  `Workbench/Workflows/FORMAT-local.md`, never into one of the shipped FORMAT files — every update
+  replaces those.
+
 ## Size
 
 A workflow is loaded on every run: at most 15,000 characters (workbench rule → context budget). No

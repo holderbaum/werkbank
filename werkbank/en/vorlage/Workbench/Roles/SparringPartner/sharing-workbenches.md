@@ -11,7 +11,7 @@ Workbenches can be layered, each level its own directory with its own CONTEXT.md
 
 1. **Clarify scope.** "Who will use this workbench — the whole company, a team, another group?" The scope is the compass for every assignment after that.
 2. **Create the structure** in the empty directory: `Workbench/Rules/`, `Workbench/Roles/`, `Workbench/Workflows/`, `Projects/`.
-3. **Move infrastructure.** Workbench rule, Sparring Partner (whole folder), the three FORMAT files and the workflow `workbench-update.md` belong in the shared workbench. From the personal CONTEXT.md: remove the working-mode block, the Sparring Partner entry, the rule and update entries; add them to the shared one.
+3. **Move infrastructure.** Workbench rule, Sparring Partner (whole folder), the shipped FORMAT files and the workflow `workbench-update.md` belong in the shared workbench. From the personal CONTEXT.md: remove the working-mode block, the Sparring Partner entry, the rule and update entries; add them to the shared one.
 4. **Go through CONTEXT.md.** Brand values, mission, target audiences: "Do they apply to [scope]?" Yes → take them into the shared one and remove them from the personal one. Check always rules one by one.
 5. **Go through rules, roles, workflows one by one.** "Does this apply to [scope] or only to you?" "For everyone": move the file, adjust both indexes.
 6. **Hygiene check** as a separate step: does the shared workbench have working mode, default role, workbench rule? Orphaned entries or files without entry? Does one CONTEXT.md point into the other directory? Report: "consistent" or "N problems: …" with a proposal.

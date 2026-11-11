@@ -35,6 +35,10 @@ STEP A — OWN CHANGES TO TOOL FILES
 
 {GEAENDERT}
 
+Exception FORMAT.md: own lines from an old FORMAT.md don't go into a rule
+but into `Workbench/Workflows/FORMAT-local.md` (create it with the heading
+"# Workflow format — local additions"). What v5 already covers goes.
+
 ================================================================
 STEP B — BRING CONTEXT.md TO THE NEW STRUCTURE
 ================================================================
@@ -86,6 +90,9 @@ Gets aligned (only what differs):
 15. References to files that don't exist: remove them and don't
     mention them in the report, unless it was the user's own file
     (then: one-sentence note).
+16. Line "Time zone" under "Further": derive the zone from the
+    workbench's content (company seat, address); nothing found →
+    `Europe/Berlin`. Don't ask.
 
 Then read CONTEXT.md again: is every piece of the user's content
 from `alt/` still there? Something missing → put it back.

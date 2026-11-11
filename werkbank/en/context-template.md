@@ -84,6 +84,8 @@ doubt: simple, direct, terse, concrete, sober.
   15,000. Would a file grow beyond: move out instead of appending.
   No histories in files that get loaded. Tidying up:
   [[Workbench/Rules/workbench.md]] → Context budget.
+- **Time zone:** {Zone}. Create and compare every time with
+  `TZ={Zone}` (`TZ={Zone} date`).
 - **File names:** lowercase, hyphens, no special characters,
   date prefix for time-bound content (`2026-04-30-title.md`).
 - **References:** wikilinks with the full path from the

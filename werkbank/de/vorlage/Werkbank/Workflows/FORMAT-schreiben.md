@@ -75,6 +75,14 @@ Alles, worauf sich ein Workflow stützt, ist sichtbar benannt.
 - **Verboten:** sich auf Betriebsregeln der Werkbank verlassen, die im Hintergrund feuern. Was der
   Workflow davon braucht, trägt er selbst.
 
+## Plan-Modus und lokale Ergänzungen
+
+- Soll ein Workflow ohne Chat laufen können (geplante Aufgabe, Aufrufer ohne Mensch), trägt er in
+  § Zonen den Satz „Plan-Modus möglich: Datenbestand-Pfade gehen nach `kladde/plan/`."
+  Details: [[Werkbank/Workflows/FORMAT-plan-modus.md]].
+- Lernt die Werkbank etwas über das Format, gehört es nach `Werkbank/Workflows/FORMAT-lokal.md`,
+  nie in eine der ausgelieferten FORMAT-Dateien — die ersetzt jedes Update.
+
 ## Größe
 
 Ein Workflow wird bei jedem Lauf geladen: höchstens 15.000 Zeichen (Werkbank-Regel →

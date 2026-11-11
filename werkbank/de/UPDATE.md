@@ -35,6 +35,11 @@ SCHRITT A — EIGENE ÄNDERUNGEN AN WERKZEUG-DATEIEN
 
 {GEAENDERT}
 
+Ausnahme FORMAT.md: Eigene Zeilen aus einer alten FORMAT.md kommen nicht
+in eine Regel, sondern nach `Werkbank/Workflows/FORMAT-lokal.md` (anlegen
+mit Überschrift „# Workflow-Format — lokale Ergänzungen"). Was v5 schon
+abdeckt, fällt weg.
+
 ================================================================
 SCHRITT B — KONTEXT.md AUF DIE NEUE STRUKTUR BRINGEN
 ================================================================
@@ -88,6 +93,9 @@ Wird angeglichen (nur, was abweicht):
 15. Verweise auf Dateien, die es nicht gibt: entfernen und im
     Bericht nicht erwähnen, außer es war eine eigene Datei des
     Nutzers (dann: Hinweis in einem Satz).
+16. Zeile „Zeitzone" unter „Weitere": Zone aus dem Inhalt der
+    Werkbank ableiten (Firmensitz, Adresse); nichts zu finden →
+    `Europe/Berlin`. Nicht fragen.
 
 Danach die KONTEXT.md erneut lesen: Ist jeder Inhalt des Nutzers
 aus `alt/` noch da? Fehlt etwas → wieder einfügen.

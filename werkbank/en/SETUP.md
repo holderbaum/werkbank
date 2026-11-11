@@ -19,7 +19,7 @@ In the workbench (the user's folder):
   Workbench/
     Rules/workbench.md                  workbench rule
     Roles/SparringPartner/              Sparring Partner (4 files)
-    Workflows/FORMAT*.md                workflow format (3 files)
+    Workflows/FORMAT*.md                workflow format (4 files)
     Workflows/workbench-update.md       workflow workbench update
     logs/                               empty
   Sources/documents/ · Sources/website/
@@ -259,7 +259,9 @@ Read `context-template.md` from the run folder and write it as
 in curly braces with the fields, empty ones with "(to be
 sharpened)". `{Address}`: "informal address" or "formal
 address". `{J}`: the wording, empty → "(to be sharpened — comes in
-via 'remember this')". `{K}`: empty → "(No projects yet. Projects
+via 'remember this')". `{Zone}`: IANA time zone
+(e.g. `Europe/London`) from address, imprint or memory; nothing
+found → `Europe/Berlin`. Don't ask. `{K}`: empty → "(No projects yet. Projects
 live in `Projects/`, each with its own CONTEXT.md.)"; otherwise
 "Ongoing undertakings, no folder yet — they become projects as
 soon as work on them starts: …" with the undertakings as a list. Brand values: variant 1 if D is filled, otherwise
@@ -363,7 +365,7 @@ Check with tools, not from memory:
    end marker of every tool file.)
 3. Every source delivered in step 3 is in `Sources/`.
 4. CONTEXT.md without unreplaced placeholders. Search patterns:
-   `{A}`, `{B}`, `{C}`, `{J}`, `{K}`, `{…}`, `{I`, `{Address}`, `{Variant`. Hit →
+   `{A}`, `{B}`, `{C}`, `{J}`, `{K}`, `{Zone}`, `{…}`, `{I`, `{Address}`, `{Variant`. Hit →
    not done. "(to be sharpened)" is allowed.
 5. CONTEXT.md contains `Forbidden — anthropomorphising`,
    `## Working mode`, `MUST be active`, the Sparring Partner as

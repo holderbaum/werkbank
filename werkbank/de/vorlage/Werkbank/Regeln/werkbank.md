@@ -51,7 +51,7 @@ Wenn ein Trigger feuert:
      **Ausnahme Sparringpartner:** Der Sparringpartner darf nie
      verändert werden — sein Ordner `Werkbank/Rollen/Sparringpartner/`
      wird von Werkbank-Updates überschrieben (ebenso diese Regel,
-     die drei FORMAT-Dateien und der Workflow
+     die ausgelieferten FORMAT-Dateien und der Workflow
      `werkbank-update.md`). Betrifft eine
      Verhaltensänderung den Sparringpartner, kann sie also NICHT in
      einer seiner Dateien landen. Sie muss stattdessen als
@@ -258,7 +258,12 @@ Ein Workflow ist ein wiederkehrender Ablauf mit festem Ergebnis.
 Er liegt als `Werkbank/Workflows/<name>.md` (klein, Bindestriche)
 und steht mit Trigger in der KONTEXT.md § Workflows. Gebaut wird
 er immer nach [[Werkbank/Workflows/FORMAT-schreiben.md]] — dort
-stehen Skelett, Schritte, Halte und Größe. Der Sparringpartner
+stehen Skelett, Schritte, Halte und Größe.
+Lernt die Werkbank etwas über das Format selbst (eine Pflicht,
+eine Kennung, ein Pfad), kommt es nach
+`Werkbank/Workflows/FORMAT-lokal.md` — nie in eine
+ausgelieferte FORMAT-Datei. FORMAT.md lädt die lokale Datei
+immer mit; bei Widerspruch gilt sie. Der Sparringpartner
 führt durch das Gespräch
 ([[Werkbank/Rollen/Sparringpartner/workflows-und-automatisierung.md]]).
 

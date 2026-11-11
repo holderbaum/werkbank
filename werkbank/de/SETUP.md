@@ -20,7 +20,7 @@ In der Werkbank (Ordner des Nutzers):
   Werkbank/
     Regeln/werkbank.md                  Werkbank-Regel
     Rollen/Sparringpartner/             Sparringpartner (4 Dateien)
-    Workflows/FORMAT*.md                Workflow-Format (3 Dateien)
+    Workflows/FORMAT*.md                Workflow-Format (4 Dateien)
     Workflows/werkbank-update.md        Workflow Werkbank-Update
     protokolle/                         leer
   Quellen/unterlagen/ · Quellen/website/
@@ -267,7 +267,9 @@ SCHRITT 6 — KONTEXT.md ERSTELLEN
 Platzhalter in geschweiften Klammern durch die Felder ersetzen,
 leere durch „(noch zu schärfen)". `{Anrede}`: „du-Form" oder
 „Sie-Form". `{J}`: die Wortwahl, leer → „(noch zu schärfen —
-kommt über ‚Merk dir das')". `{K}`: leer → „(Noch keine Projekte.
+kommt über ‚Merk dir das')". `{Zone}`: IANA-Zeitzone
+(z. B. `Europe/Berlin`) aus Adresse, Impressum oder Gedächtnis;
+nichts gefunden → `Europe/Berlin`. Nicht fragen. `{K}`: leer → „(Noch keine Projekte.
 Projekte leben in `Projekte/`, jedes mit eigener KONTEXT.md.)";
 sonst „Laufende Vorhaben, noch ohne eigenen Ordner — werden
 Projekte, sobald daran gearbeitet wird: …" mit den Vorhaben als
@@ -374,7 +376,7 @@ Mit Tools prüfen, nicht aus dem Gedächtnis:
    Verzeichnisse und den End-Marker jeder Werkzeug-Datei.)
 3. Jede in Schritt 3 gelieferte Quelle liegt in `Quellen/`.
 4. KONTEXT.md ohne unersetzte Platzhalter. Suchmuster: `{A}`,
-   `{B}`, `{C}`, `{J}`, `{K}`, `{…}`, `{I`, `{Anrede}`, `{Variante`. Treffer →
+   `{B}`, `{C}`, `{J}`, `{K}`, `{Zone}`, `{…}`, `{I`, `{Anrede}`, `{Variante`. Treffer →
    nicht fertig. „(noch zu schärfen)" ist erlaubt.
 5. KONTEXT.md enthält `Verboten — Vermenschlichung`,
    `## Arbeitsmodus`, `Rolle MUSS aktiv sein`, den

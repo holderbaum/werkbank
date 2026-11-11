@@ -54,6 +54,8 @@ Der Inhalt liegt offen in [`werkbank/de/`](werkbank/de/) und [`werkbank/en/`](we
 - `lib/bekannt.json`, `lib/zeilen.json` — Prüfsummen aller je ausgelieferten Werkzeug-Dateien und ihrer Zeilen; daran erkennt das Update die installierte Version und eigene Zeilen des Nutzers. Nach jeder Änderung an einer Werkzeug-Datei: `node tools/bekannt-erzeugen.js`.
 - Release: Tag `vX.Y.Z` auf `main` → GitHub Action veröffentlicht per Trusted Publishing auf npm (`.github/workflows/release.yml`). Die Version in `package.json` muss zum Tag passen.
 
+Tests mit Agenten (Inhalt, Sperre, echter Lauf): [`test/agenten-tests.md`](test/agenten-tests.md).
+
 Änderungen je Version: [CHANGELOG.md](CHANGELOG.md).
 
 ## Lizenz
