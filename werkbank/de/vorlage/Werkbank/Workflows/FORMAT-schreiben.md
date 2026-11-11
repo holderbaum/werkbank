@@ -85,7 +85,7 @@ Alles, worauf sich ein Workflow stützt, ist sichtbar benannt.
 
 ## Größe
 
-Ein Workflow wird bei jedem Lauf geladen: höchstens 15.000 Zeichen (Werkbank-Regel →
+Ein Workflow wird bei jedem Lauf geladen: Richtwert 15.000 Zeichen (Werkbank-Regel →
 Kontext-Budget). Keine Änderungshistorie im Workflow; Lauf-Protokolle stehen in `lauf.md`.
 Seltene Teile (lange Checklisten, Beispiele) in eine Datei daneben, die ein Schritt bei Bedarf
 liest.

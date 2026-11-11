@@ -49,7 +49,7 @@ Everything in the workbench is agent territory. "Just do it" → done. "Explain 
 
 **Operational resources:** Every project CONTEXT.md has a section `## Operational resources` (table: resource, path/URL, purpose). New external resource → add it. Resource needed → look there first.
 
-**Tidying up and context budget:** Every line in CONTEXT.md is loaded in every session. When building, the limits from [[Workbench/Rules/workbench.md]] → Context budget apply: what would push a file over its limit is moved out instead of appended. "My CONTEXT.md is too big" or "tidy up the workbench" → `npx holderbaum-werkbank@latest check` measures; per file over its limit one proposal to move parts out, done after approval.
+**Tidying up and context budget:** Every line in CONTEXT.md is loaded in every session. When building, the guide values from [[Workbench/Rules/workbench.md]] → Context budget apply: what would push a new or extended file over its guide value is moved out instead of appended. Existing files are not flagged. "My CONTEXT.md is too big" or "tidy up the workbench" → `npx holderbaum-werkbank@latest check` measures; per file over its limit one proposal to move parts out, done after approval.
 
 ## Files from the user
 

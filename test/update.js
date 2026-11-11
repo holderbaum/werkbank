@@ -16,7 +16,7 @@ const ZIEL = 'v' + require('../package.json').version.split('.').slice(0, 2).joi
 
 // v2.1 und v2.3 sind von ihrer Vorversion nicht zu unterscheiden: gleiche Werkzeug-Dateien,
 // und ihre Bauanleitung schrieb die Vorversion in den Bootstrap-Block.
-const ERWARTET = { 'v2.1': 'v2.0', 'v2.3': 'v2.2' };
+const ERWARTET = { 'v2.1': 'v2.0', 'v2.3': 'v2.2', gewachsen: 'v3.2' };
 
 function kopie(von, nach) {
   fs.mkdirSync(nach, { recursive: true });
@@ -78,12 +78,17 @@ for (const name of fs.readdirSync(REF).sort()) {
   const lauf = path.join(tmp, s.prot, laeufe[0]);
   const anleitung = fs.readFileSync(path.join(lauf, 'UPDATE.md'), 'utf8');
   assert.ok(!/\{[A-Z_]+\}/.test(anleitung), t('Platzhalter in UPDATE.md'));
-  assert.match(anleitung, /10\. (Kein holderbaum\.io|No holderbaum\.io)/, t('Punkt 10 fehlt'));
-  if (version < 'v3.3') assert.match(anleitung, /PROJEKTANWEISUNG|PROJECT INSTRUCTIONS/, t('Projektanweisung fehlt'));
+  assert.match(anleitung, /10\. (Kein Verweis auf holderbaum\.io|No reference to holderbaum\.io)/, t('Punkt 10 fehlt'));
+  if (version < 'v3.3' || version === 'gewachsen') assert.match(anleitung, /PROJEKTANWEISUNG|PROJECT INSTRUCTIONS/, t('Projektanweisung fehlt'));
   else assert.doesNotMatch(anleitung, /PROJEKTANWEISUNG —|PROJECT INSTRUCTIONS —/, t('Projektanweisung unnötig'));
   assert.ok(alle(path.join(lauf, 'alt')).length >= 2, t('Sicherung fehlt'));
   assert.ok(fs.existsSync(path.join(lauf, sprache === 'en' ? 'context-template.md' : 'kontext-vorlage.md')));
-  assert.match(anleitung, /Original/i, t('Originale nicht erkannt'));
+  if (version === 'gewachsen') {
+    assert.match(anleitung, /MODUS: ERGÄNZEN/, t('Modus'));
+    assert.match(anleitung, /Keine Zeile für werkbank\.md/, t('eigenes Regelsystem'));
+    assert.ok(fs.existsSync(path.join(tmp, 'Werkbank/Regeln/regelsystem.md')), t('regelsystem.md'));
+    assert.ok(fs.existsSync(path.join(lauf, 'eigene-zeilen/Werkbank/Workflows/FORMAT.md')), t('eigene FORMAT-Zeilen'));
+  } else assert.match(anleitung, /Original/i, t('Originale nicht erkannt'));
 
   // Rückgängig in einer Kopie: Stand wie vorher (Lauf-Ordner bleibt)
   {
@@ -122,6 +127,34 @@ for (const name of fs.readdirSync(REF).sort()) {
   const eigen = fs.readFileSync(path.join(lauf, 'eigene-zeilen/Werkbank/Rollen/Sparringpartner/SYSTEM.md'), 'utf8');
   assert.match(eigen, /^\d+: EIGENE ERGÄNZUNG$/m);
   assert.strictEqual(eigen.trim().split('\n').length, 1, 'nur die eigene Zeile: ' + eigen);
+  fs.rmSync(tmp, { recursive: true, force: true });
+}
+
+// Gewachsene Werkbank: eigene Fassung bleibt, eigenes Regelsystem, große KONTEXT.md
+{
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'werkbank-update-gewachsen-'));
+  kopie(path.join(REF, 'de-v3.2'), tmp);
+  const sp = path.join(tmp, 'Werkbank/Rollen/Sparringpartner/SYSTEM.md');
+  const eigen = '# Sparringpartner\n\n' + Array.from({ length: 80 }, (_, i) => 'Eigene Regel Nummer ' + i + ' für diese Werkbank.').join('\n') + '\n';
+  fs.writeFileSync(sp, eigen);
+  fs.renameSync(path.join(tmp, 'Werkbank/Regeln/werkbank.md'), path.join(tmp, 'Werkbank/Regeln/regelsystem.md'));
+  fs.appendFileSync(path.join(tmp, 'KONTEXT.md'), '\n## Notizen\n\n' + 'x'.repeat(12000) + '\n');
+  const p = run(['update', '--pruefen'], tmp);
+  assert.match(p.stdout, /Eigene Fassungen, bleiben: Werkbank\/Rollen\/Sparringpartner\/SYSTEM\.md \(\d+ %\)/, p.stdout);
+  assert.match(p.stdout, /gewachsene Werkbank/);
+  const u = run(['update'], tmp);
+  assert.strictEqual(u.status, 0, u.stderr);
+  assert.strictEqual(fs.readFileSync(sp, 'utf8'), eigen, 'eigene Fassung überschrieben');
+  const lauf = path.join(tmp, 'Werkbank/protokolle', fs.readdirSync(path.join(tmp, 'Werkbank/protokolle')).find((x) => x.startsWith('werkbank-update')));
+  assert.ok(fs.existsSync(path.join(lauf, 'neu/Werkbank/Rollen/Sparringpartner/SYSTEM.md')));
+  const anl = fs.readFileSync(path.join(lauf, 'UPDATE.md'), 'utf8');
+  assert.match(anl, /MODUS: ERGÄNZEN/);
+  assert.match(anl, /Keine Zeile für werkbank\.md/);
+  assert.match(anl, /EIGENE FASSUNGEN/);
+  const pr = run(['pruefen'], tmp);
+  assert.strictEqual(pr.status, 0, pr.stderr);
+  assert.match(pr.stdout, /Eigene Fassungen \(bleiben\)/);
+  assert.match(run(['update'], tmp).stdout, /Auf dem aktuellen Stand/);
   fs.rmSync(tmp, { recursive: true, force: true });
 }
 

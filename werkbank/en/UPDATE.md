@@ -27,8 +27,6 @@ FINDINGS OF THE PACKAGE (for the agent, not for the chat)
 
 {BEFUND}
 
-{BUDGET}
-
 ================================================================
 STEP A — OWN CHANGES TO TOOL FILES
 ================================================================
@@ -42,6 +40,8 @@ but into `Workbench/Workflows/FORMAT-local.md` (create it with the heading
 ================================================================
 STEP B — BRING CONTEXT.md TO THE NEW STRUCTURE
 ================================================================
+
+{KONTEXT_MODUS}
 
 Without asking. Read CONTEXT.md and `context-template.md` (in this
 run folder) with the Read tool. Goal: the template's structure
@@ -63,8 +63,9 @@ Gets aligned (only what differs):
     previous address line (informal / formal). The user's previous
     lines (tone, avoid, own ones) go under "Further"; a duplicate
     address line goes.
- 4. Under "Further" the lines "Files from the user" and "Context
-    budget" from the template, if missing.
+ 4. Under "Further" the lines "Files from the user" and "Keep it
+    lean" from the template, if missing. The size of CONTEXT.md plays
+    no role in the update — don't trim, don't mention.
  5. "## Working mode" from the template; a section "## Role
     mandate" (or "## Rollenzwang") is replaced by it.
  6. Role index: Sparring Partner row as in the template.
@@ -73,7 +74,8 @@ Gets aligned (only what differs):
     table.
  8. "## Directory structure" matching the folders that exist.
  9. "## For agents" as in the template; own additions there stay.
-10. No holderbaum.io left in the file.
+10. No reference to holderbaum.io as the source for updates or the
+    build guide. Other mentions (website, mail, links) stay.
 11. Rule index: the workbench rule row as in the template; own
     triggers that were there in addition stay. Old terms ("task",
     "Aufgabe", "SOP") become "workflow".
@@ -121,8 +123,6 @@ Report to the user, three to five lines, everyday language:
 - That own rules, roles, workflows, projects and CONTEXT.md
   content are kept — and if own additions were carried over in
   step A, where they are now.
-- If the context budget shows an overrun: one sentence that "tidy
-  up the workbench" makes the file smaller.
 - "Undoing works any time: 'undo the update'." (Then: `npx
   holderbaum-werkbank@latest update --undo`.)
 

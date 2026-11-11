@@ -84,7 +84,7 @@ Everything a workflow relies on is named visibly.
 
 ## Size
 
-A workflow is loaded on every run: at most 15,000 characters (workbench rule → context budget). No
+A workflow is loaded on every run: guide value 15,000 characters (workbench rule → context budget). No
 change history in the workflow; run logs go into `run.md`. Rare parts (long checklists, examples)
 go into a file next to it that a step reads when needed.
 ===== HOLDERBAUM WERKSTATT · FILE FULLY LOADED =====

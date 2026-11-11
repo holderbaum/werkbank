@@ -31,3 +31,7 @@ Jede Version der Werkbank, die je über die Bauanleitung ausgeliefert wurde, als
 - v1.5 bis v2.3 haben `Werkbank/Aufgaben/` statt `Werkbank/Workflows/`.
 
 **Regeln:** Referenz-Werkbänke nie von Hand ändern. Neu erzeugen: `werkbaenke/` entfernen, dann `python3 test/referenz/bauen.py` aus der Repo-Wurzel, danach `node tools/bekannt-erzeugen.js`. Für einen Test immer kopieren. Mit jedem Release kommt die gerade abgelöste Version als neue Referenz dazu — ab v5.0 aus dem Paket selbst (`npx holderbaum-werkbank@<version>` in einen leeren Ordner, KONTEXT.md aus der Vorlage mit `duwat.json`).
+
+## Gewachsene Werkbank
+
+`werkbaenke/de-gewachsen/` (Generator `gewachsen.py`) bildet eine über Monate gewachsene Werkbank nach — Bauplan von Holderbaum Studios, Inhalte erfunden: eigenes `regelsystem.md` statt `werkbank.md`, Sparringpartner mit wenigen eigenen Zeilen, FORMAT.md als „Aufgaben-Format" mit eigenen Abschnitten und Historie, KONTEXT.md über dem Richtwert mit eigener Gliederung, viele eigene Regeln, Rollen, Workflows (einer über dem Richtwert), `tools/`, `lib/`, eigene `.claude/CLAUDE.md`. Das Update muss sie im Modus ERGÄNZEN behandeln. Keine ausgelieferte Fassung — fließt nicht in `lib/bekannt.json` ein.

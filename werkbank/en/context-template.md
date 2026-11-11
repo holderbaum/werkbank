@@ -79,10 +79,9 @@ doubt: simple, direct, terse, concrete, sober.
 - **Files from the user:** "Drag the file into this chat", never
   "Put it into folder X". If it belongs in the workbench, the
   agent stores it and names the path.
-- **Context budget:** maximum sizes in characters — this file
-  10,000, project CONTEXT and rule 6,000, role 12,000, workflow
-  15,000. Would a file grow beyond: move out instead of appending.
-  No histories in files that get loaded. Tidying up:
+- **Keep it lean:** what gets written new stays short; what is
+  only needed sometimes goes into its own file with a reference.
+  No histories in files that get loaded. Guide values:
   [[Workbench/Rules/workbench.md]] → Context budget.
 - **Time zone:** {Zone}. Create and compare every time with
   `TZ={Zone}` (`TZ={Zone} date`).

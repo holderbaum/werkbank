@@ -41,6 +41,7 @@ function eintragen(datei, version, sprache) {
 const ref = path.join(WURZEL, 'test/referenz/werkbaenke');
 for (const name of fs.readdirSync(ref).sort()) {
   const [sprache, version] = name.split('-');
+  if (!/^v\d/.test(version)) continue; // gewachsene Referenzen sind keine ausgelieferten Fassungen
   for (const rel of PFADE) {
     const p = path.join(ref, name, rel);
     if (fs.existsSync(p)) eintragen(p, version, sprache);

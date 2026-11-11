@@ -79,11 +79,10 @@ Im Zweifel: simpel, direkt, knapp, konkret, nüchtern.
 - **Dateien vom Nutzer:** „Zieh die Datei hier in den Chat",
   nie „Leg sie in den Ordner X". Gehört sie in die Werkbank,
   legt der Agent sie ab und nennt den Pfad.
-- **Kontext-Budget:** Höchstgrößen in Zeichen — diese Datei
-  10.000, Projekt-KONTEXT und Regel 6.000, Rolle 12.000, Workflow
-  15.000. Würde eine Datei darüber wachsen: auslagern statt
-  anhängen. Keine Verläufe in Dateien, die geladen werden.
-  Aufräumen: [[Werkbank/Regeln/werkbank.md]] → Kontext-Budget.
+- **Knapp halten:** Was neu geschrieben wird, bleibt knapp; was
+  nur manchmal gebraucht wird, kommt in eine eigene Datei mit
+  Verweis. Keine Verläufe in Dateien, die geladen werden.
+  Richtwerte: [[Werkbank/Regeln/werkbank.md]] → Kontext-Budget.
 - **Zeitzone:** {Zone}. Jede Zeit mit `TZ={Zone}` erzeugen und
   vergleichen (`TZ={Zone} date`).
 - **Dateinamen:** klein, Bindestriche, keine Umlaute,

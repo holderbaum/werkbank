@@ -125,10 +125,10 @@ When a trigger fires:
 
 Every file that gets loaded costs context and money in every
 session — CONTEXT.md always, roles whenever used, workflows on
-every run. Limits in characters (`wc -m`) for the user's files —
-the package's tool files are exempt:
+every run. Guide values in characters for **newly written or
+deliberately extended** files:
 
-| File | Limit |
+| File | Guide value |
 |---|---|
 | `CONTEXT.md` (root) | 10,000 |
 | Project `CONTEXT.md` | 6,000 |
@@ -136,22 +136,20 @@ the package's tool files are exempt:
 | Role (`SYSTEM.md`) | 12,000 |
 | Workflow | 15,000 |
 
-**Before every write** to one of these files: estimate the new
-size. Stays under the limit → write. Would go over → don't
-append, move content out and tell the user in one sentence where:
+**When writing:** if a new or extended file would grow beyond the
+guide value, move content out instead of appending — details only
+one project, role or workflow needs go there; rarely used parts go
+into a file next to it that is read only when needed. One sentence
+to the user on where. No histories, change logs or "as of …" notes
+in loaded files.
 
-- CONTEXT.md: details that only one project, role or workflow
-  needs move there; CONTEXT.md keeps one line with a reference.
-- Role or workflow: rarely used parts (examples, special cases,
-  reference lists) go into a file next to it that is only read
-  when needed — like the Sparring Partner.
-- Never in loaded files: histories, change logs, "as of …" notes.
-  They belong in `Workbench/logs/` or the project files.
-
-**Measure:** `npx holderbaum-werkbank@latest check` reports every
-file over its limit. If the user says "my CONTEXT.md is too big"
-or "tidy up the workbench": measure, one proposal per file over
-its limit, apply after approval.
+**Existing files are left alone.** Files already over the guide
+value are not flagged and not trimmed in passing — not by an update
+either. Shrinking happens only on request: if the user says "tidy up
+the workbench" or "my CONTEXT.md is too big",
+`npx holderbaum-werkbank@latest check` measures the sizes; per file
+over the guide value one proposal to move parts out, applied after
+approval.
 
 ## What's what — a quick distinction
 

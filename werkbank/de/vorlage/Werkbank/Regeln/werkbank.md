@@ -124,10 +124,10 @@ Wenn ein Trigger feuert:
 
 Jede Datei, die geladen wird, kostet in jeder Session Kontext und
 Geld — die KONTEXT.md immer, Rollen bei jedem Einsatz, Workflows
-bei jedem Lauf. Grenzen in Zeichen (`wc -m`) für die Dateien des
-Nutzers — die Werkzeug-Dateien des Pakets sind ausgenommen:
+bei jedem Lauf. Richtwerte in Zeichen für **neu geschriebene oder
+gezielt erweiterte** Dateien:
 
-| Datei | Grenze |
+| Datei | Richtwert |
 |---|---|
 | `KONTEXT.md` (Wurzel) | 10.000 |
 | Projekt-`KONTEXT.md` | 6.000 |
@@ -135,25 +135,20 @@ Nutzers — die Werkzeug-Dateien des Pakets sind ausgenommen:
 | Rolle (`SYSTEM.md`) | 12.000 |
 | Workflow | 15.000 |
 
-**Vor jedem Schreiben** in eine dieser Dateien: neue Größe
-abschätzen. Bleibt sie unter der Grenze → schreiben. Ginge sie
-darüber → nicht anhängen, sondern auslagern und dem Nutzer in
-einem Satz sagen, wohin:
+**Beim Schreiben:** Würde eine neue oder erweiterte Datei über den
+Richtwert wachsen, wird ausgelagert statt angehängt — Details, die
+nur ein Projekt, eine Rolle oder ein Workflow braucht, wandern
+dorthin; selten Gebrauchtes in eine Datei daneben, die nur bei
+Bedarf gelesen wird. Ein Satz an den Nutzer, wohin. Keine
+Verläufe, Änderungsprotokolle oder „Stand vom …"-Notizen in
+geladenen Dateien.
 
-- KONTEXT.md: Details, die nur ein Projekt, eine Rolle oder ein
-  Workflow braucht, wandern dorthin; in der KONTEXT.md bleibt
-  eine Zeile mit Verweis.
-- Rolle oder Workflow: selten gebrauchte Teile (Beispiele,
-  Sonderfälle, Referenzlisten) in eine Datei daneben, die nur bei
-  Bedarf gelesen wird — wie beim Sparringpartner.
-- Nie in geladene Dateien: Verläufe, Änderungsprotokolle,
-  „Stand vom …"-Notizen. Die gehören in `Werkbank/protokolle/`
-  oder die Projekt-Akte.
-
-**Messen:** `npx holderbaum-werkbank@latest pruefen` meldet jede
-Datei über ihrer Grenze. Sagt der Nutzer „meine KONTEXT.md ist
-zu groß" oder „Werkbank aufräumen": messen, je Datei über der
-Grenze einen Auslagerungsvorschlag machen, nach Freigabe
+**Bestand bleibt in Ruhe.** Dateien, die schon über dem Richtwert
+liegen, werden nicht angemahnt und nicht nebenbei gekürzt — auch
+nicht von einem Update. Verkleinert wird nur auf Wunsch: Sagt der
+Nutzer „Werkbank aufräumen" oder „meine KONTEXT.md ist zu groß",
+misst `npx holderbaum-werkbank@latest pruefen` die Größen; je
+Datei über dem Richtwert ein Auslagerungsvorschlag, nach Freigabe
 umsetzen.
 
 ## Was ist was — Kurzunterscheidung

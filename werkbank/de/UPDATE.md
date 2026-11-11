@@ -27,8 +27,6 @@ BEFUND DES PAKETS (für den Agenten, nicht für den Chat)
 
 {BEFUND}
 
-{BUDGET}
-
 ================================================================
 SCHRITT A — EIGENE ÄNDERUNGEN AN WERKZEUG-DATEIEN
 ================================================================
@@ -43,6 +41,8 @@ abdeckt, fällt weg.
 ================================================================
 SCHRITT B — KONTEXT.md AUF DIE NEUE STRUKTUR BRINGEN
 ================================================================
+
+{KONTEXT_MODUS}
 
 Ohne Rückfrage. KONTEXT.md und `kontext-vorlage.md` (in diesem
 Lauf-Ordner) mit dem Read-Tool lesen. Ziel: die Struktur der
@@ -65,7 +65,9 @@ Wird angeglichen (nur, was abweicht):
     bisherigen Zeilen des Nutzers (Tonalität, Vermeiden, eigene)
     kommen unter „Weitere"; doppelte Anrede-Zeile entfällt.
  4. Unter „Weitere" die Zeilen „Dateien vom Nutzer" und
-    „Kontext-Budget" der Vorlage, falls sie fehlen.
+    „Knapp halten" der Vorlage, falls sie fehlen. Die Größe der
+    KONTEXT.md spielt beim Update keine Rolle — nicht kürzen, nicht
+    erwähnen.
  5. „## Arbeitsmodus" aus der Vorlage; ein Abschnitt
     „## Rollenzwang" wird dadurch ersetzt.
  6. Rollen-Index: Sparringpartner-Zeile wie in der Vorlage.
@@ -75,7 +77,8 @@ Wird angeglichen (nur, was abweicht):
  8. „## Verzeichnisstruktur" passend zu den Ordnern, die es gibt.
  9. „## Für Agenten" wie in der Vorlage; eigene Ergänzungen dort
     bleiben.
-10. Kein holderbaum.io mehr in der Datei.
+10. Kein Verweis auf holderbaum.io als Quelle für Updates oder
+    Bauanleitung. Andere Erwähnungen (Website, Mail, Links) bleiben.
 11. Regel-Index: die Zeile der Werkbank-Regel wie in der Vorlage;
     eigene Trigger, die dort zusätzlich standen, bleiben. Alte
     Begriffe („Aufgabe", „SOP") werden zu „Workflow".
@@ -124,8 +127,6 @@ Bericht an den Nutzer, drei bis fünf Zeilen, Alltagssprache:
 - Dass eigene Regeln, Rollen, Workflows, Projekte und Inhalte der
   KONTEXT.md erhalten sind — und falls in Schritt A eigene
   Ergänzungen übernommen wurden, wo sie jetzt stehen.
-- Steht beim Kontext-Budget eine Überschreitung: ein Satz,
-  dass „Werkbank aufräumen" die Datei verkleinert.
 - „Rückgängig machen geht jederzeit: 'Update rückgängig
   machen'." (Dann: `npx holderbaum-werkbank@latest update
   --rueckgaengig`.)

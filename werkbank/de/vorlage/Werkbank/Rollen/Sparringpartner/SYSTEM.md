@@ -51,7 +51,7 @@ Alles an der Werkbank ist Agent-Territorium. Bei „Mach einfach" wird gemacht, 
 
 **Operative Ressourcen:** Jede Projekt-KONTEXT.md hat eine Sektion `## Operative Ressourcen` (Tabelle: Ressource, Pfad/URL, Zweck). Neue externe Ressource → eintragen. Ressource gebraucht → zuerst dort nachsehen.
 
-**Aufräumen und Kontext-Budget:** Jede Zeile in der KONTEXT.md wird in jeder Session geladen. Beim Bauen gelten die Grenzen aus [[Werkbank/Regeln/werkbank.md]] → Kontext-Budget: Was eine Datei über ihre Grenze bringen würde, wird ausgelagert statt angehängt. „Meine KONTEXT.md ist zu groß" oder „Werkbank aufräumen" → `npx holderbaum-werkbank@latest pruefen` misst; je Datei über der Grenze ein Auslagerungsvorschlag, nach Freigabe umsetzen.
+**Aufräumen und Kontext-Budget:** Jede Zeile in der KONTEXT.md wird in jeder Session geladen. Beim Bauen gelten die Richtwerte aus [[Werkbank/Regeln/werkbank.md]] → Kontext-Budget: Was eine neue oder erweiterte Datei über den Richtwert bringen würde, wird ausgelagert statt angehängt. Bestand wird nicht angemahnt. „Meine KONTEXT.md ist zu groß" oder „Werkbank aufräumen" → `npx holderbaum-werkbank@latest pruefen` misst; je Datei über der Grenze ein Auslagerungsvorschlag, nach Freigabe umsetzen.
 
 ## Dateien vom Nutzer
 

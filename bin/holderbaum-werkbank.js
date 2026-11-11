@@ -95,8 +95,8 @@ const vorlage = (sprache) => path.join(INHALT, sprache, 'vorlage');
 const werkzeuge = (sprache) => dateien(vorlage(sprache));
 
 function vollstaendig(text) {
-  const zeilen = text.split('\n').map((z) => z.trim()).filter(Boolean);
-  return zeilen.length > 10 && MARKER.includes(zeilen[zeilen.length - 1]) &&
+  const zeilen = text.split('\n').map((z) => z.trim().replace(/^<!-- (.*) -->$/, '$1')).filter(Boolean);
+  return zeilen.length > 8 && MARKER.includes(zeilen[zeilen.length - 1]) &&
     zeilen.slice(0, 8).some((z) => z.includes('HOLDERBAUM-WERKSTATT ·') && z.includes(VERSION));
 }
 
@@ -122,6 +122,21 @@ function vkleiner(a, b) {
   return x[0] < y[0] || (x[0] === y[0] && x[1] < y[1]);
 }
 
+// Anteil eigener Zeilen: Zeilen, die in keiner je ausgelieferten Fassung stehen.
+function eigenAnteil(text) {
+  const zeilen = norm(text).split('\n').filter((z) => z.trim());
+  if (!zeilen.length) return 0;
+  return zeilen.filter((z) => !ZEILEN.has(zeilenSumme(z))).length / zeilen.length;
+}
+// Eine Werkzeug-Datei, die überwiegend selbst geschrieben ist, gilt als eigene Fassung und wird
+// nicht ersetzt. FORMAT-Dateien sind ausgenommen: Eigenes daraus gehört nach FORMAT-lokal.md.
+const EIGENE_FASSUNG = 0.5;
+const istFormat = (rel) => /\/Workflows\/FORMAT[^/]*\.md$/.test(rel);
+function eigeneFassung(ziel, rel) {
+  const p = path.join(ziel, rel);
+  return ex(p) && !istFormat(rel) && !vollstaendig(lies(p)) && eigenAnteil(lies(p)) > EIGENE_FASSUNG;
+}
+
 // ---------------------------------------------------------------- pruefen
 
 function pruefeWerkbank(ziel, sprache) {
@@ -129,6 +144,7 @@ function pruefeWerkbank(ziel, sprache) {
   const fehler = [];
   for (const rel of werkzeuge(sprache)) {
     const p = path.join(ziel, rel);
+    if (eigeneFassung(ziel, rel)) continue;
     if (!ex(p)) fehler.push(rel + ': fehlt');
     else if (!vollstaendig(lies(p))) fehler.push(rel + ': unvollständig oder nicht ' + VERSION);
   }
@@ -159,8 +175,8 @@ function budget(ziel, sprache) {
 }
 
 function budgetText(ueber, sprache) {
-  if (!ueber.length) return sprache === 'en' ? 'Context budget: all files within limits.' : 'Kontext-Budget: alle Dateien in der Grenze.';
-  return (sprache === 'en' ? 'Context budget exceeded (characters / limit):\n' : 'Kontext-Budget überschritten (Zeichen / Grenze):\n') +
+  if (!ueber.length) return sprache === 'en' ? 'Context budget: all files within the guide values.' : 'Kontext-Budget: alle Dateien im Richtwert.';
+  return (sprache === 'en' ? 'Over the guide value (for information, characters / guide value):\n' : 'Über dem Richtwert (zur Information, Zeichen / Richtwert):\n') +
     ueber.map((x) => '  ' + x.rel + ': ' + x.n + ' / ' + x.grenze).join('\n');
 }
 
@@ -170,6 +186,8 @@ function befehlPruefen(args) {
   const fehler = pruefeWerkbank(ziel, sprache);
   if (fehler.length) abbruch('Werkzeuge nicht vollständig:\n  ' + fehler.join('\n  '));
   aus((sprache === 'en' ? 'Tools complete (' : 'Werkzeuge vollständig (') + VERSION + ', ' + werkzeuge(sprache).length + ')');
+  const eigen = werkzeuge(sprache).filter((rel) => eigeneFassung(ziel, rel));
+  if (eigen.length) aus((sprache === 'en' ? 'Own versions (kept): ' : 'Eigene Fassungen (bleiben): ') + eigen.join(', '));
   aus(budgetText(budget(ziel, sprache), sprache));
 }
 
@@ -278,11 +296,16 @@ function befund(ziel, args) {
   if (sprache === 'en' && ex(path.join(ziel, 'Werkbank'))) umzug = UMZUG_EN;
   else if (ex(path.join(ziel, 'Werkbank/Aufgaben'))) umzug = UMZUG_AUFGABEN;
 
+  const eigen = werkzeuge(sprache).filter((rel) => eigeneFassung(ziel, rel));
+  for (const g of gefunden) if (eigen.includes(g.rel)) g.eigen = Math.round(eigenAnteil(lies(path.join(ziel, g.rel))) * 100);
   const aktuell = umzug.length === 0 && werkzeuge(sprache).every((rel) => {
     const p = path.join(ziel, rel);
-    return ex(p) && norm(lies(p)) === norm(lies(path.join(vorlage(sprache), rel)));
+    return eigen.includes(rel) || (ex(p) && norm(lies(p)) === norm(lies(path.join(vorlage(sprache), rel))));
   });
-  return { ziel, kontextName, version, herkunft, sprache, gefunden, umzug, aktuell };
+  // Gewachsene Werkbank: KONTEXT nur ergänzen, nicht umbauen.
+  const regel = sprache === 'en' ? 'Workbench/Rules/workbench.md' : 'Werkbank/Regeln/werkbank.md';
+  const gewachsen = [...kontext].length > BUDGET.kontext || eigen.length > 0 || !ex(path.join(ziel, regel));
+  return { ziel, kontextName, version, herkunft, sprache, gefunden, umzug, aktuell, eigen, gewachsen, regelFehlt: !ex(path.join(ziel, regel)) };
 }
 
 function befundText(b) {
@@ -298,10 +321,14 @@ function befundText(b) {
     (en ? ' (determined from ' : ' (bestimmt über ') + herkunft + ')');
   z.push((en ? 'New version: ' : 'Neue Version: ') + VERSION + ' (holderbaum-werkbank ' + PKG.version + ', ' + b.sprache + ')');
   const geaendert = b.gefunden.filter((g) => g.geaendert);
-  if (geaendert.length) z.push((en ? 'Tool files with own changes: ' : 'Werkzeug-Dateien mit eigenen Änderungen: ') + geaendert.map((g) => g.rel).join(', '));
+  const angepasst = geaendert.filter((g) => !g.eigen);
+  if (angepasst.length) z.push((en ? 'Tool files with own changes: ' : 'Werkzeug-Dateien mit eigenen Änderungen: ') + angepasst.map((g) => g.rel).join(', '));
+  const eigen = geaendert.filter((g) => g.eigen);
+  if (eigen.length) z.push((en ? 'Own versions, kept: ' : 'Eigene Fassungen, bleiben: ') + eigen.map((g) => g.rel + ' (' + g.eigen + ' %)').join(', '));
+  if (b.gewachsen) z.push(en ? 'CONTEXT.md: grown workbench — only add, don\'t restructure' : 'KONTEXT.md: gewachsene Werkbank — nur ergänzen, nicht umbauen');
   if (b.umzug === UMZUG_EN) z.push((en ? 'Structure move: ' : 'Struktur-Umzug: ') + 'Werkbank/ → Workbench/, Projekte/ → Projects/, KONTEXT.md → CONTEXT.md');
   if (b.umzug === UMZUG_AUFGABEN) z.push('Struktur-Umzug: Werkbank/Aufgaben/ → Werkbank/Workflows/');
-  z.push((en ? 'Replaced or new: ' : 'Ersetzt bzw. neu: ') + werkzeuge(b.sprache).join(', '));
+  z.push((en ? 'Replaced or new: ' : 'Ersetzt bzw. neu: ') + werkzeuge(b.sprache).filter((r) => !b.eigen.includes(r)).join(', '));
   z.push((en ? 'Backup of the old tool files: ' : 'Sicherung der alten Werkzeug-Dateien: ') + s.protokolle + '/' + s.update + '-' + (en ? '<timestamp>' : '<Zeitstempel>') + '/alt/');
   return z.join('\n');
 }
@@ -357,13 +384,15 @@ function befehlRueckgaengig(args) {
   laeufe.sort((a, b) => path.basename(a).localeCompare(path.basename(b)));
   const lauf = laeufe[laeufe.length - 1];
   const alt = path.join(ziel, lauf, 'alt');
-  const vorher = new Set(dateien(alt));
+  const gesichert = new Set(dateien(alt));
+  const liste = path.join(ziel, lauf, 'vorher.txt');
+  const vorher = ex(liste) ? new Set(lies(liste).split('\n').filter(Boolean)) : gesichert;
   const nichtGeloescht = [];
   for (const rel of sicherbar(ziel)) {
     if (vorher.has(rel)) continue;
     try { fs.unlinkSync(path.join(ziel, rel)); } catch (e) { nichtGeloescht.push(rel); }
   }
-  for (const rel of vorher) {
+  for (const rel of gesichert) {
     fs.mkdirSync(path.dirname(path.join(ziel, rel)), { recursive: true });
     fs.copyFileSync(path.join(alt, rel), path.join(ziel, rel));
   }
@@ -378,9 +407,9 @@ function befehlRueckgaengig(args) {
     }
   };
   ordner(ziel);
-  schreibe(path.join(ziel, lauf, 'rueckgaengig.md'), '# ' + zeitstempel() + '\n\n' + vorher.size + ' Dateien zurückgeholt.\n' +
+  schreibe(path.join(ziel, lauf, 'rueckgaengig.md'), '# ' + zeitstempel() + '\n\n' + gesichert.size + ' Dateien zurückgeholt.\n' +
     (nichtGeloescht.length ? 'Nicht gelöscht: ' + nichtGeloescht.join(', ') + '\n' : ''));
-  aus((en ? 'Update undone: ' : 'Update rückgängig gemacht: ') + vorher.size + (en ? ' files restored from ' : ' Dateien zurückgeholt aus ') + lauf + '/alt/.');
+  aus((en ? 'Update undone: ' : 'Update rückgängig gemacht: ') + gesichert.size + (en ? ' files restored from ' : ' Dateien zurückgeholt aus ') + lauf + '/alt/.');
   if (nichtGeloescht.length) {
     aus((en ? 'Could not delete (no permission) — remove by hand: ' : 'Nicht löschbar (keine Berechtigung) — von Hand entfernen: ') + nichtGeloescht.join(', '));
   }
@@ -408,14 +437,19 @@ function befehlUpdate(args) {
   const lauf = path.join(ziel, laufRel);
 
   // 1. Sicherung aller vorhandenen Werkzeug-Dateien.
-  // Vollständiger Stand vor dem Update (ohne Lauf-Ordner und Quellen) — Grundlage für --rueckgaengig.
-  for (const rel of sicherbar(ziel)) {
+  // Grundlage für --rueckgaengig: Liste aller Dateien vorher (vorher.txt) und Kopien dessen, was das
+  // Update anfasst — Werkzeuge und KONTEXT; bei einem Struktur-Umzug alle Dateien (alte, kleine Werkbänke).
+  const vorherListe = sicherbar(ziel);
+  schreibe(path.join(lauf, 'vorher.txt'), vorherListe.join('\n') + '\n');
+  const zuSichern = b.umzug.length ? vorherListe
+    : [...new Set([...b.gefunden.map((g) => g.rel), b.kontextName, ...werkzeuge(b.sprache)])].filter((r) => ex(path.join(ziel, r)));
+  for (const rel of zuSichern) {
     fs.mkdirSync(path.dirname(path.join(lauf, 'alt', rel)), { recursive: true });
     fs.copyFileSync(path.join(ziel, rel), path.join(lauf, 'alt', rel));
   }
   // Eigene Zeilen in veränderten Werkzeug-Dateien: alles, was in keiner ausgelieferten Fassung steht.
   const eigeneZeilen = [];
-  for (const g of b.gefunden.filter((x) => x.geaendert)) {
+  for (const g of b.gefunden.filter((x) => x.geaendert && !x.eigen)) {
     const zeilen = norm(lies(path.join(ziel, g.rel))).split('\n');
     const eigen = zeilen.map((z, i) => [i + 1, z]).filter(([, z]) => z.trim() && !ZEILEN.has(zeilenSumme(z)));
     if (!eigen.length) continue;
@@ -443,19 +477,25 @@ function befehlUpdate(args) {
 
   // 3. Verzeichnisse und Werkzeuge.
   for (const d of [s.regeln, s.rollen, s.workflows, s.protokolle, s.projekte]) fs.mkdirSync(path.join(ziel, d), { recursive: true });
-  for (const rel of werkzeuge(b.sprache)) schreibe(path.join(ziel, rel), lies(path.join(vorlage(b.sprache), rel)));
+  for (const rel of werkzeuge(b.sprache)) {
+    const neu = lies(path.join(vorlage(b.sprache), rel));
+    if (b.eigen.includes(rel)) schreibe(path.join(lauf, 'neu', rel), neu); // nur zur Ansicht
+    else schreibe(path.join(ziel, rel), neu);
+  }
   const fehler = pruefeWerkbank(ziel, b.sprache);
   if (fehler.length) abbruch('Nach dem Einspielen unvollständig:\n  ' + fehler.join('\n  ') + '\nSicherung: ' + laufRel + '/alt/');
 
   // 4. Anleitung für den Agenten im Lauf-Ordner.
   fs.copyFileSync(path.join(INHALT, b.sprache, s.vorlage), path.join(lauf, s.vorlage));
-  const geaendert = b.gefunden.filter((g) => g.geaendert).map((g) => g.rel);
+  const geaendert = b.gefunden.filter((g) => g.geaendert && !g.eigen).map((g) => g.rel);
+  const eigenTxt = b.eigen.length ? t.eigen(b.eigen, laufRel) + '\n\n' : '';
   let befundTxt = befundText(b).replace(/<Zeitstempel>|<timestamp>/, stempel);
   if (b.umzug.length) befundTxt += '\n' + t.umgeschrieben(umgeschrieben);
   if (konflikte.length) befundTxt += '\n' + t.konflikte + konflikte.join(', ');
   schreibe(path.join(lauf, 'UPDATE.md'), lies(path.join(INHALT, b.sprache, 'UPDATE.md'))
     .replace('{BEFUND}', befundTxt)
-    .replace('{GEAENDERT}', geaendert.length ? t.geaendert(geaendert, laufRel, eigeneZeilen) : t.nichtGeaendert)
+    .replace('{GEAENDERT}', eigenTxt + (geaendert.length ? t.geaendert(geaendert, laufRel, eigeneZeilen) : t.nichtGeaendert))
+    .replace('{KONTEXT_MODUS}', b.gewachsen ? t.gewachsen(b.regelFehlt) : t.normal)
     .replace('{UMZUG_HINWEIS}', b.umzug.length ? t.umzugHinweis : '')
     .replace('{ANWEISUNGEN}', t.anweisungen(b.version))
     .replace('{BUDGET}', budgetText(budget(ziel, b.sprache), b.sprache)));
@@ -491,6 +531,18 @@ const TEXTE = {
     nurGeprueft: 'Geprüft, nichts geändert. Einspielen: npx holderbaum-werkbank@latest update',
     konflikte: 'Nicht verschoben, Ziel existiert schon: ',
     umgeschrieben: (n) => 'Verweise auf neue Pfade umgeschrieben in ' + n + ' Dateien.',
+    eigen: (liste, lauf) => 'EIGENE FASSUNGEN — diese Werkzeug-Dateien sind überwiegend selbst geschrieben und\n' +
+      'wurden NICHT ersetzt:\n\n' + liste.map((r) => '  - ' + r).join('\n') + '\n\n' +
+      'Die neue Produktfassung liegt nur zur Ansicht unter ' + lauf + '/neu/. Nichts tun;\n' +
+      'im Bericht ein Satz: „Dein eigener … bleibt, wie er ist."',
+    gewachsen: (regelFehlt) => 'MODUS: ERGÄNZEN. Diese Werkbank ist gewachsen (große KONTEXT.md, eigene Fassungen\n' +
+      'oder eigenes Regelsystem). Die KONTEXT.md wird NICHT auf die Vorlage umgebaut. Nur die Punkte\n' +
+      '1, 4, 7, 10 und 16 unten werden angewandt — jeweils als Einfügung an passender Stelle, ohne\n' +
+      'eigene Abschnitte zu verschieben, zusammenzufassen oder umzuformulieren. Alle anderen Punkte\n' +
+      'entfallen, auch wenn die KONTEXT.md von der Vorlage abweicht.' +
+      (regelFehlt ? '\nDie Werkbank hat eine eigene Regel für „Merk dir das" / „Regel erstellen" statt\n' +
+        'werkbank.md: Die bleibt zuständig. Keine Zeile für werkbank.md in den Regel-Index.' : ''),
+    normal: 'MODUS: ANGLEICHEN. Die Punkte unten gelten vollständig.',
     nichtGeaendert: 'Keine eigenen Änderungen gefunden — alle Werkzeug-Dateien waren Originale.\nWeiter mit Schritt B.',
     geaendert: (liste, lauf, eigen) => 'Diese Werkzeug-Dateien weichen von jeder ausgelieferten Fassung ab —\n' +
       'der Nutzer hat sie angepasst (alte Fassung in ' + lauf + '/alt/):\n\n' +
@@ -509,9 +561,12 @@ const TEXTE = {
     anweisungen: (v) => {
       const teile = [];
       if (v === 'unbekannt' || vkleiner(v, 'v3.3')) {
-        teile.push('PROJEKTANWEISUNG — die Fassung dieser Werkbank ist veraltet. Dem Nutzer\n' +
-          'diesen Block zeigen (verbatim, als Markdown-Codeblock):\n\n' + PROJEKTANWEISUNG.de +
-          '\nWeg: Seitenleiste des Projekts → Anweisungen → bisherigen Text durch den\nBlock ersetzen → speichern. Bestätigung abwarten.');
+        teile.push('PROJEKTANWEISUNG — ältere Werkbänke haben eine ältere Fassung. Die Projektanweisung\n' +
+          'dieses Projekts steht in deinem Kontext. Enthält sie den Kern (die KONTEXT.md jedes verbundenen\n' +
+          'Ordners lesen und ihr folgen; `date` aufrufen): nichts tun, nichts erwähnen. Fehlt etwas: nur das\n' +
+          'Fehlende als Ergänzung zeigen — eigene Zusätze des Nutzers bleiben, nie den ganzen Text ersetzen.\n' +
+          'Gibt es gar keine Projektanweisung, diesen Block zeigen (verbatim, Markdown-Codeblock):\n\n' + PROJEKTANWEISUNG.de +
+          '\nWeg: Seitenleiste des Projekts → Anweisungen. Bestätigung abwarten.');
       }
       return teile.length ? teile.join('\n\n') : 'Nichts. Projektanweisung und About Me bleiben, wie sie sind.';
     },
@@ -522,6 +577,17 @@ const TEXTE = {
     nurGeprueft: 'Checked, nothing changed. Apply: npx holderbaum-werkbank@latest update',
     konflikte: 'Not moved, target already exists: ',
     umgeschrieben: (n) => 'References rewritten to the new paths in ' + n + ' files.',
+    eigen: (liste, lauf) => 'OWN VERSIONS — these tool files are mostly self-written and were NOT\n' +
+      'replaced:\n\n' + liste.map((r) => '  - ' + r).join('\n') + '\n\n' +
+      'The new product version is only in ' + lauf + '/neu/ for reference. Do nothing;\n' +
+      'one sentence in the report: "Your own … stays as it is."',
+    gewachsen: (regelFehlt) => 'MODE: ADD. This workbench has grown (large CONTEXT.md, own versions or own\n' +
+      'rule system). CONTEXT.md is NOT restructured to the template. Only points 1, 4, 7, 10 and 16\n' +
+      'below apply — each as an insertion in a fitting place, without moving, merging or rewording\n' +
+      'own sections. All other points are dropped, even if CONTEXT.md differs from the template.' +
+      (regelFehlt ? '\nThe workbench has its own rule for "remember this" / "create a rule" instead of\n' +
+        'workbench.md: it stays in charge. No row for workbench.md in the rule index.' : ''),
+    normal: 'MODE: ALIGN. The points below apply in full.',
     nichtGeaendert: 'No own changes found — all tool files were originals.\nContinue with step B.',
     geaendert: (liste, lauf, eigen) => 'These tool files differ from every shipped version — the user\n' +
       'adapted them (old version in ' + lauf + '/alt/):\n\n' +
@@ -540,9 +606,13 @@ const TEXTE = {
     anweisungen: (v) => {
       const teile = [];
       if (v === 'unbekannt' || vkleiner(v, 'v3.3')) {
-        teile.push('PROJECT INSTRUCTIONS — this workbench uses an outdated version. Show the\n' +
-          'user this block (verbatim, as a Markdown code block):\n\n' + PROJEKTANWEISUNG.en +
-          '\nPath: project sidebar → Instructions → replace the existing text with the\nblock → save. Wait for confirmation.');
+        teile.push('PROJECT INSTRUCTIONS — older workbenches have an older version. This project\'s\n' +
+          'instructions are in your context. If they contain the core (read the CONTEXT.md of every\n' +
+          'connected folder and follow it; run `date`): do nothing, mention nothing. If something is\n' +
+          'missing: show only what is missing as an addition — the user\'s own additions stay, never\n' +
+          'replace the whole text. If there are no project instructions at all, show this block\n' +
+          '(verbatim, Markdown code block):\n\n' + PROJEKTANWEISUNG.en +
+          '\nPath: project sidebar → Instructions. Wait for confirmation.');
       }
       return teile.length ? teile.join('\n\n') : 'Nothing. Project instructions and About Me stay as they are.';
     },
