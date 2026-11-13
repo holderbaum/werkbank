@@ -1,9 +1,13 @@
 name: release
+# Ausgeloest durch eine neue Version in package.json auf main.
+# Existiert die Version auf npm schon, passiert nichts.
 on:
   push:
-    tags: ['v*']
+    branches: [main]
+    paths: ['package.json']
+  workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
   id-token: write
 jobs:
   publish:
@@ -16,18 +20,30 @@ jobs:
           registry-url: https://registry.npmjs.org
       - name: npm-CLI mit Trusted Publishing (>= 11.5.1)
         run: npm install -g npm@latest && npm --version
-      - name: Tag passt zur Paketversion
+      - name: Version schon veroeffentlicht?
+        id: v
         run: |
-          V="v$(node -p "require('./package.json').version")"
-          if [ "$V" != "$GITHUB_REF_NAME" ]; then echo "Tag $GITHUB_REF_NAME != package.json $V"; exit 1; fi
-      - run: npm test
-      # Veroeffentlicht per Trusted Publishing (OIDC), kein Token im Repo.
-      # Vorabfassung (Version mit Bindestrich, z. B. 5.0.0-rc.1) → dist-tag next,
-      # sonst latest. Getestet wird mit npx holderbaum-werkbank@next.
+          V="$(node -p "require('./package.json').version")"
+          echo "version=$V" >> "$GITHUB_OUTPUT"
+          if npm view "holderbaum-werkbank@$V" version 2>/dev/null | grep -q .; then
+            echo "neu=nein" >> "$GITHUB_OUTPUT"; echo "$V ist schon auf npm."
+          else
+            echo "neu=ja" >> "$GITHUB_OUTPUT"
+          fi
+      - if: steps.v.outputs.neu == 'ja'
+        run: npm test
+      # Trusted Publishing (OIDC), kein Token im Repo.
+      # Vorabfassung (Version mit Bindestrich, z. B. 5.0.0-rc.1) -> dist-tag next, sonst latest.
       - name: Veroeffentlichen
+        if: steps.v.outputs.neu == 'ja'
         run: |
-          if node -p "require('./package.json').version" | grep -q -- -; then
+          if echo "${{ steps.v.outputs.version }}" | grep -q -- -; then
             npm publish --provenance --access public --tag next
           else
             npm publish --provenance --access public
           fi
+      - name: Git-Tag setzen
+        if: steps.v.outputs.neu == 'ja'
+        run: |
+          git tag "v${{ steps.v.outputs.version }}"
+          git push origin "v${{ steps.v.outputs.version }}"

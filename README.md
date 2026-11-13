@@ -52,7 +52,7 @@ Der Inhalt liegt offen in [`werkbank/de/`](werkbank/de/) und [`werkbank/en/`](we
 - `npm test` — Einrichtung (de, en), Update gegen jede Referenz-Werkbank, Prüfsummen-Liste aktuell.
 - `test/referenz/` — Referenz-Werkbänke aller Versionen im Feld und ihre Quellen, siehe [`test/referenz/README.md`](test/referenz/README.md).
 - `lib/bekannt.json`, `lib/zeilen.json` — Prüfsummen aller je ausgelieferten Werkzeug-Dateien und ihrer Zeilen; daran erkennt das Update die installierte Version und eigene Zeilen des Nutzers. Nach jeder Änderung an einer Werkzeug-Datei: `node tools/bekannt-erzeugen.js`.
-- Release: Tag `vX.Y.Z` auf `main` → GitHub Action veröffentlicht per Trusted Publishing auf npm (`.github/workflows/release.yml`). Die Version in `package.json` muss zum Tag passen.
+- Release: neue Version in `package.json` auf `main` → GitHub Action prüft, ob es die Version auf npm schon gibt, testet, veröffentlicht per Trusted Publishing (Vorabfassung mit Bindestrich → `next`, sonst `latest`) und setzt den Tag `vX.Y.Z` (`.github/workflows/release.yml`).
 
 Tests mit Agenten (Inhalt, Sperre, echter Lauf): [`test/agenten-tests.md`](test/agenten-tests.md).
 

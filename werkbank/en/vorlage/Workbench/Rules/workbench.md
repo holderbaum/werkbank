@@ -119,6 +119,16 @@ When a trigger fires:
    rule, role, or workflow is created: update the index in CONTEXT.md
    — without an index entry, no agent will find it.
 
+**Storage: the workbench only.** Learnings, style preferences and
+procedures never go into a skill, the app's memory, or only into
+the prompt of a scheduled task — not even when the platform offers
+"save as skill?" or a style profile. No other agent sees them
+there, and no update can reach them.
+
+**Scheduled tasks contain references only.** The prompt names
+which workflow runs in which workbench, nothing else. Every line
+that is not a reference moves into the workflow.
+
 ---
 
 ## Context budget

@@ -118,6 +118,16 @@ Wenn ein Trigger feuert:
    Regel, Rolle oder ein neuer Workflow entsteht: Index in KONTEXT.md
    aktualisieren — ohne Index-Eintrag findet kein Agent sie.
 
+**Ablageort: nur die Werkbank.** Learnings, Stilvorgaben und
+Abläufe landen nie als Skill, nie im Gedächtnis der App und nie
+allein im Prompt einer geplanten Aufgabe — auch nicht, wenn die
+Plattform „als Skill sichern?" oder ein Stilprofil anbietet. Dort
+sieht sie kein anderer Agent, und kein Update kommt an sie heran.
+
+**Geplante Aufgaben enthalten nur Verweise.** Der Prompt sagt,
+welcher Workflow in welcher Werkbank läuft, sonst nichts. Jede
+Zeile, die kein Verweis ist, wandert in den Workflow.
+
 ---
 
 ## Kontext-Budget
