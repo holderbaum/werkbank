@@ -23,7 +23,7 @@ Er fragt das Paket, ob es eine neuere Version gibt, und fragt dich einmal, ob er
 
 ## Bevor es losgeht
 
-- Terminal im Wurzelverzeichnis dieser Werkbank (dort, wo die KONTEXT.md liegt). Cowork startet im Sandbox-Verzeichnis: vorher mit `cd` in den verbundenen Ordner.
+- Das Paket findet die Werkbank unter den verbundenen Ordnern selbst. Nennt es mehrere, den Nutzer fragen, welche gemeint ist, und mit `--dir <Pfad>` erneut starten.
 - Schlägt ein Befehl fehl: in einem Satz sagen, dass das Update gerade nicht geht, Fehlermeldung darunter. Nichts von Hand nachbauen.
 
 ## Zonen

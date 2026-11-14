@@ -23,7 +23,7 @@ It asks the package whether there is a newer version and asks you once whether t
 
 ## Before it starts
 
-- Terminal in the root directory of this workbench (where CONTEXT.md is). Cowork starts in the sandbox directory: `cd` into the connected folder first.
+- The package finds the workbench among the connected folders by itself. If it lists several, ask the user which one is meant and run again with `--dir <path>`.
 - If a command fails: say in one sentence that the update doesn't work right now, error message below. Rebuild nothing by hand.
 
 ## Zones

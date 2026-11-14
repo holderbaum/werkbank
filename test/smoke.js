@@ -7,7 +7,8 @@ const path = require('path');
 const assert = require('assert');
 
 const bin = path.join(__dirname, '..', 'bin', 'holderbaum-werkbank.js');
-const run = (args, cwd) => spawnSync('node', [bin, ...args], { cwd, encoding: 'utf8' });
+const HOME_LEER = fs.mkdtempSync(path.join(os.tmpdir(), 'werkbank-home-')); // Suche findet nie echte Werkbänke
+const run = (args, cwd) => spawnSync('node', [bin, ...args], { cwd, encoding: 'utf8', env: { ...process.env, HOME: HOME_LEER } });
 
 for (const [sprache, args, kontext, pfade] of [
   ['de', [], 'KONTEXT.md', ['Werkbank/Regeln/werkbank.md', 'Werkbank/Rollen/Sparringpartner/SYSTEM.md',

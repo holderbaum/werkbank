@@ -100,16 +100,63 @@ function vollstaendig(text) {
     zeilen.slice(0, 8).some((z) => z.includes('HOLDERBAUM-WERKSTATT ·') && z.includes(VERSION));
 }
 
-function zielordner(args) {
-  const i = args.indexOf('--dir');
-  const ziel = path.resolve(i >= 0 && args[i + 1] ? args[i + 1] : process.cwd());
-  // Cowork startet Terminal-Befehle im Sandbox-Home, nicht im Ordner des Nutzers.
-  if (/^\/sessions\/[^/]+\/?$/.test(ziel)) {
-    abbruch('Falscher Ordner: ' + ziel + ' ist das Sandbox-Verzeichnis, nicht der Ordner des Nutzers.\n' +
-      'Mit cd in den verbundenen Ordner wechseln (unter ' + ziel.replace(/\/$/, '') + '/mnt/…) und erneut starten.');
+const istWerkbank = (d) => (ex(path.join(d, 'KONTEXT.md')) || ex(path.join(d, 'CONTEXT.md'))) &&
+  (ex(path.join(d, 'Werkbank')) || ex(path.join(d, 'Workbench')));
+
+// Cowork startet Terminal-Befehle im Sandbox-Home, die verbundenen Ordner
+// liegen darunter in mnt/. Gesucht wird in den verbundenen Ordnern.
+function werkbankSuchen(start) {
+  const wurzeln = new Set([start, os.homedir()]);
+  const m = start.match(/^\/sessions\/[^/]+/);
+  if (m) wurzeln.add(m[0]);
+  const treffer = new Set();
+  for (const w of wurzeln) {
+    const mnt = path.join(w, 'mnt');
+    let namen = [];
+    try { namen = fs.readdirSync(mnt); } catch (e) { continue; }
+    for (const n of namen) {
+      const d = path.join(mnt, n);
+      try { if (fs.statSync(d).isDirectory() && istWerkbank(d)) treffer.add(fs.realpathSync(d)); } catch (e) { /* kein Zugriff */ }
+    }
   }
-  if (!ex(ziel) || !fs.statSync(ziel).isDirectory()) abbruch('Ordner existiert nicht: ' + ziel);
-  return ziel;
+  return [...treffer].sort();
+}
+
+// werkbank = true: der Befehl braucht eine bestehende Werkbank (update, pruefen).
+// Ohne --dir und ohne Werkbank im aktuellen Ordner wird sie gesucht.
+function zielordner(args, werkbank) {
+  const i = args.indexOf('--dir');
+  if (i >= 0 && args[i + 1]) {
+    const ziel = path.resolve(args[i + 1]);
+    if (!ex(ziel) || !fs.statSync(ziel).isDirectory()) abbruch('Ordner existiert nicht: ' + ziel);
+    return ziel;
+  }
+  const hier = process.cwd();
+  // Der aktuelle Ordner zählt, sobald er Werkbank-Spuren hat (direkt nach dem
+  // Einrichten fehlt die KONTEXT.md noch).
+  const spuren = ['KONTEXT.md', 'CONTEXT.md', 'Werkbank', 'Workbench'].some((n) => ex(path.join(hier, n)));
+  if (werkbank && !spuren) {
+    const gefunden = werkbankSuchen(hier);
+    if (gefunden.length === 1) {
+      aus('Werkbank: ' + gefunden[0]);
+      return gefunden[0];
+    }
+    if (gefunden.length > 1) {
+      abbruch('Mehrere Werkbänke verbunden / several workbenches connected:\n' +
+        gefunden.map((g) => '  ' + g).join('\n') + '\n' +
+        'Den Nutzer fragen, welche gemeint ist, dann mit --dir <pfad> erneut starten.\n' +
+        'Ask the user which one is meant, then run again with --dir <path>.');
+    }
+    abbruch('Keine Werkbank gefunden / no workbench found (' + hier + ').\n' +
+      'Den Nutzer bitten, den Ordner seiner Werkbank in Cowork zu verbinden, dann erneut starten.\n' +
+      'Ask the user to connect their workbench folder in Cowork, then run again.');
+  }
+  // Einrichten: im aktuellen Ordner, nie im Sandbox-Home.
+  if (/^\/sessions\/[^/]+\/?$/.test(hier)) {
+    abbruch('Falscher Ordner: ' + hier + ' ist das Sandbox-Verzeichnis, nicht der Ordner des Nutzers.\n' +
+      'Mit cd in den verbundenen Ordner wechseln (unter ' + hier.replace(/\/$/, '') + '/mnt/…) und erneut starten.');
+  }
+  return hier;
 }
 
 function beschreibbar(ziel) {
@@ -181,7 +228,7 @@ function budgetText(ueber, sprache) {
 }
 
 function befehlPruefen(args) {
-  const ziel = zielordner(args);
+  const ziel = zielordner(args, true);
   const sprache = args.includes('--en') || ex(path.join(ziel, 'Workbench')) ? 'en' : 'de';
   const fehler = pruefeWerkbank(ziel, sprache);
   if (fehler.length) abbruch('Werkzeuge nicht vollständig:\n  ' + fehler.join('\n  '));
@@ -371,7 +418,7 @@ function sicherbar(ziel) {
 // ---------------------------------------------------------------- update: Rückgängig
 
 function befehlRueckgaengig(args) {
-  const ziel = zielordner(args);
+  const ziel = zielordner(args, true);
   const en = ex(path.join(ziel, 'Workbench')) && !ex(path.join(ziel, 'Werkbank/protokolle'));
   const laeufe = [];
   for (const p of ['Werkbank/protokolle', 'Workbench/logs']) {
@@ -418,7 +465,7 @@ function befehlRueckgaengig(args) {
 // ---------------------------------------------------------------- update: Ausführen
 
 function befehlUpdate(args) {
-  const ziel = zielordner(args);
+  const ziel = zielordner(args, true);
   const b = befund(ziel, args);
   const s = STRUKTUR[b.sprache];
   const t = TEXTE[b.sprache];
@@ -632,7 +679,8 @@ function hilfe() {
     '  npx holderbaum-werkbank@latest pruefen            Werkzeuge prüfen\n\n' +
     'Optionen:\n' +
     '  --en           englische Werkbank (Workbench/, CONTEXT.md)\n' +
-    '  --dir <pfad>   Ordner statt des aktuellen\n' +
+    '  --dir <pfad>   Ordner statt des aktuellen (update und pruefen suchen sonst\n' +
+    '                 unter den verbundenen Ordnern, wenn hier keine Werkbank ist)\n' +
     '  --version, --help\n\n' +
     'Quelle: ' + PKG.homepage);
 }

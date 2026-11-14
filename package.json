@@ -1,6 +1,6 @@
 {
   "name": "holderbaum-werkbank",
-  "version": "5.0.0-rc.1",
+  "version": "5.0.0-rc.2",
   "description": "Richtet eine Werkbank ein und hält sie aktuell: ein strukturiertes Verzeichnis, in dem ein Mensch mit KI-Agenten arbeitet.",
   "bin": {
     "holderbaum-werkbank": "bin/holderbaum-werkbank.js"

@@ -11,7 +11,10 @@ const assert = require('assert');
 
 const bin = path.join(__dirname, '..', 'bin', 'holderbaum-werkbank.js');
 const REF = path.join(__dirname, 'referenz', 'werkbaenke');
-const run = (args, cwd) => spawnSync('node', [bin, ...args], { cwd, encoding: 'utf8' });
+// HOME zeigt auf einen leeren Ordner: die Werkbank-Suche darf nie echte Werkbänke
+// des Entwicklerrechners finden (und ein Update dort anstoßen).
+const HOME_LEER = fs.mkdtempSync(path.join(os.tmpdir(), 'werkbank-home-'));
+const run = (args, cwd) => spawnSync('node', [bin, ...args], { cwd, encoding: 'utf8', env: { ...process.env, HOME: HOME_LEER } });
 const ZIEL = 'v' + require('../package.json').version.split('.').slice(0, 2).join('.');
 
 // v2.1 und v2.3 sind von ihrer Vorversion nicht zu unterscheiden: gleiche Werkzeug-Dateien,
@@ -167,4 +170,31 @@ for (const name of fs.readdirSync(REF).sort()) {
   fs.rmSync(tmp, { recursive: true, force: true });
 }
 
-console.log('update: ok (' + n + ' Referenz-Werkbänke)');
+// Werkbank suchen: Cowork startet im Sandbox-Home, die Werkbank liegt unter mnt/.
+{
+  const sb = fs.mkdtempSync(path.join(os.tmpdir(), 'werkbank-suche-'));
+  fs.mkdirSync(path.join(sb, 'mnt', 'outputs'), { recursive: true });
+  fs.mkdirSync(path.join(sb, 'mnt', 'Fotos'));
+  kopie(path.join(REF, 'de-v4.0'), path.join(sb, 'mnt', 'Meine Werkbank'));
+  const eine = run(['update', '--pruefen'], sb);
+  assert.strictEqual(eine.status, 0, 'Suche: ' + eine.stderr);
+  assert.match(eine.stdout, /Werkbank: .*mnt\/Meine Werkbank/, 'Suche: Pfad nicht genannt');
+  assert.match(eine.stdout, /Installierte Version: v4\.0 /, 'Suche: ' + eine.stdout);
+  const pr = run(['pruefen'], sb);
+  assert.match(pr.stdout, /Werkbank: .*mnt\/Meine Werkbank/, 'Suche (pruefen): ' + pr.stdout + pr.stderr);
+  kopie(path.join(REF, 'en-v4.0'), path.join(sb, 'mnt', 'Company'));
+  const zwei = run(['update'], sb);
+  assert.strictEqual(zwei.status, 1, 'Suche: zwei Werkbänke müssen abbrechen');
+  assert.match(zwei.stderr, /Meine Werkbank[\s\S]*Company|Company[\s\S]*Meine Werkbank/, 'Suche: Liste fehlt');
+  assert.ok(!fs.existsSync(path.join(sb, 'mnt', 'Meine Werkbank', 'Werkbank', 'protokolle', 'x')) &&
+    !fs.readdirSync(path.join(sb, 'mnt', 'Meine Werkbank', 'Werkbank', 'protokolle')).some((d) => d.startsWith('werkbank-update-')),
+    'Suche: bei zwei Werkbänken darf nichts geändert werden');
+  const dir = run(['update', '--pruefen', '--dir', path.join(sb, 'mnt', 'Company')], sb);
+  assert.strictEqual(dir.status, 0, 'Suche --dir: ' + dir.stderr);
+  const leer = fs.mkdtempSync(path.join(os.tmpdir(), 'werkbank-leer-'));
+  const keine = run(['update'], leer);
+  assert.strictEqual(keine.status, 1, 'Suche: ohne Werkbank muss abbrechen');
+  assert.match(keine.stderr, /Keine Werkbank gefunden/);
+}
+
+console.log('update: ok (' + n + ' Referenz-Werkbänke, Werkbank-Suche)');

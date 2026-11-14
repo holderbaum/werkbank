@@ -24,9 +24,15 @@ Der Agent legt das Gerüst an und bittet um Material: ein Gedächtnis-Export aus
 
 ## Aktualisieren
 
-In der Werkbank: „Werkbank updaten". Der Workflow `werkbank-update` führt `npx holderbaum-werkbank@latest update` aus, zeigt vorher, was sich ändert, und legt Änderungen an der `KONTEXT.md` zur Freigabe vor.
+In der Werkbank: „Werkbank updaten". Der Workflow `werkbank-update` sieht nach, ob es eine neue Version gibt, fragt einmal und spielt sie ein.
 
-Werkbänke, die vor dem npm-Paket über die Bauanleitung eingerichtet wurden (v1.5 bis v4.0), bringt derselbe Befehl auf den aktuellen Stand.
+Werkbänke, die vor dem npm-Paket über die Bauanleitung eingerichtet wurden (v1.5 bis v4.0), haben diesen Workflow noch nicht. Einmal in den Chat der Werkbank:
+
+> Aktualisiere meine Werkbank mit `npx holderbaum-werkbank@latest update` und folge der Anleitung, die der Befehl ausgibt.
+
+> Update my workbench with `npx holderbaum-werkbank@latest update` and follow the instructions it prints.
+
+Das Paket findet die Werkbank unter den verbundenen Ordnern selbst, sichert alles und bringt den Workflow `werkbank-update` mit.
 
 ## Befehle
 
@@ -44,7 +50,7 @@ Der Inhalt liegt offen in [`werkbank/de/`](werkbank/de/) und [`werkbank/en/`](we
 
 ## Für den Agenten: wenn etwas schiefgeht
 
-- **Befehl lief im falschen Ordner:** Cowork startet Terminal-Befehle im Sandbox-Verzeichnis. Vorher mit `cd` in den verbundenen Ordner des Nutzers wechseln (unter `/sessions/<id>/mnt/<Ordner>`).
+- **Welche Werkbank:** `update` und `pruefen` suchen die Werkbank unter den verbundenen Ordnern (`/sessions/<id>/mnt/<Ordner>`), wenn der aktuelle Ordner keine ist. Mehrere Treffer: den Nutzer fragen, dann `--dir <Pfad>`. Einrichten läuft im aktuellen Ordner: vorher mit `cd` in den verbundenen Ordner.
 - **npm nicht erreichbar:** Dem Nutzer die Fehlermeldung zeigen. Nichts zusammenraten, keine Datei aus dem Gedächtnis schreiben.
 
 ## Entwicklung

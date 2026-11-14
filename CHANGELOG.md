@@ -17,6 +17,7 @@ Erste Version, die über npm ausgeliefert wird und als Update auf alle Werkbänk
 - **Lauf-Pflichten aus dem Betrieb:** kein Schritt im Orchestrator, Chat-Eingaben als Datei, ohne Subagenten kein Ersatz-Lauf (Halt), Schritt-Tabelle in `lauf.md`, nur in place ändern und nichts löschen, Abnahme mit Restdatei-Prüfung, Lauf-Ordner mit Zufallssuffix, aufgerufene Workflows steuert der Aufrufer. Zeiten immer mit der Zeitzone aus der KONTEXT.md.
 - **Gewachsene Werkbänke.** Werkzeug-Dateien, die überwiegend selbst geschrieben sind, bleiben (eigene Fassung). Bei großer KONTEXT.md, eigener Fassung oder eigenem Regelsystem wird die KONTEXT.md nur ergänzt, nicht umgebaut. Die Sicherung umfasst nur, was das Update anfasst, plus eine Liste aller Dateien für „Rückgängig". Neue Referenz `de-gewachsen`.
 - **CLAUDE.md.** Die Werkbank bekommt eine `CLAUDE.md` im Wurzelverzeichnis, die die KONTEXT.md importiert — damit funktioniert sie in Claude Code ohne Zusatzschritt.
+- **Update mit einem Satz.** `update` und `pruefen` finden die Werkbank unter den verbundenen Ordnern selbst; kein `cd` nötig. Für Werkbänke ohne `werkbank-update`-Workflow reicht: „Aktualisiere meine Werkbank mit `npx holderbaum-werkbank@latest update` und folge der Anleitung, die der Befehl ausgibt."
 - **Prüfbefehl.** `npx holderbaum-werkbank@latest pruefen` prüft die Werkzeug-Dateien und meldet Dateien über dem Kontext-Budget.
 - **Englisch im Gleichschritt.** `--en` richtet eine englische Werkbank ein.
 
