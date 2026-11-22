@@ -133,6 +133,28 @@ for (const name of fs.readdirSync(REF).sort()) {
   fs.rmSync(tmp, { recursive: true, force: true });
 }
 
+// Abgelöste Paket-Fassung (test/referenz/quellen/paket-*): gilt als unverändert, keine eigenen Zeilen
+{
+  const QUELLEN = path.join(__dirname, 'referenz', 'quellen');
+  for (const paket of fs.readdirSync(QUELLEN).filter((x) => x.startsWith('paket-'))) {
+    for (const [sprache, ref, prot] of [['de', 'de-v4.0', 'Werkbank/protokolle'], ['en', 'en-v4.0', 'Workbench/logs']]) {
+      const quelle = path.join(QUELLEN, paket, sprache);
+      if (!fs.existsSync(quelle)) continue;
+      const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'werkbank-update-' + paket + '-'));
+      kopie(path.join(REF, ref), tmp);
+      assert.strictEqual(run(['update'], tmp).status, 0, paket + ': Update auf aktuelle Fassung');
+      for (const p of fs.readdirSync(path.join(tmp, prot))) if (p.includes('-update-')) fs.rmSync(path.join(tmp, prot, p), { recursive: true });
+      kopie(quelle, tmp);
+      const u = run(['update'], tmp);
+      assert.strictEqual(u.status, 0, paket + ': ' + u.stderr);
+      assert.match(u.stdout, /(Installierte Version|Installed version): v5\.0 /, paket + ': ' + u.stdout);
+      const lauf = path.join(tmp, prot, fs.readdirSync(path.join(tmp, prot)).find((x) => x.includes('-update-')));
+      assert.ok(!fs.existsSync(path.join(lauf, 'eigene-zeilen')), paket + ': Zeilen der Fassung als eigene gemeldet');
+      fs.rmSync(tmp, { recursive: true, force: true });
+    }
+  }
+}
+
 // Gewachsene Werkbank: eigene Fassung bleibt, eigenes Regelsystem, große KONTEXT.md
 {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'werkbank-update-gewachsen-'));

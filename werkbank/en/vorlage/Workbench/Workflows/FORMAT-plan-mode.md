@@ -39,14 +39,15 @@ This line goes verbatim into every subagent task (in addition to the line from �
 **Acceptance (4):** after every step
 
 ```
-TZ=<Zone> find "<Workbench>" -newermt "<start>" -type f -not -path "*/Workbench/logs/*"
+cd "<Scratch>/plan" && find . -type f ! -name plan.md ! -name summary.md | while read -r p; do TZ=<Zone> find "<Workbench>/${p#./}" -maxdepth 0 -newermt "<start>" 2>/dev/null; done
 ```
 
-returns nothing — for every connected workbench the workflow writes into. This catches every write
-to an original, including a newly created file without a plan copy. A hit: acceptance
-`✗ write access <path>`, the run halts (in plan mode: under `## Questions`), with path and change
-time, whether the state stays or is reset. Parallel activity in the same workbench can produce hits
-not caused by the run — report them anyway, don't guess.
+returns nothing, and no file that `plan.md` lists as "new" exists yet. Only the originals of the
+run's own plan copies are checked (`scratch/plan/<folder name>/…` against the original in that
+workbench) — so a parallel run in the same workbench produces no foreign hits. A write to an
+original without a plan copy is not caught; the mandatory line above guards against that. A hit:
+acceptance `✗ write access <path>`, the run halts (in plan mode: under `## Questions`), with path and
+change time, whether the state stays or is reset.
 
 ## What exists at the end
 

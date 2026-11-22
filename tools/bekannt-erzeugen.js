@@ -52,6 +52,16 @@ for (const sprache of ['de', 'en']) {
   if (!fs.existsSync(v)) continue;
   for (const rel of alle(v)) eintragen(path.join(v, rel), AKTUELL, sprache);
 }
+// Abgelöste Paket-Fassungen (test/referenz/quellen/paket-<version>/<sprache>/): Vorlage-Dateien, die
+// eine spätere Fassung geändert hat, so wie sie ausgeliefert wurden — bleiben „unverändert".
+const quellen = path.join(WURZEL, 'test/referenz/quellen');
+for (const name of fs.readdirSync(quellen).filter((n) => n.startsWith('paket-')).sort()) {
+  const version = 'v' + name.slice('paket-'.length).split('.').slice(0, 2).join('.');
+  for (const sprache of ['de', 'en']) {
+    const d = path.join(quellen, name, sprache);
+    if (fs.existsSync(d)) for (const rel of alle(d)) eintragen(path.join(d, rel), version, sprache);
+  }
+}
 const sortiert = {};
 for (const k of Object.keys(bekannt).sort()) sortiert[k] = bekannt[k];
 const json = JSON.stringify(sortiert, null, 1) + '\n';

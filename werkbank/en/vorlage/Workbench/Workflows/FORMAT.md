@@ -43,7 +43,9 @@ met; a check step recomputes against the source instead of its own memory.
 it names none, none is loaded — the workflow is the working mode.
 
 **Demand → model.** Handgrip → fast model (e.g. haiku). Judgment → standard (sonnet). Expert
-judgment → strongest (opus). Deviation only on the human's instruction, with quote.
+judgment → strongest (opus). Deviation only on the human's instruction, with quote. If the demand
+line is missing, the step runs with the strongest model; the orchestrator reports the gap at the
+next halt.
 
 ## Run folder
 
@@ -88,7 +90,7 @@ After every step the orchestrator checks:
 3. No leftover files: per folder of a `writes:` file,
    `TZ=<Zone> find "<folder>" -maxdepth 1 -newermt "<start>" \( -name '*.tmp' -o -name '*.new' -o -name '*.bak*' \)`
    returns nothing.
-4. In plan mode: no original touched (check in [[Workbench/Workflows/FORMAT-plan-mode.md]]).
+4. In plan mode: no original of its own plan copies touched (check in [[Workbench/Workflows/FORMAT-plan-mode.md]]).
 
 If (1) or (2) fails: repeat the step in a fresh subagent (uses no correction-loop budget) or report
 the gap at the next halt. A hit in (3) or (4) is neither deleted nor fixed by repeating: acceptance
@@ -105,7 +107,8 @@ the gap at the next halt. A hit in (3) or (4) is neither deleted nor fixed by re
 ## Step types
 
 - **Normal step** — creates or updates a file.
-- **CHECK STEP** — judges and can jump back.
+- **CHECK STEP** — judges and can jump back. It writes its findings to
+  `scratch/findings-<step>.md`: what is deficient, why, what exactly to change.
 - **Halt — YOUR TURN** — a human decides, the run waits. **(critical)** = never skipped. Two
   stages: first **one** message with all content relevant to the decision (small in full, large as a
   decision-ready summary plus reference), then the question. `presents:` means show in the chat. A
@@ -118,6 +121,12 @@ findings go to the named halt. If the human sends the work back, a fresh budget 
 **External effect and target (⚠).** A step marked ⚠ acts outside the scratch — into the target, a
 mail, another system — and runs only after the halt that approves it. If the target folder is
 missing, the step creates it.
+
+Approval is required for what is irreversible or costly: sending, publishing, filing with an
+authority, deleting, assigning document numbers. Reversible writing (workbench files, continued data
+sets, history and CONTEXT files) runs without a halt if the workflow explicitly declares it in
+§ Zones; the ⚠ stays. Without a declaration: target only after approval. In plan mode
+[[Workbench/Workflows/FORMAT-plan-mode.md]] applies.
 
 ## Called workflow
 

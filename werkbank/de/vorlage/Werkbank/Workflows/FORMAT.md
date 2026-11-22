@@ -44,7 +44,9 @@ erfüllt; ein Prüfschritt rechnet gegen die Quelle nach statt gegen die eigene 
 Nennt er keine, wird keine geladen — der Workflow ist der Arbeitsmodus.
 
 **Anspruch → Modell.** Handgriff → schnelles Modell (z. B. haiku). Urteil → Standard (sonnet).
-Fachurteil → stärkstes (opus). Abweichung nur auf Anweisung des Menschen, mit Zitat.
+Fachurteil → stärkstes (opus). Abweichung nur auf Anweisung des Menschen, mit Zitat. Fehlt die
+Anspruch-Zeile, läuft der Schritt mit dem stärksten Modell; der Orchestrator meldet die Lücke am
+nächsten Halt.
 
 ## Lauf-Ordner
 
@@ -89,7 +91,7 @@ Nach jedem Schritt prüft der Orchestrator:
 3. Keine Restdateien: je Ordner einer `schreibt:`-Datei liefert
    `TZ=<Zone> find "<Ordner>" -maxdepth 1 -newermt "<Start>" \( -name '*.tmp' -o -name '*.new' -o -name '*.bak*' \)`
    nichts.
-4. Im Plan-Modus: kein Original berührt (Prüfung in [[Werkbank/Workflows/FORMAT-plan-modus.md]]).
+4. Im Plan-Modus: kein Original der eigenen Plan-Kopien berührt (Prüfung in [[Werkbank/Workflows/FORMAT-plan-modus.md]]).
 
 Fällt (1) oder (2) durch: Schritt im frischen Subagenten wiederholen (verbraucht kein Budget einer
 Korrekturschleife) oder die Lücke am nächsten Halt melden. Ein Treffer bei (3) oder (4) wird weder
@@ -107,7 +109,8 @@ Frage. Alles bestanden: `✓`.
 ## Schrittarten
 
 - **Normaler Schritt** — erzeugt oder aktualisiert eine Datei.
-- **PRÜFSCHRITT** — urteilt und kann zurückspringen.
+- **PRÜFSCHRITT** — urteilt und kann zurückspringen. Befunde schreibt er nach
+  `kladde/befunde-<schritt>.md`: was mangelhaft ist, warum, was konkret zu ändern ist.
 - **Halt — DU BIST DRAN** — ein Mensch entscheidet, der Lauf wartet. **(kritisch)** = nie
   übersprungen. Zweistufig: erst **eine** Nachricht mit dem ganzen entscheidungsrelevanten Inhalt
   (kleines vollständig, großes als entscheidungsreife Zusammenfassung plus Verweis), dann die Frage.
@@ -121,6 +124,12 @@ zurück, beginnt ein frisches Budget.
 **Außenwirkung und Ziel (⚠).** Ein Schritt mit ⚠ wirkt außerhalb der Kladde — ins Ziel, in eine
 Mail, in ein Fremdsystem — und läuft nur nach dem Halt, der ihn freigibt. Fehlt der Ziel-Ordner,
 legt der Schritt ihn an.
+
+Die Freigabe gilt für Unumkehrbares und Teures: Versand, Veröffentlichen, Einreichen bei einer
+Behörde, Löschen, Belegnummern vergeben. Umkehrbares Schreiben (Dateien der Werkbank,
+fortgeschriebene Datenbestände, Verlaufs- und KONTEXT-Dateien) läuft ohne Halt, wenn der Workflow
+das in § Zonen ausdrücklich deklariert; das ⚠ bleibt. Ohne Deklaration: Ziel erst nach Freigabe. Im
+Plan-Modus gilt [[Werkbank/Workflows/FORMAT-plan-modus.md]].
 
 ## Aufgerufener Workflow
 

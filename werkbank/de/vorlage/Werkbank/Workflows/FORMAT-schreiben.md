@@ -61,10 +61,17 @@ Korrekturschleife, Schritt N"). Die Grenze steht einmal, als eigene Zeile direkt
 Schritt des Blocks (im Skelett: vor Schritt 2): Block, Anzahl Durchläufe, fester Ausgang (ein Halt). So multiplizieren sich
 verschachtelte Schleifen nicht.
 
+Jeder Rücksprung gehört zu einer ↻-Zeile mit Budget und Ausgang, auch vor dem ersten Halt und bei
+internen Wiederholungen; ein Rücksprung ohne sie ist ein Formatfehler. Jeder Prüfschritt, der
+zurückspringen kann, liegt in der Schritt-Spanne seiner ↻-Zeile. Jedes Rücksprungziel hat die
+Befund-Dateien seiner Prüfschritte in `liest:` („falls vorhanden").
+
 ## Außenwirkung
 
 Alles, was außerhalb der Dateien wirkt — Mail, Eintrag in einem Tool, Veröffentlichung — bekommt ⚠
-und einen Halt davor. So ist auf einen Blick klar, wo ein Schritt die Welt verändert.
+und einen Halt davor. So ist auf einen Blick klar, wo ein Schritt die Welt verändert. Umkehrbares
+Schreiben ohne Halt deklariert der Workflow in § Zonen mit Pfaden, z. B. „Ohne Halt (umkehrbar):
+`<Pfad>`, `<Pfad>`."; das ⚠ am Schritt bleibt.
 
 ## Self-contained
 

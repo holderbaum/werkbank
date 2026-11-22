@@ -19,6 +19,7 @@ Erste Version, die über npm ausgeliefert wird und als Update auf alle Werkbänk
 - **CLAUDE.md.** Die Werkbank bekommt eine `CLAUDE.md` im Wurzelverzeichnis, die die KONTEXT.md importiert — damit funktioniert sie in Claude Code ohne Zusatzschritt.
 - **Update mit einem Satz.** `update` und `pruefen` finden die Werkbank unter den verbundenen Ordnern selbst; kein `cd` nötig. Für Werkbänke ohne `werkbank-update`-Workflow reicht: „Aktualisiere meine Werkbank mit `npx holderbaum-werkbank@latest update` und folge der Anleitung, die der Befehl ausgibt."
 - **Prüfbefehl.** `npx holderbaum-werkbank@latest pruefen` prüft die Werkzeug-Dateien und meldet Dateien über dem Kontext-Budget.
+- **Workflow-Format aus dem Betrieb:** Abnahme (4) im Plan-Modus prüft nur die Originale der eigenen Plan-Kopien, damit parallele Läufe keine fremden Treffer melden. Umkehrbares Schreiben darf ohne Halt ins Ziel, wenn der Workflow es in § Zonen deklariert (⚠ bleibt). Fehlt die Anspruch-Zeile, läuft der Schritt mit dem stärksten Modell. Prüfschritte schreiben Befunde nach `kladde/befunde-<schritt>.md`, Rücksprungziele lesen sie. Jeder Rücksprung braucht eine ↻-Zeile mit Budget und Ausgang.
 - **Englisch im Gleichschritt.** `--en` richtet eine englische Werkbank ein.
 
 ## 0.1.x

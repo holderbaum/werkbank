@@ -40,14 +40,15 @@ Diese Zeile geht wörtlich in jeden Subagenten-Auftrag (zusätzlich zur Zeile au
 **Abnahme (4):** Nach jedem Schritt liefert
 
 ```
-TZ=<Zone> find "<Werkbank>" -newermt "<Start>" -type f -not -path "*/Werkbank/protokolle/*"
+cd "<Kladde>/plan" && find . -type f ! -name plan.md ! -name schluss.md | while read -r p; do TZ=<Zone> find "<Werkbank>/${p#./}" -maxdepth 0 -newermt "<Start>" 2>/dev/null; done
 ```
 
-nichts — für jede verbundene Werkbank, in die der Workflow schreibt. Damit fällt jedes Schreiben an
-einem Original auf, auch eine neu angelegte Datei ohne Plan-Kopie. Ein Treffer: Abnahme
-`✗ Schreibzugriff <Pfad>`, der Lauf hält (im Plan-Modus: unter `## Fragen`), mit Pfad und
-Änderungszeit, ob der Stand bleibt oder zurückgesetzt wird. Paralleler Betrieb in derselben Werkbank
-kann Treffer erzeugen, die nicht vom Lauf stammen — dann trotzdem melden, nicht raten.
+nichts, und keine Datei, die `plan.md` als „neu" führt, existiert schon. Geprüft werden nur die
+Originale der eigenen Plan-Kopien (`kladde/plan/<Ordnername>/…` gegen das Original in jener
+Werkbank) — so meldet ein paralleler Lauf in derselben Werkbank keine fremden Treffer. Schreiben an
+einem Original ohne Plan-Kopie findet die Prüfung nicht; davor schützt die Pflichtzeile oben. Ein
+Treffer: Abnahme `✗ Schreibzugriff <Pfad>`, der Lauf hält (im Plan-Modus: unter `## Fragen`), mit
+Pfad und Änderungszeit, ob der Stand bleibt oder zurückgesetzt wird.
 
 ## Was am Ende vorliegt
 

@@ -59,10 +59,17 @@ A check step carries no limit of its own; it only points into the loop ("on defe
 the correction loop, step N"). The limit is stated once, as its own line right before the block's
 first step (in the skeleton: before step 2): block, number of passes, fixed exit (a halt). That way nested loops don't multiply.
 
+Every loop-back belongs to a ↻ line with budget and exit, also before the first halt and for
+internal repeats; a loop-back without one is a format error. Every check step that can jump back
+lies within the step span of its ↻ line. Every loop-back target has the findings files of its check
+steps in `reads:` ("if present").
+
 ## External effect
 
 Everything that acts outside the files — mail, entry in a tool, publication — gets ⚠ and a halt
-before it. That shows at a glance where a step changes the world.
+before it. That shows at a glance where a step changes the world. A workflow declares reversible
+writing without a halt in § Zones with paths, e.g. "Without halt (reversible): `<path>`,
+`<path>`."; the ⚠ at the step stays.
 
 ## Self-contained
 
