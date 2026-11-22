@@ -1,10 +1,4 @@
 {
- "02578049b07ce9a842605e1666cf0862627c8a840169e6a46c39836ca3a39ba6": {
-  "sprache": "de",
-  "versionen": [
-   "v5.0"
-  ]
- },
  "0dfab828592b3b28d17c1798f74fb1f4ff3a25efb60700c8256c42cd3ec42aeb": {
   "sprache": "de",
   "versionen": [
@@ -69,8 +63,8 @@
    "v3.4"
   ]
  },
- "2a08c00433019618b72d357fba51af84999e30544ace0f992b75889df22a0c0f": {
-  "sprache": "de",
+ "2aaa8756d124e09e00970663927a8bc8a355837e7290d2d492ed40508d37a33f": {
+  "sprache": "en",
   "versionen": [
    "v5.0"
   ]
@@ -85,6 +79,12 @@
   "sprache": "de",
   "versionen": [
    "v4.0"
+  ]
+ },
+ "36a1947c84af2449030bb7e9e71068dd2f9239255ecf2157a809cab2739d2336": {
+  "sprache": "de",
+  "versionen": [
+   "v5.0"
   ]
  },
  "3b35f58fa39ba2ca1b35d1920ca78f0aeb8061b376295935d339d59fbbc65fc1": {
@@ -110,6 +110,12 @@
   "sprache": "de",
   "versionen": [
    "v4.0"
+  ]
+ },
+ "5d9705ecbcf0cf3ea7e8b030c0639ce8330801d5eb1dd480905eb114484a2d2e": {
+  "sprache": "de",
+  "versionen": [
+   "v5.0"
   ]
  },
  "5e317796d026b330391e12bbd5e71840fc66f7875e37cd7a0eae1ecb3792eac0": {
@@ -244,18 +250,6 @@
    "v5.0"
   ]
  },
- "a258cfd9cdc86fa997ab2c075a9f80e36c4de92f4af3b089ec73db4b9a902f96": {
-  "sprache": "en",
-  "versionen": [
-   "v5.0"
-  ]
- },
- "a740d1564af18d64ff40a902ae994d64529940e6fc6ebc221c889475b245272f": {
-  "sprache": "en",
-  "versionen": [
-   "v5.0"
-  ]
- },
  "a9472cf6961244b954f0c3daa390ad2246932eeb87c4dacd749b9448d21b6bb8": {
   "sprache": "de",
   "versionen": [
@@ -315,6 +309,12 @@
   "sprache": "de",
   "versionen": [
    "v3.1"
+  ]
+ },
+ "d2249cb11a1fa5ba18cb231bb64ad13f5a1bf47fad08eba6dacab828c856192f": {
+  "sprache": "en",
+  "versionen": [
+   "v5.0"
   ]
  },
  "d654739bc67226de1017d2d722f73edd77260c0a6cb126e589a3333bffba0a88": {

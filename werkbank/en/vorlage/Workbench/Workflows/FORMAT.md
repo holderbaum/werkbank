@@ -102,7 +102,7 @@ the gap at the next halt. A hit in (3) or (4) is neither deleted nor fixed by re
 |------|-------|------------|
 | **Source** | material that is only read | nobody |
 | **Scratch** | this run's working area | every step |
-| **Target** | the finished result | only the last steps, only after approval |
+| **Target** | the finished result | only the last steps, only after approval (exception: reversible and declared, § Step types) |
 
 ## Step types
 

@@ -104,7 +104,7 @@ Frage. Alles bestanden: `✓`.
 |------|-------|--------------|
 | **Quelle** | Material, das nur gelesen wird | niemand |
 | **Kladde** | Arbeitsbereich dieses Laufs | jeder Schritt |
-| **Ziel** | das fertige Ergebnis | nur die letzten Schritte, erst nach Freigabe |
+| **Ziel** | das fertige Ergebnis | nur die letzten Schritte, erst nach Freigabe (Ausnahme: umkehrbar und deklariert, § Schrittarten) |
 
 ## Schrittarten
 

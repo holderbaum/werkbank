@@ -44,8 +44,8 @@ cd "<Kladde>/plan" && find . -type f ! -name plan.md ! -name schluss.md | while 
 ```
 
 nichts, und keine Datei, die `plan.md` als „neu" führt, existiert schon. Geprüft werden nur die
-Originale der eigenen Plan-Kopien (`kladde/plan/<Ordnername>/…` gegen das Original in jener
-Werkbank) — so meldet ein paralleler Lauf in derselben Werkbank keine fremden Treffer. Schreiben an
+Originale der eigenen Plan-Kopien; für Kopien einer anderen Werkbank (`kladde/plan/<Ordnername>/…`)
+läuft derselbe Befehl in `<Kladde>/plan/<Ordnername>` gegen jene Werkbank — so meldet ein paralleler Lauf in derselben Werkbank keine fremden Treffer. Schreiben an
 einem Original ohne Plan-Kopie findet die Prüfung nicht; davor schützt die Pflichtzeile oben. Ein
 Treffer: Abnahme `✗ Schreibzugriff <Pfad>`, der Lauf hält (im Plan-Modus: unter `## Fragen`), mit
 Pfad und Änderungszeit, ob der Stand bleibt oder zurückgesetzt wird.
