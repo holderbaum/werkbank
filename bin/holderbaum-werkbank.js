@@ -565,13 +565,13 @@ const PROJEKTANWEISUNG = {
     '## PFLICHT: Session-Start-Sequenz\n\nVor deiner ersten Antwort — egal ob „hallo", Frage oder Auftrag.\n' +
     'Keine Ausnahmen, auch nicht bei Smalltalk.\n\n1. Lies mit dem Read-Tool die `KONTEXT.md` im Root jedes verbundenen\n' +
     '   Verzeichnisses, das eine hat — nicht aus dem Gedächtnis — und\n   folge ihren Anweisungen vollständig.\n' +
-    "2. Ruf `date '+%Y-%m-%d %H:%M %A'` im Terminal auf.\n```\n",
+    "2. Ruf `TZ=<Zeitzone aus der KONTEXT.md> date '+%Y-%m-%d %H:%M %A %Z'` im Terminal auf.\n```\n",
   en: '```markdown\n# Workbench project\n\nAny connected folder can be a Workbench: a set-up working\n' +
     'environment with a `CONTEXT.md` in its root that is the manual for\nthat Workbench.\n\n' +
     '## MANDATORY: Session start sequence\n\nBefore your first response — whether it\'s "hi", a question or a\n' +
     'task. No exceptions, not even for small talk.\n\n1. Use the Read tool to read the `CONTEXT.md` in the root of every\n' +
     '   connected directory that has one — not from memory — and follow\n   its instructions in full.\n' +
-    "2. Run `date '+%Y-%m-%d %H:%M %A'` in the terminal.\n```\n",
+    "2. Run `TZ=<time zone from CONTEXT.md> date '+%Y-%m-%d %H:%M %A %Z'` in the terminal.\n```\n",
 };
 
 const TEXTE = {
@@ -609,10 +609,10 @@ const TEXTE = {
       'Dateien umgeschrieben (siehe Befund). Bei Punkt 7 und 8 die neuen Pfade verwenden.',
     anweisungen: (v) => {
       const teile = [];
-      if (v === 'unbekannt' || vkleiner(v, 'v3.3')) {
+      {
         teile.push('PROJEKTANWEISUNG — ältere Werkbänke haben eine ältere Fassung. Die Projektanweisung\n' +
           'dieses Projekts steht in deinem Kontext. Enthält sie den Kern (die KONTEXT.md jedes verbundenen\n' +
-          'Ordners lesen und ihr folgen; `date` aufrufen): nichts tun, nichts erwähnen. Fehlt etwas: nur das\n' +
+          'Ordners lesen und ihr folgen; `date` mit `TZ=<Zeitzone aus der KONTEXT.md>` aufrufen): nichts tun, nichts erwähnen. Fehlt etwas: nur das\n' +
           'Fehlende als Ergänzung zeigen — eigene Zusätze des Nutzers bleiben, nie den ganzen Text ersetzen.\n' +
           'Gibt es gar keine Projektanweisung, diesen Block zeigen (verbatim, Markdown-Codeblock):\n\n' + PROJEKTANWEISUNG.de +
           '\nWeg: Seitenleiste des Projekts → Anweisungen. Bestätigung abwarten.');
@@ -654,10 +654,10 @@ const TEXTE = {
       'files (see findings). Use the new paths for points 7 and 8.',
     anweisungen: (v) => {
       const teile = [];
-      if (v === 'unbekannt' || vkleiner(v, 'v3.3')) {
+      {
         teile.push('PROJECT INSTRUCTIONS — older workbenches have an older version. This project\'s\n' +
           'instructions are in your context. If they contain the core (read the CONTEXT.md of every\n' +
-          'connected folder and follow it; run `date`): do nothing, mention nothing. If something is\n' +
+          'connected folder and follow it; run `date` with `TZ=<time zone from CONTEXT.md>`): do nothing, mention nothing. If something is\n' +
           'missing: show only what is missing as an addition — the user\'s own additions stay, never\n' +
           'replace the whole text. If there are no project instructions at all, show this block\n' +
           '(verbatim, Markdown code block):\n\n' + PROJEKTANWEISUNG.en +

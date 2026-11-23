@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.0.2
+
+- **Zeitzone in der Projektanweisung.** Schritt 2 der Session-Start-Sequenz ruft `date` mit der Zeitzone aus der KONTEXT.md auf (`TZ=<Zone> date … %Z`) — Cowork läuft in UTC. Die Zone steht nicht fest im Block, damit er für jede Werkbank gleich bleibt.
+- **Update prüft die Projektanweisung bei jeder Version.** Fehlt `TZ=` im `date`-Aufruf, zeigt der Agent nur die neue Zeile 2 als Ergänzung; eigene Zusätze bleiben.
+
 ## 5.0.1
 
 - **Zeitzone in der englischen Einrichtung.** Das Setup fragt nach der Zeitzone (eine Stadt reicht), statt sie aus dem Material abzuleiten und sonst `Europe/Berlin` zu setzen. Ohne Antwort: Zone der Adresse, sonst `Europe/London`.

@@ -358,7 +358,7 @@ Keine Ausnahmen, auch nicht bei Smalltalk.
 1. Lies mit dem Read-Tool die `KONTEXT.md` im Root jedes verbundenen
    Verzeichnisses, das eine hat — nicht aus dem Gedächtnis — und
    folge ihren Anweisungen vollständig.
-2. Ruf `date '+%Y-%m-%d %H:%M %A'` im Terminal auf.
+2. Ruf `TZ=<Zeitzone aus der KONTEXT.md> date '+%Y-%m-%d %H:%M %A %Z'` im Terminal auf.
 ```
 [PRÄSENTATIONS-ENDE]
 

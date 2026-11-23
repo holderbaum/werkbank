@@ -82,8 +82,9 @@ for (const name of fs.readdirSync(REF).sort()) {
   const anleitung = fs.readFileSync(path.join(lauf, 'UPDATE.md'), 'utf8');
   assert.ok(!/\{[A-Z_]+\}/.test(anleitung), t('Platzhalter in UPDATE.md'));
   assert.match(anleitung, /10\. (Kein Verweis auf holderbaum\.io|No reference to holderbaum\.io)/, t('Punkt 10 fehlt'));
-  if (version < 'v3.3' || version === 'gewachsen') assert.match(anleitung, /PROJEKTANWEISUNG|PROJECT INSTRUCTIONS/, t('Projektanweisung fehlt'));
-  else assert.doesNotMatch(anleitung, /PROJEKTANWEISUNG —|PROJECT INSTRUCTIONS —/, t('Projektanweisung unnötig'));
+  // Projektanweisung wird bei jeder Version geprüft (seit 5.0.2: date mit TZ=).
+  assert.match(anleitung, /PROJEKTANWEISUNG —|PROJECT INSTRUCTIONS —/, t('Projektanweisung fehlt'));
+  assert.match(anleitung, /TZ=<(Zeitzone aus der KONTEXT\.md|time zone from CONTEXT\.md)>/, t('Projektanweisung ohne TZ'));
   assert.ok(alle(path.join(lauf, 'alt')).length >= 2, t('Sicherung fehlt'));
   assert.ok(fs.existsSync(path.join(lauf, sprache === 'en' ? 'context-template.md' : 'kontext-vorlage.md')));
   if (version === 'gewachsen') {

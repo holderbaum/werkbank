@@ -349,7 +349,7 @@ task. No exceptions, not even for small talk.
 1. Use the Read tool to read the `CONTEXT.md` in the root of every
    connected directory that has one — not from memory — and follow
    its instructions in full.
-2. Run `date '+%Y-%m-%d %H:%M %A'` in the terminal.
+2. Run `TZ=<time zone from CONTEXT.md> date '+%Y-%m-%d %H:%M %A %Z'` in the terminal.
 ```
 [PRESENTATION-END]
 
