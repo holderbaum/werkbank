@@ -131,6 +131,22 @@ for (const name of fs.readdirSync(REF).sort()) {
     assert.doesNotMatch(p.stdout, /Auf dem aktuellen Stand/, 'Paket: ' + alt + ' gilt als aktuell');
     assert.match(p.stdout, /Installiertes Paket: /, 'Paket: Befund ohne Paketzeile');
   }
+  // Rückgängig löscht nur, was das Paket beim Update angelegt hat — später Entstandenes bleibt
+  {
+    const k = fs.mkdtempSync(path.join(os.tmpdir(), 'werkbank-spaeter-'));
+    kopie(path.join(REF, 'de-v4.0'), k);
+    assert.strictEqual(run(['update'], k).status, 0);
+    fs.mkdirSync(path.join(k, 'Projekte/Neu'), { recursive: true });
+    fs.writeFileSync(path.join(k, 'Projekte/Neu/KONTEXT.md'), '# Neu\n');
+    fs.writeFileSync(path.join(k, 'Werkbank/Regeln/spaeter.md'), '# Später\n');
+    const r = run(['update', '--rueckgaengig'], k);
+    assert.strictEqual(r.status, 0, r.stderr);
+    assert.ok(fs.existsSync(path.join(k, 'Projekte/Neu/KONTEXT.md')), 'Rückgängig: späteres Projekt gelöscht');
+    assert.ok(fs.existsSync(path.join(k, 'Werkbank/Regeln/spaeter.md')), 'Rückgängig: spätere Regel gelöscht');
+    assert.match(r.stdout, /Seit dem Update entstanden, bleiben: .*spaeter\.md/, 'Rückgängig: Hinweis fehlt');
+    assert.ok(!fs.existsSync(path.join(k, 'Werkbank/version.txt')) && !fs.existsSync(path.join(k, 'CLAUDE.md')), 'Rückgängig: Paketdateien geblieben');
+    fs.rmSync(k, { recursive: true, force: true });
+  }
   // Rückgängig lässt Ordner stehen, die vorher da waren — auch leere
   fs.mkdirSync(path.join(tmp, 'Projekte/Leer'), { recursive: true });
   fs.writeFileSync(vermerk, 'holderbaum-werkbank 5.0.0\n');

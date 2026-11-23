@@ -75,7 +75,7 @@ Invent nothing. Report results: done, not done, open. When in
 doubt: simple, direct, terse, concrete, sober.
 
 **Further:**
-- **Avoid:** {J}
+- **Wording:** {J}
 - **Files from the user:** "Drag the file into this chat", never
   "Put it into folder X". If it belongs in the workbench, the
   agent stores it and names the path.

@@ -52,5 +52,5 @@ As in `UPDATE.md` step D: three to five lines, everyday language.
 
 ## Reference
 
-**Undo the update:** First one sentence to the user: "This also loses changes made to the workbench description since the update." Then `npx holderbaum-werkbank@latest update --undo` in the root directory. Restores the state before the last update; if the command reports files it was not allowed to delete, remove them after the user's approval. One-sentence report.
+**Undo the update:** First one sentence to the user: "The files the update changed go back to their old state — including the workbench description; what was changed in it since then is lost. Whatever was newly created since the update stays." Then `npx holderbaum-werkbank@latest update --undo` in the root directory. The command deletes only what the package created during the update. If it names files created since the update that were kept: if one of them is listed in the update's `run.md` as created during the update (e.g. an own rule from step A), offer the user to remove it; all others stay without asking. If it reports files it was not allowed to delete: remove them after approval. One-sentence report.
 ===== HOLDERBAUM WERKSTATT · FILE FULLY LOADED =====

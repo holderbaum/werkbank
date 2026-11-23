@@ -461,9 +461,17 @@ function befehlRueckgaengig(args) {
   // Ordner, die vor dem Update da waren (auch leere), bleiben; ältere Listen ohne Ordner: Projekte/ schützen.
   const vorherOrdner = new Set(vorherZeilen.filter((z) => z.endsWith('/')).map((z) => z.slice(0, -1)));
   for (const p of ['Projekte', 'Projects']) if (ex(path.join(ziel, p)) && !vorherZeilen.some((z) => z.endsWith('/'))) vorherOrdner.add(p);
+  // Gelöscht wird nur, was das Update selbst angelegt hat (neu.txt). Ältere Sicherungen ohne Liste:
+  // nur Werkzeug-Dateien und der Paketvermerk. Alles andere, was seit dem Update entstanden ist, bleibt.
+  const neuListe = ['neu.txt', 'new.txt'].map((n) => path.join(ziel, lauf, n)).find(ex);
+  const sprache = en ? 'en' : 'de';
+  const vomUpdate = new Set(neuListe ? lies(neuListe).split('\n').filter(Boolean)
+    : [...werkzeuge(sprache), STRUKTUR[sprache].paket]);
   const nichtGeloescht = [];
+  const geblieben = [];
   for (const rel of sicherbar(ziel)) {
     if (vorher.has(rel)) continue;
+    if (!vomUpdate.has(rel)) { geblieben.push(rel); continue; }
     try { fs.unlinkSync(path.join(ziel, rel)); } catch (e) { nichtGeloescht.push(rel); }
   }
   for (const rel of gesichert) {
@@ -483,10 +491,14 @@ function befehlRueckgaengig(args) {
   ordner(ziel);
   schreibe(path.join(ziel, lauf, en ? 'undo.md' : 'rueckgaengig.md'), '# ' + zeitstempel() + '\n\n' + gesichert.size +
     (en ? ' files restored.\n' : ' Dateien zurückgeholt.\n') +
-    (nichtGeloescht.length ? (en ? 'Not deleted: ' : 'Nicht gelöscht: ') + nichtGeloescht.join(', ') + '\n' : ''));
+    (nichtGeloescht.length ? (en ? 'Not deleted: ' : 'Nicht gelöscht: ') + nichtGeloescht.join(', ') + '\n' : '') +
+    (geblieben.length ? (en ? 'Kept (created after the update): ' : 'Geblieben (seit dem Update entstanden): ') + geblieben.join(', ') + '\n' : ''));
   aus((en ? 'Update undone: ' : 'Update rückgängig gemacht: ') + gesichert.size + (en ? ' files restored from ' : ' Dateien zurückgeholt aus ') + lauf + '/alt/.');
   if (nichtGeloescht.length) {
     aus((en ? 'Could not delete (no permission) — remove by hand: ' : 'Nicht löschbar (keine Berechtigung) — von Hand entfernen: ') + nichtGeloescht.join(', '));
+  }
+  if (geblieben.length) {
+    aus((en ? 'Created after the update, kept: ' : 'Seit dem Update entstanden, bleiben: ') + geblieben.join(', '));
   }
 }
 
@@ -562,6 +574,10 @@ function befehlUpdate(args) {
   const fehler = pruefeWerkbank(ziel, b.sprache);
   if (fehler.length) abbruch('Nach dem Einspielen unvollständig:\n  ' + fehler.join('\n  ') + '\nSicherung: ' + laufRel + '/alt/');
   paketVermerken(ziel, b.sprache);
+  // Was das Paket selbst neu angelegt hat (auch umgezogene Pfade) — nur das löscht Rückgängig.
+  const vorherSet = new Set(vorherListe);
+  schreibe(path.join(lauf, b.sprache === 'en' ? 'new.txt' : 'neu.txt'),
+    sicherbar(ziel).filter((r) => !vorherSet.has(r) && !r.startsWith(laufRel + '/')).join('\n') + '\n');
 
   // 4. Anleitung für den Agenten im Lauf-Ordner.
   fs.copyFileSync(path.join(INHALT, b.sprache, s.vorlage), path.join(lauf, s.vorlage));

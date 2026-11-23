@@ -87,7 +87,8 @@ Wird angeglichen (nur, was abweicht):
 10. Kein Verweis auf holderbaum.io als Quelle für Updates oder
     Bauanleitung. Andere Erwähnungen (Website, Mail, Links) bleiben.
 11. Regel-Index: die Zeile der Werkbank-Regel wie in der Vorlage.
-    Keine eigenen Trigger, weil aus alten Vorlagen: „Aufgabe
+    Keine eigenen Trigger, sondern aus alten Vorlagen — sie fallen
+    aus der Zeile weg, die Werkbank-Regel selbst kennt sie: „Aufgabe
     anlegen", „mach das zur Aufgabe", „SOP schreiben", „genau so",
     „perfekt, merk dir das", „gibt Feedback". Jeder andere Trigger,
     der dort zusätzlich stand, ist eigener und bleibt; alte Begriffe
@@ -141,9 +142,10 @@ Dateinamen und Pfade:
   Version): „Werkbank ist auf v5.0." und in einem Satz, was neu ist:
   schlankere Rollen, Dateien per Drag & Drop in den Chat, Updates
   künftig mit „Werkbank updaten". War sie schon auf v5.0:
-  „Werkbank ist aktualisiert." und, falls Schritt C etwas verlangt
-  hat und der Nutzer es bestätigt hat, was es bringt (z. B. „Die
-  Uhrzeit stimmt jetzt überall.").
+  „Werkbank ist aktualisiert."
+- Hat Schritt C etwas verlangt und der Nutzer es bestätigt: in
+  einem Satz, was es bringt (z. B. „Die Uhrzeit stimmt jetzt
+  überall.").
 - Dass eigene Regeln, Rollen, Workflows, Projekte und alles, was
   über dich und dein Unternehmen in der Werkbank steht, erhalten
   sind — und falls in Schritt A eigene Ergänzungen übernommen

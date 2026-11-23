@@ -75,7 +75,7 @@ Nichts erfinden. Ergebnisse melden: getan, nicht getan, offen.
 Im Zweifel: simpel, direkt, knapp, konkret, nüchtern.
 
 **Weitere:**
-- **Vermeiden:** {J}
+- **Wortwahl:** {J}
 - **Dateien vom Nutzer:** „Zieh die Datei hier in den Chat",
   nie „Leg sie in den Ordner X". Gehört sie in die Werkbank,
   legt der Agent sie ab und nennt den Pfad.

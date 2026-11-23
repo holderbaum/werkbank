@@ -83,7 +83,8 @@ Gets aligned (only what differs):
 10. No reference to holderbaum.io as the source for updates or the
     build guide. Other mentions (website, mail, links) stay.
 11. Rule index: the workbench rule row as in the template. Not own
-    triggers, because from old templates: "add a workflow", "write
+    triggers but from old templates — they leave the row, the
+    workbench rule itself knows them: "add a workflow", "write
     an SOP", "make that a workflow", "exactly like that", "perfect,
     remember this", "gives feedback" (and their German forms in old
     German-structured workbenches). Any other trigger that stood
@@ -137,9 +138,10 @@ file names or paths:
   installed version): "Workbench is on v5.0." and in one sentence
   what's new: leaner roles, files by drag & drop into the chat,
   future updates with "update the workbench". If it was already on
-  v5.0: "Workbench is updated." and, if step C asked for something,
-  and the user confirmed it, what it brings (e.g. "The time is now
-  right everywhere.").
+  v5.0: "Workbench is updated."
+- If step C asked for something and the user confirmed it: in one
+  sentence what it brings (e.g. "The time is now right
+  everywhere.").
 - That own rules, roles, workflows, projects and everything the
   workbench says about you and your company are kept — and if own
   additions were carried over in step A, in one sentence what

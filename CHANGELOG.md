@@ -10,7 +10,9 @@
 - **Rückgängig:** Ordner, die vor dem Update da waren, bleiben stehen, auch leere (vorher wurde ein leeres `Projekte/` gelöscht). Englische Werkbänke bekommen ein englisches Protokoll (`undo.md`).
 - **Texte:** Update-Anleitung ohne Versionsnummer im Titel, Sicherung korrekt beschrieben, englischer Zeitzonen-Fallback `Europe/London`, Weg zur Projektanweisung in jedem Fall. Einrichtung: Liste dessen, was in der Werkbank bleibt, vollständig (CLAUDE.md, version.txt); Anrede bis zur Wahl in Schritt 5.
 - **Einrichtung präzisiert:** Pfad zu den Konto-Anweisungen korrigiert („Einstellungen → Dein Claude → Anweisungen"); jede Bestätigung zählt („fertig", „weiter", „ja", „ok"); welche Felder welche Quelle liefert; leere Felder im Entwurf als „—"; D, J, K werden nicht gefragt; Zeitzone auch aus Angaben im Chat; About Me: Stichworte nur für die Felder; Gedächtnis-Export und Chat-Angaben in der Ordnerliste.
-- **Update präzisiert:** alte Vorlage-Trigger der Werkbank-Regel beim Namen (keine eigenen); Verweise nach `Quellen/` bleiben; Tonalitäts- und Anrede-Zeile eindeutig; `CLAUDE.md` erklärt; `lauf.md` an einer Stelle; Uhrzeit-Satz nur nach Bestätigung; vor dem Rückgängigmachen ein Hinweis, dass spätere Änderungen an der KONTEXT.md verloren gehen.
+- **Update präzisiert:** alte Vorlage-Trigger der Werkbank-Regel beim Namen (keine eigenen); Verweise nach `Quellen/` bleiben; Tonalitäts- und Anrede-Zeile eindeutig; `CLAUDE.md` erklärt; `lauf.md` an einer Stelle; Uhrzeit-Satz nur nach Bestätigung; vor dem Rückgängigmachen ein Hinweis, was verloren geht und was bleibt.
+- **Rückgängig löscht nur, was das Update angelegt hat** (Liste `neu.txt`/`new.txt`). Vorher löschte es alles, was seit dem Update neu entstanden war — auch Projekte und Regeln. Später Entstandenes bleibt und wird genannt.
+- **KONTEXT-Vorlage:** Feld J heißt „Wortwahl"/„Wording" statt „Vermeiden"/„Avoid" — bevorzugte Begriffe kehrten sich sonst um.
 
 ## 5.0.2
 

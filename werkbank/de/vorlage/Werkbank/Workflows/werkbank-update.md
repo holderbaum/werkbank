@@ -52,5 +52,5 @@ Wie in `UPDATE.md` Schritt D: drei bis fünf Zeilen, Alltagssprache.
 
 ## Referenz
 
-**Update rückgängig machen:** Vorher ein Satz an den Nutzer: „Damit gehen auch Änderungen verloren, die seit dem Update an der Beschreibung der Werkbank gemacht wurden." Dann `npx holderbaum-werkbank@latest update --rueckgaengig` im Wurzelverzeichnis. Stellt den Stand vor dem letzten Update her; meldet der Befehl Dateien, die er nicht löschen durfte, diese nach Freigabe des Nutzers entfernen. Bericht in einem Satz.
+**Update rückgängig machen:** Vorher ein Satz an den Nutzer: „Die Dateien, die das Update geändert hat, kommen in den alten Stand — auch die Beschreibung der Werkbank; was seitdem darin geändert wurde, geht verloren. Was seit dem Update neu entstanden ist, bleibt." Dann `npx holderbaum-werkbank@latest update --rueckgaengig` im Wurzelverzeichnis. Der Befehl löscht nur, was das Paket beim Update angelegt hat. Nennt er Dateien, die seit dem Update entstanden sind und geblieben: Steht eine davon in der `lauf.md` des Updates als im Update angelegt (z. B. eine eigene Regel aus Schritt A), dem Nutzer anbieten, sie zu entfernen; alle anderen bleiben ohne Nachfrage. Meldet er Dateien, die er nicht löschen durfte: diese nach Freigabe entfernen. Bericht in einem Satz.
 ===== HOLDERBAUM-WERKSTATT · DATEI VOLLSTÄNDIG GELADEN =====
