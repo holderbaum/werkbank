@@ -18,7 +18,7 @@ Deshalb:
 - Alles ist umkehrbar: `alt/` enthält den vollständigen Stand vor dem
   Update; „Update rückgängig machen" holt ihn zurück.
 - Diese Anleitung geht der gerade geladenen Rolle und der alten
-  Werkbank-Regel vor. Die Freigabe des Nutzers liegt mit „Einspielen"
+  Werkbank-Regel vor. Die Freigabe des Nutzers liegt mit dem Update-Auftrag
   vor — auch für die Änderungen an der KONTEXT.md.
 
 ================================================================
@@ -33,10 +33,11 @@ SCHRITT A — EIGENE ÄNDERUNGEN AN WERKZEUG-DATEIEN
 
 {GEAENDERT}
 
-Ausnahme FORMAT.md: Eigene Zeilen aus einer alten FORMAT.md kommen nicht
+Steht oben eine FORMAT.md — Ausnahme: Eigene Zeilen aus einer alten FORMAT.md kommen nicht
 in eine Regel, sondern nach `Werkbank/Workflows/FORMAT-lokal.md` (anlegen
 mit Überschrift „# Workflow-Format — lokale Ergänzungen"). Was v5 schon
-abdeckt, fällt weg.
+abdeckt, fällt weg. Steht oben keine FORMAT.md: diesen Absatz
+überspringen.
 
 ================================================================
 SCHRITT B — KONTEXT.md AUF DIE NEUE STRUKTUR BRINGEN
@@ -89,7 +90,8 @@ Wird angeglichen (nur, was abweicht):
     ergänzen. Den Abschnitt „## Quellen" nur, wenn es den Ordner
     `Quellen/` gibt.
 14. Sprache: Die Sprach-Zeile nennt die Sprache, in der der Nutzer
-    seine Inhalte schreibt — nicht automatisch die der Vorlage.
+    seine Inhalte schreibt — nicht automatisch die der Vorlage;
+    gemischt: die Sprache der meisten eigenen Inhalte.
     Überschriften der Vorlage in der Sprache der Vorlage; eigene
     Abschnitte und Begriffe des Nutzers (z. B. „Operative
     Ressourcen") bleiben, wie sie sind.

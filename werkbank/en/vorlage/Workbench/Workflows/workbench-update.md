@@ -40,7 +40,7 @@ It asks the package whether there is a newer version and asks you once whether t
 Already current → "Your workbench is up to date." End.
 
 ### Halt 1 — Apply? · YOUR TURN
-presents, in two sentences of everyday language: "There is a new version of the workbench (vX.Y). Your own content, rules, roles, workflows and projects are kept." If the package reported own changes to tool files, a third sentence: "Your own adjustments to the Sparring Partner or the workbench rule are carried over." Then: "Apply?"
+presents, in two sentences of everyday language: "There is an update for your workbench. Your own content, rules, roles, workflows and projects are kept." If the package reported own changes to tool files, a third sentence: "Your own adjustments to the Sparring Partner or the workbench rule are carried over." Then: "Apply?"
 
 ### 2. Apply and work through
 *Judgment*

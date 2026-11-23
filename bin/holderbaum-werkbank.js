@@ -399,7 +399,7 @@ function befundText(b) {
   if (b.umzug === UMZUG_EN) z.push((en ? 'Structure move: ' : 'Struktur-Umzug: ') + 'Werkbank/ → Workbench/, Projekte/ → Projects/, KONTEXT.md → CONTEXT.md');
   if (b.umzug === UMZUG_AUFGABEN) z.push('Struktur-Umzug: Werkbank/Aufgaben/ → Werkbank/Workflows/');
   z.push((en ? 'Replaced or new: ' : 'Ersetzt bzw. neu: ') + werkzeuge(b.sprache).filter((r) => !b.eigen.includes(r)).join(', '));
-  z.push((en ? 'Backup of the old tool files: ' : 'Sicherung der alten Werkzeug-Dateien: ') + s.protokolle + '/' + s.update + '-' + (en ? '<timestamp>' : '<Zeitstempel>') + '/alt/');
+  z.push((en ? 'Backup (tool files, ' + b.kontextName + '): ' : 'Sicherung (Werkzeug-Dateien, ' + b.kontextName + '): ') + s.protokolle + '/' + s.update + '-' + (en ? '<timestamp>' : '<Zeitstempel>') + '/alt/');
   return z.join('\n');
 }
 
@@ -455,7 +455,7 @@ function befehlRueckgaengig(args) {
   const lauf = laeufe[laeufe.length - 1];
   const alt = path.join(ziel, lauf, 'alt');
   const gesichert = new Set(dateien(alt));
-  const liste = path.join(ziel, lauf, 'vorher.txt');
+  const liste = ['vorher.txt', 'before.txt'].map((n) => path.join(ziel, lauf, n)).find(ex) || path.join(ziel, lauf, 'vorher.txt');
   const vorher = ex(liste) ? new Set(lies(liste).split('\n').filter(Boolean)) : gesichert;
   const nichtGeloescht = [];
   for (const rel of sicherbar(ziel)) {
@@ -510,7 +510,7 @@ function befehlUpdate(args) {
   // Grundlage für --rueckgaengig: Liste aller Dateien vorher (vorher.txt) und Kopien dessen, was das
   // Update anfasst — Werkzeuge und KONTEXT; bei einem Struktur-Umzug alle Dateien (alte, kleine Werkbänke).
   const vorherListe = sicherbar(ziel);
-  schreibe(path.join(lauf, 'vorher.txt'), vorherListe.join('\n') + '\n');
+  schreibe(path.join(lauf, b.sprache === 'en' ? 'before.txt' : 'vorher.txt'), vorherListe.join('\n') + '\n');
   const zuSichern = b.umzug.length ? vorherListe
     : [...new Set([...b.gefunden.map((g) => g.rel), b.kontextName, ...werkzeuge(b.sprache), s.paket])].filter((r) => ex(path.join(ziel, r)));
   for (const rel of zuSichern) {
@@ -572,7 +572,7 @@ function befehlUpdate(args) {
     .replace('{BUDGET}', budgetText(budget(ziel, b.sprache), b.sprache)));
   schreibe(path.join(lauf, s.laufMd), '# ' + s.update + '-' + stempel + '\n\n' +
     '- ' + b.version + ' → ' + VERSION + ' (holderbaum-werkbank ' + PKG.version + ')\n' +
-    '- alt/: ' + (b.gefunden.map((g) => g.rel).join(', ') || '—') + '\n' +
+    '- alt/: ' + (zuSichern.join(', ') || '—') + '\n' +
     '- ' + werkzeuge(b.sprache).join(', ') + '\n' +
     (b.umzug.length ? '- ' + t.umgeschrieben(umgeschrieben) + (konflikte.length ? ' ' + t.konflikte + konflikte.join(', ') : '') + '\n' : ''));
 

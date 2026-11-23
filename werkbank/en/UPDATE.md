@@ -19,7 +19,7 @@ Therefore:
   the update; "undo the update" brings it back.
 - These instructions take precedence over the currently loaded role
   and the old workbench rule. The user's approval was given with
-  "Apply" — including the changes to CONTEXT.md.
+  the update request — including the changes to CONTEXT.md.
 
 ================================================================
 FINDINGS OF THE PACKAGE (for the agent, not for the chat)
@@ -33,9 +33,10 @@ STEP A — OWN CHANGES TO TOOL FILES
 
 {GEAENDERT}
 
-Exception FORMAT.md: own lines from an old FORMAT.md don't go into a rule
+If a FORMAT.md is listed above — exception: own lines from an old FORMAT.md don't go into a rule
 but into `Workbench/Workflows/FORMAT-local.md` (create it with the heading
-"# Workflow format — local additions"). What v5 already covers goes.
+"# Workflow format — local additions"). What v5 already covers goes. If no FORMAT.md is
+listed above: skip this paragraph.
 
 ================================================================
 STEP B — BRING CONTEXT.md TO THE NEW STRUCTURE
@@ -85,7 +86,8 @@ Gets aligned (only what differs):
 13. Add missing template lines under "Further" (e.g. "Projects").
     The section "## Sources" only if the folder `Sources/` exists.
 14. Language: the language line names the language in which the
-    user writes their content — not automatically the template's.
+    user writes their content — not automatically the template's;
+    mixed: the language of most of their own content.
     Template headings in the template's language; the user's own
     sections and terms (e.g. "Operative Ressourcen") stay as they
     are.

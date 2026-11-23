@@ -4,7 +4,9 @@
 
 - **Update erkennt Paketversionen.** Einrichten und Update vermerken die Paketversion in `Werkbank/version.txt` (`Workbench/version.txt`). Aktuell ist eine Werkbank erst, wenn Werkzeug-Dateien und Paketversion stimmen. Vorher meldeten Werkbänke von 5.0.0–5.0.2 „aktuell" und bekamen Änderungen außerhalb der Werkzeug-Dateien (Projektanweisung mit Zeitzone) nie.
 - **Projektanweisung im Update eindeutig.** Fehlt nur die Zeitzone, zeigt der Agent genau die neue `date`-Zeile zum Ersetzen, Platzhalter bleibt wörtlich. Fehlt der Kern oder gibt es keine Projektanweisung: ganzer Block, eigene Zusätze bleiben.
-- **Update-Anleitung:** „erledigt", „ja" oder „ok" zählen gleich als Antwort; Bericht ohne Dateinamen und Pfade; für Werkbänke, die schon auf v5.0 waren, ein eigener Berichtssatz.
+- **Update-Anleitung:** „erledigt", „ja" oder „ok" zählen gleich als Antwort; Bericht ohne Dateinamen und Pfade; für Werkbänke, die schon auf v5.0 waren, ein eigener Berichtssatz; die Freigabe gilt auch, wenn das Update per Prompt angestoßen wurde; FORMAT-Absatz nur, wenn eine FORMAT.md betroffen ist; Sprache bei gemischten Inhalten.
+- **Workflow `werkbank-update`:** Die Rückfrage lautet „Es gibt ein Update für deine Werkbank" statt einer Versionsnummer, die bei Paket-Updates gleich bliebe.
+- **Sicherung:** Befund und `lauf.md` nennen alles, was gesichert wurde (auch KONTEXT.md); englische Werkbänke bekommen `before.txt` statt `vorher.txt`.
 
 ## 5.0.2
 

@@ -40,7 +40,7 @@ Er fragt das Paket, ob es eine neuere Version gibt, und fragt dich einmal, ob er
 Schon aktuell → „Deine Werkbank ist aktuell." Ende.
 
 ### Halt 1 — Einspielen? · DU BIST DRAN
-legt vor, in zwei Sätzen Alltagssprache: „Es gibt eine neue Version der Werkbank (vX.Y). Deine eigenen Inhalte, Regeln, Rollen, Workflows und Projekte bleiben erhalten." Hat das Paket eigene Änderungen an Werkzeug-Dateien gemeldet, ein dritter Satz: „Eigene Anpassungen am Sparringpartner oder an der Werkbank-Regel werden übernommen." Dann: „Einspielen?"
+legt vor, in zwei Sätzen Alltagssprache: „Es gibt ein Update für deine Werkbank. Deine eigenen Inhalte, Regeln, Rollen, Workflows und Projekte bleiben erhalten." Hat das Paket eigene Änderungen an Werkzeug-Dateien gemeldet, ein dritter Satz: „Eigene Anpassungen am Sparringpartner oder an der Werkbank-Regel werden übernommen." Dann: „Einspielen?"
 
 ### 2. Einspielen und abarbeiten
 *Urteil*

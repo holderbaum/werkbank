@@ -131,6 +131,12 @@ for (const name of fs.readdirSync(REF).sort()) {
     assert.doesNotMatch(p.stdout, /Auf dem aktuellen Stand/, 'Paket: ' + alt + ' gilt als aktuell');
     assert.match(p.stdout, /Installiertes Paket: /, 'Paket: Befund ohne Paketzeile');
   }
+  // Werkbank aus 5.0.2: alter Workflow werkbank-update gilt als ausgelieferte Fassung, nicht als eigene Änderung
+  fs.copyFileSync(path.join(__dirname, 'referenz/quellen/paket-5.0.2/de/Werkbank/Workflows/werkbank-update.md'),
+    path.join(tmp, 'Werkbank/Workflows/werkbank-update.md'));
+  const alt502 = run(['update', '--pruefen'], tmp);
+  assert.match(alt502.stdout, /Installierte Version: v5\.0 /, 'Paket 5.0.2: Version ' + alt502.stdout);
+  assert.doesNotMatch(alt502.stdout, /eigenen Änderungen/, 'Paket 5.0.2: alter Workflow als eigene Änderung erkannt');
   fs.writeFileSync(vermerk, 'holderbaum-werkbank 5.0.0\n');
   const u = run(['update'], tmp);
   assert.strictEqual(u.status, 0, u.stderr);
