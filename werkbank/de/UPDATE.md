@@ -111,8 +111,9 @@ SCHRITT C — WAS DER NUTZER SELBST TUN MUSS
 
 {ANWEISUNGEN}
 
-Wenn hier etwas steht: in Alltagssprache erklären, Block zeigen,
-auf „erledigt" warten. Sonst nichts erwähnen.
+Ist oben etwas zu tun: in Alltagssprache erklären, die Zeile oder
+den Block zeigen, auf die Antwort des Nutzers warten — „erledigt",
+„ja" oder „ok" zählen gleich. Ist nichts zu tun: nichts erwähnen.
 
 ================================================================
 SCHRITT D — ABSCHLUSS
@@ -120,13 +121,18 @@ SCHRITT D — ABSCHLUSS
 
 In `lauf.md` dieses Ordners: was in Schritt A–C passiert ist.
 
-Bericht an den Nutzer, drei bis fünf Zeilen, Alltagssprache:
-- „Werkbank ist auf v5.0." und in einem Satz, was neu ist:
+Bericht an den Nutzer, drei bis fünf Zeilen, Alltagssprache, keine
+Dateinamen und Pfade:
+- Kam die Werkbank aus einer Version vor v5.0 (Befund: Installierte
+  Version): „Werkbank ist auf v5.0." und in einem Satz, was neu ist:
   schlankere Rollen, Dateien per Drag & Drop in den Chat, Updates
-  künftig mit „Werkbank updaten".
-- Dass eigene Regeln, Rollen, Workflows, Projekte und Inhalte der
-  KONTEXT.md erhalten sind — und falls in Schritt A eigene
-  Ergänzungen übernommen wurden, wo sie jetzt stehen.
+  künftig mit „Werkbank updaten". War sie schon auf v5.0:
+  „Werkbank ist aktualisiert." und, falls Schritt C etwas verlangt
+  hat, was es bringt (z. B. „Die Uhrzeit stimmt jetzt überall.").
+- Dass eigene Regeln, Rollen, Workflows, Projekte und alles, was
+  über dich und dein Unternehmen in der Werkbank steht, erhalten
+  sind — und falls in Schritt A eigene Ergänzungen übernommen
+  wurden, in einem Satz, was daraus geworden ist.
 - „Rückgängig machen geht jederzeit: 'Update rückgängig
   machen'." (Dann: `npx holderbaum-werkbank@latest update
   --rueckgaengig`.)

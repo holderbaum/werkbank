@@ -1,5 +1,11 @@
 # Changelog
 
+## 5.0.3
+
+- **Update erkennt Paketversionen.** Einrichten und Update vermerken die Paketversion in `Werkbank/version.txt` (`Workbench/version.txt`). Aktuell ist eine Werkbank erst, wenn Werkzeug-Dateien und Paketversion stimmen. Vorher meldeten Werkbänke von 5.0.0–5.0.2 „aktuell" und bekamen Änderungen außerhalb der Werkzeug-Dateien (Projektanweisung mit Zeitzone) nie.
+- **Projektanweisung im Update eindeutig.** Fehlt nur die Zeitzone, zeigt der Agent genau die neue `date`-Zeile zum Ersetzen, Platzhalter bleibt wörtlich. Fehlt der Kern oder gibt es keine Projektanweisung: ganzer Block, eigene Zusätze bleiben.
+- **Update-Anleitung:** „erledigt", „ja" oder „ok" zählen gleich als Antwort; Bericht ohne Dateinamen und Pfade; für Werkbänke, die schon auf v5.0 waren, ein eigener Berichtssatz.
+
 ## 5.0.2
 
 - **Zeitzone in der Projektanweisung.** Schritt 2 der Session-Start-Sequenz ruft `date` mit der Zeitzone aus der KONTEXT.md auf (`TZ=<Zone> date … %Z`) — Cowork läuft in UTC. Die Zone steht nicht fest im Block, damit er für jede Werkbank gleich bleibt.

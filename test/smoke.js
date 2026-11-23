@@ -21,6 +21,8 @@ for (const [sprache, args, kontext, pfade] of [
   assert.strictEqual(r.status, 0, sprache + ': ' + r.stderr);
   for (const p of pfade) assert.ok(fs.existsSync(path.join(tmp, p)), sprache + ': ' + p + ' fehlt');
   assert.ok(!fs.existsSync(path.join(tmp, kontext)), sprache + ': ' + kontext + ' legt das Paket nicht an');
+  assert.match(fs.readFileSync(path.join(tmp, sprache === 'en' ? 'Workbench/version.txt' : 'Werkbank/version.txt'), 'utf8'),
+    /^holderbaum-werkbank \S+\n$/, sprache + ': version.txt fehlt');
   // Lauf-Ordner liegt außerhalb der Werkbank
   const setup = r.stdout.match(/(\/\S+\/SETUP\.md)/)[1];
   assert.ok(!setup.startsWith(tmp), sprache + ': SETUP.md liegt in der Werkbank');

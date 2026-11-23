@@ -107,8 +107,10 @@ STEP C — WHAT THE USER HAS TO DO THEMSELVES
 
 {ANWEISUNGEN}
 
-If something stands here: explain it in everyday words, show the
-block, wait for "done". Otherwise mention nothing.
+If something has to be done above: explain it in everyday words,
+show the line or the block, wait for the user's answer — "done",
+"yes" or "ok" count the same. If nothing has to be done: mention
+nothing.
 
 ================================================================
 STEP D — WRAP-UP
@@ -116,13 +118,18 @@ STEP D — WRAP-UP
 
 In `run.md` of this folder: what happened in steps A–C.
 
-Report to the user, three to five lines, everyday language:
-- "Workbench is on v5.0." and in one sentence what's new: leaner
-  roles, files by drag & drop into the chat, future updates with
-  "update the workbench".
-- That own rules, roles, workflows, projects and CONTEXT.md
-  content are kept — and if own additions were carried over in
-  step A, where they are now.
+Report to the user, three to five lines, everyday language, no
+file names or paths:
+- If the workbench came from a version before v5.0 (findings:
+  installed version): "Workbench is on v5.0." and in one sentence
+  what's new: leaner roles, files by drag & drop into the chat,
+  future updates with "update the workbench". If it was already on
+  v5.0: "Workbench is updated." and, if step C asked for something,
+  what it brings (e.g. "The time is now right everywhere.").
+- That own rules, roles, workflows, projects and everything the
+  workbench says about you and your company are kept — and if own
+  additions were carried over in step A, in one sentence what
+  became of them.
 - "Undoing works any time: 'undo the update'." (Then: `npx
   holderbaum-werkbank@latest update --undo`.)
 

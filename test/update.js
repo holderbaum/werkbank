@@ -83,7 +83,7 @@ for (const name of fs.readdirSync(REF).sort()) {
   assert.ok(!/\{[A-Z_]+\}/.test(anleitung), t('Platzhalter in UPDATE.md'));
   assert.match(anleitung, /10\. (Kein Verweis auf holderbaum\.io|No reference to holderbaum\.io)/, t('Punkt 10 fehlt'));
   // Projektanweisung wird bei jeder Version geprüft (seit 5.0.2: date mit TZ=).
-  assert.match(anleitung, /PROJEKTANWEISUNG —|PROJECT INSTRUCTIONS —/, t('Projektanweisung fehlt'));
+  assert.match(anleitung, /PROJEKTANWEISUNG\. |PROJECT INSTRUCTIONS\. /, t('Projektanweisung fehlt'));
   assert.match(anleitung, /TZ=<(Zeitzone aus der KONTEXT\.md|time zone from CONTEXT\.md)>/, t('Projektanweisung ohne TZ'));
   assert.ok(alle(path.join(lauf, 'alt')).length >= 2, t('Sicherung fehlt'));
   assert.ok(fs.existsSync(path.join(lauf, sprache === 'en' ? 'context-template.md' : 'kontext-vorlage.md')));
@@ -113,6 +113,32 @@ for (const name of fs.readdirSync(REF).sort()) {
 
   fs.rmSync(tmp, { recursive: true, force: true });
   n++;
+}
+
+// Paketversion: eine v5-Werkbank ohne oder mit älterem Vermerk ist nicht aktuell — sonst erreichen
+// Änderungen außerhalb der Werkzeug-Dateien (Projektanweisung) Werkbänke von 5.0.0/5.0.1/5.0.2 nie.
+{
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'werkbank-paket-'));
+  kopie(path.join(REF, 'de-v4.0'), tmp);
+  assert.strictEqual(run(['update'], tmp).status, 0);
+  const vermerk = path.join(tmp, 'Werkbank/version.txt');
+  assert.strictEqual(fs.readFileSync(vermerk, 'utf8'), 'holderbaum-werkbank ' + require('../package.json').version + '\n', 'Paket: Vermerk fehlt');
+  assert.match(run(['update'], tmp).stdout, /Auf dem aktuellen Stand/, 'Paket: mit Vermerk aktuell');
+  for (const alt of [null, '5.0.0', '5.0.2', '5.0.3-rc.1']) {
+    if (alt === null) fs.unlinkSync(vermerk); else fs.writeFileSync(vermerk, 'holderbaum-werkbank ' + alt + '\n');
+    const p = run(['update', '--pruefen'], tmp);
+    if (alt === '5.0.3-rc.1' && require('../package.json').version.startsWith('5.0.3-rc.1')) continue;
+    assert.doesNotMatch(p.stdout, /Auf dem aktuellen Stand/, 'Paket: ' + alt + ' gilt als aktuell');
+    assert.match(p.stdout, /Installiertes Paket: /, 'Paket: Befund ohne Paketzeile');
+  }
+  fs.writeFileSync(vermerk, 'holderbaum-werkbank 5.0.0\n');
+  const u = run(['update'], tmp);
+  assert.strictEqual(u.status, 0, u.stderr);
+  const lauf = fs.readdirSync(path.join(tmp, 'Werkbank/protokolle')).filter((x) => x.startsWith('werkbank-update')).sort().pop();
+  const anl = fs.readFileSync(path.join(tmp, 'Werkbank/protokolle', lauf, 'UPDATE.md'), 'utf8');
+  assert.match(anl, /Nur \(b\) fehlt/, 'Paket: Anleitung ohne Zeile-2-Fall');
+  assert.ok(fs.existsSync(path.join(tmp, 'Werkbank/protokolle', lauf, 'alt/Werkbank/version.txt')), 'Paket: Vermerk nicht gesichert');
+  fs.rmSync(tmp, { recursive: true, force: true });
 }
 
 // Eigene Änderung an einer Werkzeug-Datei wird erkannt und gesichert

@@ -27,13 +27,13 @@ const STRUKTUR = {
     kontext: 'KONTEXT.md', vorlage: 'kontext-vorlage.md', regeln: 'Werkbank/Regeln', rollen: 'Werkbank/Rollen',
     workflows: 'Werkbank/Workflows', protokolle: 'Werkbank/protokolle', projekte: 'Projekte',
     quellen: ['Quellen/unterlagen', 'Quellen/website'], laufMd: 'lauf.md', kladde: 'kladde',
-    setup: 'werkbank-setup', update: 'werkbank-update',
+    setup: 'werkbank-setup', update: 'werkbank-update', paket: 'Werkbank/version.txt',
   },
   en: {
     kontext: 'CONTEXT.md', vorlage: 'context-template.md', regeln: 'Workbench/Rules', rollen: 'Workbench/Roles',
     workflows: 'Workbench/Workflows', protokolle: 'Workbench/logs', projekte: 'Projects',
     quellen: ['Sources/documents', 'Sources/website'], laufMd: 'run.md', kladde: 'scratch',
-    setup: 'workbench-setup', update: 'workbench-update',
+    setup: 'workbench-setup', update: 'workbench-update', paket: 'Workbench/version.txt',
   },
 };
 
@@ -171,6 +171,24 @@ function vkleiner(a, b) {
   return x[0] < y[0] || (x[0] === y[0] && x[1] < y[1]);
 }
 
+// Paketversion, mit der die Werkbank zuletzt eingerichtet oder aktualisiert wurde (version.txt).
+// Ein Update ist erst aktuell, wenn auch sie stimmt — sonst erreichen Änderungen außerhalb der
+// Werkzeug-Dateien (Projektanweisung, KONTEXT-Vorgaben) bestehende Werkbänke nie.
+const paketTeile = (v) => { const [k, vor] = v.split('-'); return { k: k.split('.').map(Number), vor: vor || null }; };
+function paketKleiner(a, b) {
+  const x = paketTeile(a); const y = paketTeile(b);
+  for (let i = 0; i < 3; i++) if ((x.k[i] || 0) !== (y.k[i] || 0)) return (x.k[i] || 0) < (y.k[i] || 0);
+  if (x.vor === y.vor) return false;
+  if (!x.vor) return false; // Release > Vorabfassung
+  if (!y.vor) return true;
+  return x.vor.localeCompare(y.vor, 'en', { numeric: true }) < 0;
+}
+function installiertesPaket(ziel, sprache) {
+  const m = /holderbaum-werkbank\s+(\S+)/.exec(ex(path.join(ziel, STRUKTUR[sprache].paket)) ? lies(path.join(ziel, STRUKTUR[sprache].paket)) : '');
+  return m ? m[1] : null;
+}
+const paketVermerken = (ziel, sprache) => schreibe(path.join(ziel, STRUKTUR[sprache].paket), 'holderbaum-werkbank ' + PKG.version + '\n');
+
 // Anteil eigener Zeilen: Zeilen, die in keiner je ausgelieferten Fassung stehen.
 function eigenAnteil(text) {
   const zeilen = norm(text).split('\n').filter((z) => z.trim());
@@ -263,6 +281,7 @@ function befehlEinrichten(args) {
   }
   const fehler = pruefeWerkbank(ziel, sprache).filter((f) => !uebersprungen.some((u) => f.startsWith(u)));
   if (fehler.length) abbruch('Werkzeuge unvollständig:\n  ' + fehler.join('\n  ') + '\nPaket erneut ausführen.');
+  paketVermerken(ziel, sprache);
 
   // Lauf-Ordner außerhalb der Werkbank — verschwindet mit der Sandbox.
   const stempel = zeitstempel();
@@ -347,14 +366,15 @@ function befund(ziel, args) {
 
   const eigen = werkzeuge(sprache).filter((rel) => eigeneFassung(ziel, rel));
   for (const g of gefunden) if (eigen.includes(g.rel)) g.eigen = Math.round(eigenAnteil(lies(path.join(ziel, g.rel))) * 100);
-  const aktuell = umzug.length === 0 && werkzeuge(sprache).every((rel) => {
+  const paket = installiertesPaket(ziel, sprache);
+  const aktuell = umzug.length === 0 && paket !== null && !paketKleiner(paket, PKG.version) && werkzeuge(sprache).every((rel) => {
     const p = path.join(ziel, rel);
     return eigen.includes(rel) || (ex(p) && norm(lies(p)) === norm(lies(path.join(vorlage(sprache), rel))));
   });
   // Gewachsene Werkbank: KONTEXT nur ergänzen, nicht umbauen.
   const regel = sprache === 'en' ? 'Workbench/Rules/workbench.md' : 'Werkbank/Regeln/werkbank.md';
   const gewachsen = [...kontext].length > BUDGET.kontext || eigen.length > 0 || !ex(path.join(ziel, regel));
-  return { ziel, kontextName, version, herkunft, sprache, gefunden, umzug, aktuell, eigen, gewachsen, regelFehlt: !ex(path.join(ziel, regel)) };
+  return { ziel, kontextName, version, herkunft, sprache, gefunden, umzug, aktuell, eigen, gewachsen, paket, regelFehlt: !ex(path.join(ziel, regel)) };
 }
 
 function befundText(b) {
@@ -368,6 +388,7 @@ function befundText(b) {
   z.push((en ? 'Workbench: ' : 'Werkbank: ') + b.ziel);
   z.push((en ? 'Installed version: ' : 'Installierte Version: ') + (en && b.version === 'unbekannt' ? 'unknown' : b.version) +
     (en ? ' (determined from ' : ' (bestimmt über ') + herkunft + ')');
+  z.push((en ? 'Installed package: ' : 'Installiertes Paket: ') + (b.paket || (en ? 'not recorded (before 5.0.3)' : 'nicht vermerkt (vor 5.0.3)')));
   z.push((en ? 'New version: ' : 'Neue Version: ') + VERSION + ' (holderbaum-werkbank ' + PKG.version + ', ' + b.sprache + ')');
   const geaendert = b.gefunden.filter((g) => g.geaendert);
   const angepasst = geaendert.filter((g) => !g.eigen);
@@ -491,7 +512,7 @@ function befehlUpdate(args) {
   const vorherListe = sicherbar(ziel);
   schreibe(path.join(lauf, 'vorher.txt'), vorherListe.join('\n') + '\n');
   const zuSichern = b.umzug.length ? vorherListe
-    : [...new Set([...b.gefunden.map((g) => g.rel), b.kontextName, ...werkzeuge(b.sprache)])].filter((r) => ex(path.join(ziel, r)));
+    : [...new Set([...b.gefunden.map((g) => g.rel), b.kontextName, ...werkzeuge(b.sprache), s.paket])].filter((r) => ex(path.join(ziel, r)));
   for (const rel of zuSichern) {
     fs.mkdirSync(path.dirname(path.join(lauf, 'alt', rel)), { recursive: true });
     fs.copyFileSync(path.join(ziel, rel), path.join(lauf, 'alt', rel));
@@ -533,6 +554,7 @@ function befehlUpdate(args) {
   }
   const fehler = pruefeWerkbank(ziel, b.sprache);
   if (fehler.length) abbruch('Nach dem Einspielen unvollständig:\n  ' + fehler.join('\n  ') + '\nSicherung: ' + laufRel + '/alt/');
+  paketVermerken(ziel, b.sprache);
 
   // 4. Anleitung für den Agenten im Lauf-Ordner.
   fs.copyFileSync(path.join(INHALT, b.sprache, s.vorlage), path.join(lauf, s.vorlage));
@@ -559,19 +581,23 @@ function befehlUpdate(args) {
 
 // ---------------------------------------------------------------- Texte
 
+const ZEILE_DATE = {
+  de: "2. Ruf `TZ=<Zeitzone aus der KONTEXT.md> date '+%Y-%m-%d %H:%M %A %Z'` im Terminal auf.",
+  en: "2. Run `TZ=<time zone from CONTEXT.md> date '+%Y-%m-%d %H:%M %A %Z'` in the terminal.",
+};
 const PROJEKTANWEISUNG = {
   de: '```markdown\n# Werkbank-Projekt\n\nJeder verbundene Ordner kann eine Werkbank sein: eine eingerichtete\n' +
     'Arbeitsumgebung mit einer `KONTEXT.md` im Root, die die Anleitung zu\ndieser Werkbank ist.\n\n' +
     '## PFLICHT: Session-Start-Sequenz\n\nVor deiner ersten Antwort — egal ob „hallo", Frage oder Auftrag.\n' +
     'Keine Ausnahmen, auch nicht bei Smalltalk.\n\n1. Lies mit dem Read-Tool die `KONTEXT.md` im Root jedes verbundenen\n' +
     '   Verzeichnisses, das eine hat — nicht aus dem Gedächtnis — und\n   folge ihren Anweisungen vollständig.\n' +
-    "2. Ruf `TZ=<Zeitzone aus der KONTEXT.md> date '+%Y-%m-%d %H:%M %A %Z'` im Terminal auf.\n```\n",
+    ZEILE_DATE.de + "\n```\n",
   en: '```markdown\n# Workbench project\n\nAny connected folder can be a Workbench: a set-up working\n' +
     'environment with a `CONTEXT.md` in its root that is the manual for\nthat Workbench.\n\n' +
     '## MANDATORY: Session start sequence\n\nBefore your first response — whether it\'s "hi", a question or a\n' +
     'task. No exceptions, not even for small talk.\n\n1. Use the Read tool to read the `CONTEXT.md` in the root of every\n' +
     '   connected directory that has one — not from memory — and follow\n   its instructions in full.\n' +
-    "2. Run `TZ=<time zone from CONTEXT.md> date '+%Y-%m-%d %H:%M %A %Z'` in the terminal.\n```\n",
+    ZEILE_DATE.en + "\n```\n",
 };
 
 const TEXTE = {
@@ -609,14 +635,18 @@ const TEXTE = {
       'Dateien umgeschrieben (siehe Befund). Bei Punkt 7 und 8 die neuen Pfade verwenden.',
     anweisungen: (v) => {
       const teile = [];
-      {
-        teile.push('PROJEKTANWEISUNG — ältere Werkbänke haben eine ältere Fassung. Die Projektanweisung\n' +
-          'dieses Projekts steht in deinem Kontext. Enthält sie den Kern (die KONTEXT.md jedes verbundenen\n' +
-          'Ordners lesen und ihr folgen; `date` mit `TZ=<Zeitzone aus der KONTEXT.md>` aufrufen): nichts tun, nichts erwähnen. Fehlt etwas: nur das\n' +
-          'Fehlende als Ergänzung zeigen — eigene Zusätze des Nutzers bleiben, nie den ganzen Text ersetzen.\n' +
-          'Gibt es gar keine Projektanweisung, diesen Block zeigen (verbatim, Markdown-Codeblock):\n\n' + PROJEKTANWEISUNG.de +
-          '\nWeg: Seitenleiste des Projekts → Anweisungen. Bestätigung abwarten.');
-      }
+      teile.push('PROJEKTANWEISUNG. Die Projektanweisung dieses Projekts steht in deinem Kontext. Prüfen:\n' +
+        '(a) Lässt sie die KONTEXT.md jedes verbundenen Ordners lesen und ihr folgen?\n' +
+        '(b) Ruft sie `date` mit `TZ=` auf?\n\n' +
+        '- Beides ja: nichts tun, nichts erwähnen.\n' +
+        '- Nur (b) fehlt (ein `date`-Aufruf ohne `TZ=`): nur diese Zeile zeigen, als Ersatz für die alte\n' +
+        '  `date`-Zeile. Der Platzhalter bleibt wörtlich stehen — der Block gilt für jede Werkbank im Projekt:\n\n' +
+        '```markdown\n' + ZEILE_DATE.de + '\n```\n\n' +
+        '  Dazu: „In den Anweisungen des Projekts die Zeile mit `date` durch diese ersetzen — dann rechnet\n' +
+        '  jeder Agent mit deiner Uhrzeit." Der Rest der Projektanweisung bleibt, auch eigene Zusätze.\n' +
+        '- (a) fehlt oder es gibt keine Projektanweisung: diesen Block zeigen (verbatim, Markdown-Codeblock).\n' +
+        '  Eigene Zusätze des Nutzers bleiben darunter stehen.\n\n' + PROJEKTANWEISUNG.de +
+        '\nWeg: Seitenleiste des Projekts → Anweisungen.');
       return teile.length ? teile.join('\n\n') : 'Nichts. Projektanweisung und About Me bleiben, wie sie sind.';
     },
     weiter: (p) => 'NÄCHSTER SCHRITT FÜR DEN AGENTEN:\nLies ' + p + ' vollständig mit dem Read-Tool und folge der Anleitung.',
@@ -654,15 +684,18 @@ const TEXTE = {
       'files (see findings). Use the new paths for points 7 and 8.',
     anweisungen: (v) => {
       const teile = [];
-      {
-        teile.push('PROJECT INSTRUCTIONS — older workbenches have an older version. This project\'s\n' +
-          'instructions are in your context. If they contain the core (read the CONTEXT.md of every\n' +
-          'connected folder and follow it; run `date` with `TZ=<time zone from CONTEXT.md>`): do nothing, mention nothing. If something is\n' +
-          'missing: show only what is missing as an addition — the user\'s own additions stay, never\n' +
-          'replace the whole text. If there are no project instructions at all, show this block\n' +
-          '(verbatim, Markdown code block):\n\n' + PROJEKTANWEISUNG.en +
-          '\nPath: project sidebar → Instructions. Wait for confirmation.');
-      }
+      teile.push('PROJECT INSTRUCTIONS. This project\'s instructions are in your context. Check:\n' +
+        '(a) Do they have the agent read the CONTEXT.md of every connected folder and follow it?\n' +
+        '(b) Do they run `date` with `TZ=`?\n\n' +
+        '- Both yes: do nothing, mention nothing.\n' +
+        '- Only (b) missing (a `date` call without `TZ=`): show only this line, as the replacement for the\n' +
+        '  old `date` line. The placeholder stays literally — the block applies to every workbench in the project:\n\n' +
+        '```markdown\n' + ZEILE_DATE.en + '\n```\n\n' +
+        '  With: "In the project\'s instructions, replace the line with `date` by this one — then every\n' +
+        '  agent works with your local time." The rest of the instructions stays, own additions too.\n' +
+        '- (a) missing or no project instructions at all: show this block (verbatim, Markdown code block).\n' +
+        '  The user\'s own additions stay below it.\n\n' + PROJEKTANWEISUNG.en +
+        '\nPath: project sidebar → Instructions.');
       return teile.length ? teile.join('\n\n') : 'Nothing. Project instructions and About Me stay as they are.';
     },
     weiter: (p) => 'NEXT STEP FOR THE AGENT:\nRead ' + p + ' completely with the Read tool and follow it.',
