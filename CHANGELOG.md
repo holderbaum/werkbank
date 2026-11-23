@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.0.1
+
+- **Zeitzone in der englischen Einrichtung.** Das Setup fragt nach der Zeitzone (eine Stadt reicht), statt sie aus dem Material abzuleiten und sonst `Europe/Berlin` zu setzen. Ohne Antwort: Zone der Adresse, sonst `Europe/London`.
+- Einrichtung DE/EN: Feldbereich A–K statt A–H, `CLAUDE.md` in der Liste nach der Installation, englisches Beispiel ohne deutschen Ort.
+
 ## 5.0.0
 
 Erste Version, die über npm ausgeliefert wird und als Update auf alle Werkbänke im Feld funktioniert (Bauanleitung v1.5 bis v4.0, deutsch und englisch).

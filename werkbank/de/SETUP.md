@@ -17,6 +17,7 @@ STAND NACH DER INSTALLATION
 In der Werkbank (Ordner des Nutzers):
 
   KONTEXT.md                            fehlt noch (Schritt 6)
+  CLAUDE.md                             importiert KONTEXT.md (Claude Code)
   Werkbank/
     Regeln/werkbank.md                  Werkbank-Regel
     Rollen/Sparringpartner/             Sparringpartner (4 Dateien)
@@ -172,7 +173,7 @@ Unterlagen (ein Subagent je Datei):
   `Quellen/unterlagen/<dateiname>.extrakt.md`: Werte,
   Positionierung, Zielgruppen, Angebote, Tonalität — nur, was
   drinsteht, mit Seitenangabe.
-- Rückgabe: Felder A–H mit Fundstelle.
+- Rückgabe: Felder A–K mit Fundstelle.
 
 Gedächtnis-Export: unverändert nach
 `Quellen/gedaechtnis-<chatgpt|claude>.md`. Kein Subagent.
@@ -213,7 +214,7 @@ Felder.
 SCHRITT 5 — PROFIL VORLEGEN
 ================================================================
 
-Eine Nachricht: Entwurf der Felder A–H, dann nur die nötigen
+Eine Nachricht: Entwurf der Felder A–K, dann nur die nötigen
 Fragen, dann die Anrede-Frage. Sage:
 
 "Das ist das Profil aus deinem Material. Korrigiere, was falsch

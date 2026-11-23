@@ -16,6 +16,7 @@ STATE AFTER INSTALLATION
 In the workbench (the user's folder):
 
   CONTEXT.md                            missing (step 6)
+  CLAUDE.md                             imports CONTEXT.md (Claude Code)
   Workbench/
     Rules/workbench.md                  workbench rule
     Roles/SparringPartner/              Sparring Partner (4 files)
@@ -168,7 +169,7 @@ Documents (one subagent per file):
   `Sources/documents/<file name>.extract.md`: values,
   positioning, target audiences, offers, tone — only what is in
   it, with page reference.
-- Return: fields A–H with location.
+- Return: fields A–K with location.
 
 Memory export: unchanged to `Sources/memory-<chatgpt|claude>.md`.
 No subagent.
@@ -206,7 +207,7 @@ In `run.md`: step 4, timestamp, sources used, empty fields.
 STEP 5 — PRESENT THE PROFILE
 ================================================================
 
-One message: draft of fields A–H, then only the necessary
+One message: draft of fields A–K, then only the necessary
 questions, then the address-form question. Say:
 
 "This is the profile from your material. Correct what's wrong,
@@ -237,7 +238,8 @@ strike what shouldn't go in:
 - Way of working: What characterises it?
 
 And: Should agents in this workbench address you (and your
-team) by first name or formally?"
+team) by first name or formally? And which time zone do you work
+in (a city is enough)?"
 
 Take over corrections and choices. "Fine" confirms only fields
 without a choice question; an open choice gets version 1. What is
@@ -260,8 +262,9 @@ in curly braces with the fields, empty ones with "(to be
 sharpened)". `{Address}`: "informal address" or "formal
 address". `{J}`: the wording, empty → "(to be sharpened — comes in
 via 'remember this')". `{Zone}`: IANA time zone
-(e.g. `Europe/London`) from address, imprint or memory; nothing
-found → `Europe/Berlin`. Don't ask. `{K}`: empty → "(No projects yet. Projects
+(e.g. `Europe/London`, `America/New_York`) from the user's answer
+to the time-zone question in step 5. No answer → time zone of the
+address in the material; nothing found → `Europe/London`. `{K}`: empty → "(No projects yet. Projects
 live in `Projects/`, each with its own CONTEXT.md.)"; otherwise
 "Ongoing undertakings, no folder yet — they become projects as
 soon as work on them starts: …" with the undertakings as a list. Brand values: variant 1 if D is filled, otherwise
@@ -281,7 +284,7 @@ STEP 7a — ABOUT ME INTO THE ACCOUNT INSTRUCTIONS
 
 Build the block from fields E–H, five to ten lines plus the
 closing sentence. Keywords without address ("Managing director,
-Trier, deep work in the mornings"), no you- or I-sentences. Say:
+Leeds, deep work in the mornings"), no you- or I-sentences. Say:
 
 "First block: your About Me. It describes you, not your
 workbench — that's why it lives in your account and applies in
