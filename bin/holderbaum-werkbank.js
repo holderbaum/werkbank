@@ -60,6 +60,8 @@ function abbruch(text) {
 const aus = (t) => process.stdout.write(t + '\n');
 const ex = (p) => fs.existsSync(p);
 const lies = (p) => fs.readFileSync(p, 'utf8');
+// Vorabfassung (Version mit Bindestrich) liegt auf npm unter `next`, nicht `latest`.
+const kanal = (t) => PKG.version.includes('-') ? t.replace(/holderbaum-werkbank@latest/g, 'holderbaum-werkbank@next') : t;
 const norm = (t) => t.replace(/\r\n/g, '\n').replace(/\s+$/, '') + '\n';
 const zeilenSumme = (z) => crypto.createHash('sha256').update(z.trim().replace(/\s+/g, ' ')).digest('hex').slice(0, 8);
 const pruefsumme = (t) => crypto.createHash('sha256').update(norm(t)).digest('hex');
@@ -268,7 +270,7 @@ function befehlEinrichten(args) {
   const lauf = fs.mkdtempSync(path.join(os.tmpdir(), 'holderbaum-werkbank', s.setup + '-' + stempel + '-'));
   fs.mkdirSync(path.join(lauf, s.kladde), { recursive: true });
   const setup = path.join(lauf, 'SETUP.md');
-  fs.copyFileSync(path.join(INHALT, sprache, 'SETUP.md'), setup);
+  schreibe(setup, kanal(lies(path.join(INHALT, sprache, 'SETUP.md'))));
   fs.copyFileSync(path.join(INHALT, sprache, s.vorlage), path.join(lauf, s.vorlage));
   schreibe(path.join(lauf, s.laufMd),
     '# ' + s.setup + '-' + stempel + '\n\n' +
@@ -539,7 +541,7 @@ function befehlUpdate(args) {
   let befundTxt = befundText(b).replace(/<Zeitstempel>|<timestamp>/, stempel);
   if (b.umzug.length) befundTxt += '\n' + t.umgeschrieben(umgeschrieben);
   if (konflikte.length) befundTxt += '\n' + t.konflikte + konflikte.join(', ');
-  schreibe(path.join(lauf, 'UPDATE.md'), lies(path.join(INHALT, b.sprache, 'UPDATE.md'))
+  schreibe(path.join(lauf, 'UPDATE.md'), kanal(lies(path.join(INHALT, b.sprache, 'UPDATE.md')))
     .replace('{BEFUND}', befundTxt)
     .replace('{GEAENDERT}', eigenTxt + (geaendert.length ? t.geaendert(geaendert, laufRel, eigeneZeilen) : t.nichtGeaendert))
     .replace('{KONTEXT_MODUS}', b.gewachsen ? t.gewachsen(b.regelFehlt) : t.normal)

@@ -368,7 +368,7 @@ Check with tools, not from memory:
    `{A}`, `{B}`, `{C}`, `{J}`, `{K}`, `{Zone}`, `{…}`, `{I`, `{Address}`, `{Variant`. Hit →
    not done. "(to be sharpened)" is allowed.
 5. CONTEXT.md contains `Forbidden — anthropomorphising`,
-   `## Working mode`, `MUST be active`, the Sparring Partner as
+   `## Working mode`, `a role MUST be`, the Sparring Partner as
    default in the role index and the line `workbench-update.md`
    in the workflow index.
 6. No file from the run folder (SETUP.md, scratch/, run.md) is in

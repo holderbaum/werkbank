@@ -379,7 +379,7 @@ Mit Tools prüfen, nicht aus dem Gedächtnis:
    `{B}`, `{C}`, `{J}`, `{K}`, `{Zone}`, `{…}`, `{I`, `{Anrede}`, `{Variante`. Treffer →
    nicht fertig. „(noch zu schärfen)" ist erlaubt.
 5. KONTEXT.md enthält `Verboten — Vermenschlichung`,
-   `## Arbeitsmodus`, `Rolle MUSS aktiv sein`, den
+   `## Arbeitsmodus`, `MUSS eine Rolle aktiv`, den
    Sparringpartner als Default im Rollen-Index und die Zeile
    `werkbank-update.md` im Workflow-Index.
 6. Keine Datei aus dem Lauf-Ordner (SETUP.md, kladde/, lauf.md)
