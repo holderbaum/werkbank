@@ -698,7 +698,7 @@ const TEXTE = {
         '- Only (b) missing (a `date` call without `TZ=`): show only this line, as the replacement for the\n' +
         '  old `date` line. The placeholder stays literally — the block applies to every workbench in the project:\n\n' +
         '```markdown\n' + ZEILE_DATE.en + '\n```\n\n' +
-        '  With: "In the project\'s instructions, replace the line with `date` by this one — then every\n' +
+        '  With: "In the project\'s instructions, replace the `date` line with this one — then every\n' +
         '  agent works with your local time." The rest of the instructions stays, own additions too.\n' +
         '- (a) missing or no project instructions at all: show this block (verbatim, Markdown code block).\n' +
         '  The user\'s own additions stay below it.\n\n' + PROJEKTANWEISUNG.en +

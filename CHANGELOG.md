@@ -9,6 +9,8 @@
 - **Sicherung:** Befund und `lauf.md` nennen alles, was gesichert wurde (auch KONTEXT.md); englische Werkbänke bekommen `before.txt` statt `vorher.txt`.
 - **Rückgängig:** Ordner, die vor dem Update da waren, bleiben stehen, auch leere (vorher wurde ein leeres `Projekte/` gelöscht). Englische Werkbänke bekommen ein englisches Protokoll (`undo.md`).
 - **Texte:** Update-Anleitung ohne Versionsnummer im Titel, Sicherung korrekt beschrieben, englischer Zeitzonen-Fallback `Europe/London`, Weg zur Projektanweisung in jedem Fall. Einrichtung: Liste dessen, was in der Werkbank bleibt, vollständig (CLAUDE.md, version.txt); Anrede bis zur Wahl in Schritt 5.
+- **Einrichtung präzisiert:** Pfad zu den Konto-Anweisungen korrigiert („Einstellungen → Dein Claude → Anweisungen"); jede Bestätigung zählt („fertig", „weiter", „ja", „ok"); welche Felder welche Quelle liefert; leere Felder im Entwurf als „—"; D, J, K werden nicht gefragt; Zeitzone auch aus Angaben im Chat; About Me: Stichworte nur für die Felder; Gedächtnis-Export und Chat-Angaben in der Ordnerliste.
+- **Update präzisiert:** alte Vorlage-Trigger der Werkbank-Regel beim Namen (keine eigenen); Verweise nach `Quellen/` bleiben; Tonalitäts- und Anrede-Zeile eindeutig; `CLAUDE.md` erklärt; `lauf.md` an einer Stelle; Uhrzeit-Satz nur nach Bestätigung; vor dem Rückgängigmachen ein Hinweis, dass spätere Änderungen an der KONTEXT.md verloren gehen.
 
 ## 5.0.2
 

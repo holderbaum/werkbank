@@ -29,7 +29,7 @@ Er fragt das Paket, ob es eine neuere Version gibt, und fragt dich einmal, ob er
 ## Zonen
 
 - **Quelle:** das Paket `holderbaum-werkbank`.
-- **Kladde:** Lauf-Ordner `Werkbank/protokolle/werkbank-update-<Zeitstempel>/` (vom Paket angelegt: `UPDATE.md`, `lauf.md`, Sicherung `alt/`).
+- **Kladde:** Lauf-Ordner `Werkbank/protokolle/werkbank-update-<Zeitstempel>/` (vom Paket angelegt: `UPDATE.md`, `lauf.md`, Sicherung `alt/` und Dateiliste `vorher.txt`).
 - **Ziel:** Werkzeug-Dateien und KONTEXT.md der Werkbank.
 
 ## Die Schritte
@@ -40,7 +40,7 @@ Er fragt das Paket, ob es eine neuere Version gibt, und fragt dich einmal, ob er
 Schon aktuell → „Deine Werkbank ist aktuell." Ende.
 
 ### Halt 1 — Einspielen? · DU BIST DRAN
-legt vor, in zwei Sätzen Alltagssprache: „Es gibt ein Update für deine Werkbank. Deine eigenen Inhalte, Regeln, Rollen, Workflows und Projekte bleiben erhalten." Hat das Paket eigene Änderungen an Werkzeug-Dateien gemeldet, ein dritter Satz: „Eigene Anpassungen am Sparringpartner oder an der Werkbank-Regel werden übernommen." Dann: „Einspielen?"
+Der Agent legt in zwei Sätzen Alltagssprache vor: „Es gibt ein Update für deine Werkbank. Deine eigenen Inhalte, Regeln, Rollen, Workflows und Projekte bleiben erhalten." Hat das Paket eigene Änderungen an Werkzeug-Dateien gemeldet, kommt ein dritter dazu: „Eigene Anpassungen am Sparringpartner oder an der Werkbank-Regel werden übernommen." Danach die Frage: „Einspielen?"
 
 ### 2. Einspielen und abarbeiten
 *Urteil*
@@ -52,5 +52,5 @@ Wie in `UPDATE.md` Schritt D: drei bis fünf Zeilen, Alltagssprache.
 
 ## Referenz
 
-**Update rückgängig machen:** `npx holderbaum-werkbank@latest update --rueckgaengig` im Wurzelverzeichnis. Holt den vollständigen Stand vor dem letzten Update zurück; meldet der Befehl Dateien, die er nicht löschen durfte, diese nach Freigabe des Nutzers entfernen. Bericht in einem Satz.
+**Update rückgängig machen:** Vorher ein Satz an den Nutzer: „Damit gehen auch Änderungen verloren, die seit dem Update an der Beschreibung der Werkbank gemacht wurden." Dann `npx holderbaum-werkbank@latest update --rueckgaengig` im Wurzelverzeichnis. Stellt den Stand vor dem letzten Update her; meldet der Befehl Dateien, die er nicht löschen durfte, diese nach Freigabe des Nutzers entfernen. Bericht in einem Satz.
 ===== HOLDERBAUM-WERKSTATT · DATEI VOLLSTÄNDIG GELADEN =====

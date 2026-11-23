@@ -24,6 +24,7 @@ In the workbench (the user's folder):
     Workflows/workbench-update.md       workflow workbench update
     logs/                               empty
   Sources/documents/ · Sources/website/
+  Sources/memory-*.md · Sources/details-from-chat.md   (step 4)
   Projects/
 
 In the run folder (path printed by the package, in the sandbox's
@@ -59,7 +60,8 @@ in the account instructions. The project instructions belong to
 the project and say that this folder is a workbench.
 
 Language: English. Address the user informally (first name) until
-they choose otherwise in step 5.
+they choose otherwise in step 5. Where a word is awaited ("done",
+"continue"), any confirmation counts the same ("yes", "ok").
 
 TONE OF THE SETUP
 The workbench is a tool, not a counterpart:
@@ -139,12 +141,12 @@ STEP 4 — EVALUATE MATERIAL
 Raw material goes into `Sources/` of the workbench, intermediate
 states into `scratch/` of the run folder. The fields below are
 filled from the material. Invent nothing — what no source
-provides stays empty and is asked in step 5.
+provides stays empty and is asked in step 5 (except D, J, K).
 
 Subagents, if the tool is available — one for the website, one
 per document. The subagent reads the source, writes the raw text
-into `Sources/` and returns only the extraction (fields A–D, each
-with location). The raw text does not go into the main context.
+into `Sources/` and returns only the extraction (the fields the source yields,
+each with location — website A–D, document A–K). The raw text does not go into the main context.
 Without a subagent tool: evaluate the sources one after another
 directly; write raw text only into files, never into chat
 messages. Paths to subagents always absolute.
@@ -243,6 +245,10 @@ And: Should agents in this workbench address you (and your
 team) by first name or formally? And which time zone do you work
 in (a city is enough)?"
 
+In the draft an empty field shows as "—". Not asked: D (brand
+values), J (wording) and K (ongoing undertakings) — they stay
+empty if the material yields nothing.
+
 Take over corrections and choices. "Fine" confirms only fields
 without a choice question; an open choice gets version 1. What is
 still empty afterwards becomes "(to be sharpened)". No second
@@ -261,15 +267,18 @@ STEP 6 — CREATE CONTEXT.md
 Read `context-template.md` from the run folder and write it as
 `CONTEXT.md` into the root of the workbench. Replace placeholders
 in curly braces with the fields, empty ones with "(to be
-sharpened)". `{Address}`: "informal address" or "formal
-address". `{J}`: the wording, empty → "(to be sharpened — comes in
-via 'remember this')". `{Zone}`: IANA time zone
-(e.g. `Europe/London`, `America/New_York`) from the user's answer
-to the time-zone question in step 5. No answer → time zone of the
-address in the material; nothing found → `Europe/London`. `{K}`: empty → "(No projects yet. Projects
-live in `Projects/`, each with its own CONTEXT.md.)"; otherwise
+sharpened)" — except D, J and K, for which the following applies.
+`{Address}`: "informal address" or "formal address". `{J}`: the
+wording, empty → "(to be sharpened — comes in via 'remember
+this')". `{Zone}`: IANA time zone (e.g. `Europe/London`,
+`America/New_York`) from the user's answer to the time-zone
+question in step 5. No answer → time zone of the address in the
+material or the details in the chat; nothing found →
+`Europe/London`. `{K}`: empty → "(No projects yet. Projects live
+in `Projects/`, each with its own CONTEXT.md.)"; otherwise
 "Ongoing undertakings, no folder yet — they become projects as
-soon as work on them starts: …" with the undertakings as a list. Brand values: variant 1 if D is filled, otherwise
+soon as work on them starts: …" with the undertakings as a list.
+Brand values: variant 1 if D is filled, otherwise
 variant 2; the variant lines themselves go. Write a `|` in a
 table value as `\|`. Change nothing else.
 
@@ -285,14 +294,16 @@ Do not write either block into a file.
 STEP 7a — ABOUT ME INTO THE ACCOUNT INSTRUCTIONS
 
 Build the block from fields E–H, five to ten lines plus the
-closing sentence. Keywords without address ("Managing director,
-Leeds, deep work in the mornings"), no you- or I-sentences. Say:
+closing sentence. The fields as keywords without address
+("Managing director, Leeds, deep work in the mornings"), no you- or
+I-sentences; "Communication" and the closing sentence stay
+verbatim as in the template. Say:
 
 "First block: your About Me. It describes you, not your
 workbench — that's why it lives in your account and applies in
 every chat. The path:
 
-  Settings → Account → 'Instructions for Claude'
+  Settings → Your Claude → Instructions
 
 Copy the block with the copy button, paste it there, save."
 
@@ -370,8 +381,9 @@ Check with tools, not from memory:
    end marker of every tool file.)
 3. Every source delivered in step 3 is in `Sources/`.
 4. CONTEXT.md without unreplaced placeholders. Search patterns:
-   `{A}`, `{B}`, `{C}`, `{J}`, `{K}`, `{Zone}`, `{…}`, `{I`, `{Address}`, `{Variant`. Hit →
-   not done. "(to be sharpened)" is allowed.
+   `{A}`, `{B}`, `{C}`, `{J}`, `{K}`, `{Zone}`, `{…}`, `{I`,
+   `{Address}`, `{Variant`. Hit → not done. "(to be sharpened)" is
+   allowed.
 5. CONTEXT.md contains `Forbidden — anthropomorphising`,
    `## Working mode`, `a role MUST be`, the Sparring Partner as
    default in the role index and the line `workbench-update.md`

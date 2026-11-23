@@ -19,6 +19,8 @@ Therefore:
 - Everything is reversible: `alt/` holds the files the update
   touches, `before.txt` the list of all files before it; "undo the
   update" restores the state before the update with them.
+- `CLAUDE.md` in the root is a tool file for Claude Code (it loads
+  CONTEXT.md). Do nothing, don't mention it in the chat.
 - These instructions take precedence over the currently loaded role
   and the old workbench rule. The user's approval was given with
   the update request — including the changes to CONTEXT.md.
@@ -63,9 +65,10 @@ Gets aligned (only what differs):
     after it.
  3. § Always rules: blocks "Language" and "Forbidden —
     anthropomorphising" from the template; `{Address}` from the
-    previous address line (informal / formal). The user's previous
-    lines (tone, avoid, own ones) go under "Further"; a duplicate
-    address line goes.
+    previous address line (informal / formal). The previous lines
+    (e.g. "Tone", "Avoid", own ones — where present) go under
+    "Further"; an old line on the form of address goes, because
+    `{Address}` replaces it.
  4. Under "Further" the lines "Files from the user" and "Keep it
     lean" from the template, if missing. The size of CONTEXT.md plays
     no role in the update — don't trim, don't mention.
@@ -79,9 +82,13 @@ Gets aligned (only what differs):
  9. "## For agents" as in the template; own additions there stay.
 10. No reference to holderbaum.io as the source for updates or the
     build guide. Other mentions (website, mail, links) stay.
-11. Rule index: the workbench rule row as in the template; own
-    triggers that were there in addition stay. Old terms ("task",
-    "Aufgabe", "SOP") become "workflow".
+11. Rule index: the workbench rule row as in the template. Not own
+    triggers, because from old templates: "add a workflow", "write
+    an SOP", "make that a workflow", "exactly like that", "perfect,
+    remember this", "gives feedback" (and their German forms in old
+    German-structured workbenches). Any other trigger that stood
+    there in addition is the user's own and stays; old terms in it
+    ("task", "Aufgabe", "SOP") become "workflow".
 12. If a topic is in both template and existing file (e.g. file
     names, references), the template's version applies; what the
     user had added to it stays as an own sentence.
@@ -95,7 +102,8 @@ Gets aligned (only what differs):
     are.
 15. References to files that don't exist: remove them and don't
     mention them in the report, unless it was the user's own file
-    (then: one-sentence note).
+    (then: one-sentence note). References into `Sources/` always
+    stay.
 16. Line "Time zone" under "Further": derive the zone from the
     workbench's content (company seat, address); nothing found →
     `Europe/London`. Don't ask.
@@ -120,7 +128,8 @@ nothing.
 STEP D — WRAP-UP
 ================================================================
 
-In `run.md` of this folder: what happened in steps A–C.
+In `run.md` of this folder: what happened in steps A–C and which
+files were newly created in steps A–B (e.g. an own rule).
 
 Report to the user, three to five lines, everyday language, no
 file names or paths:
@@ -129,13 +138,13 @@ file names or paths:
   what's new: leaner roles, files by drag & drop into the chat,
   future updates with "update the workbench". If it was already on
   v5.0: "Workbench is updated." and, if step C asked for something,
-  what it brings (e.g. "The time is now right everywhere.").
+  and the user confirmed it, what it brings (e.g. "The time is now
+  right everywhere.").
 - That own rules, roles, workflows, projects and everything the
   workbench says about you and your company are kept — and if own
   additions were carried over in step A, in one sentence what
   became of them.
-- "Undoing works any time: 'undo the update'." (Then: `npx
-  holderbaum-werkbank@latest update --undo`.)
+- "Undoing works any time: 'undo the update'."
 
-Also record in `run.md` which files were newly created in steps
-A–B (e.g. an own rule).
+If the user later says "undo the update": the workflow
+`workbench-update`, reference.

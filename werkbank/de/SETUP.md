@@ -25,6 +25,7 @@ In der Werkbank (Ordner des Nutzers):
     Workflows/werkbank-update.md        Workflow Werkbank-Update
     protokolle/                         leer
   Quellen/unterlagen/ · Quellen/website/
+  Quellen/gedaechtnis-*.md · Quellen/angaben-im-chat.md   (Schritt 4)
   Projekte/
 
 Im Lauf-Ordner (Pfad hat das Paket ausgegeben, liegt im
@@ -60,7 +61,8 @@ steht in den Konto-Anweisungen. Die Projektanweisung gehört zum
 Projekt und sagt, dass dieser Ordner eine Werkbank ist.
 
 Sprache: Deutsch. Anrede an den Nutzer: Duzen, bis er in Schritt 5
-etwas anderes wählt.
+etwas anderes wählt. Wo auf ein Wort gewartet wird („fertig",
+„weiter"), zählt jede Bestätigung gleich („ja", „ok", „erledigt").
 
 TONFALL DES AUFBAUS
 Die Werkbank ist ein Werkzeug, kein Gegenüber:
@@ -141,12 +143,13 @@ SCHRITT 4 — MATERIAL AUSWERTEN
 Rohmaterial landet in `Quellen/` der Werkbank, Zwischenstände in
 `kladde/` des Lauf-Ordners. Aus dem Material werden die Felder
 unten gefüllt. Nichts erfinden — was keine Quelle hergibt,
-bleibt leer und wird in Schritt 5 gefragt.
+bleibt leer und wird in Schritt 5 gefragt (außer D, J, K).
 
 Subagenten, wenn das Werkzeug verfügbar ist — einer für die
 Website, einer je Unterlage. Der Subagent liest die Quelle,
 schreibt den Rohtext nach `Quellen/` und gibt nur die Extraktion
-zurück (Felder A–D, je mit Fundstelle). Der Rohtext geht nicht
+zurück (die Felder, die die Quelle hergibt, je mit Fundstelle —
+Website A–D, Unterlage A–K). Der Rohtext geht nicht
 in den Hauptkontext. Ohne Subagenten-Werkzeug: dieselben
 Quellen nacheinander direkt auswerten; Rohtext nur in Dateien
 schreiben, nie in Chat-Nachrichten. Pfade an Subagenten immer
@@ -248,6 +251,10 @@ ist, streiche, was nicht rein soll:
 Und: Sollen Agenten in dieser Werkbank dich (und dein Team)
 duzen oder siezen?"
 
+Im Entwurf steht ein leeres Feld als „—". Nicht gefragt werden D
+(Markenwerte), J (Wortwahl) und K (Laufende Vorhaben): Sie bleiben
+leer, wenn das Material nichts hergibt.
+
 Korrekturen und Wahlen übernehmen. „Passt" bestätigt nur Felder
 ohne Wahlfrage; eine offene Wahlfrage bekommt Fassung 1. Was
 danach leer ist, wird „(noch zu schärfen)". Keine zweite Runde.
@@ -267,15 +274,16 @@ SCHRITT 6 — KONTEXT.md ERSTELLEN
 `kontext-vorlage.md` aus dem Lauf-Ordner lesen und als
 `KONTEXT.md` ins Wurzelverzeichnis der Werkbank schreiben.
 Platzhalter in geschweiften Klammern durch die Felder ersetzen,
-leere durch „(noch zu schärfen)". `{Anrede}`: „du-Form" oder
-„Sie-Form". `{J}`: die Wortwahl, leer → „(noch zu schärfen —
-kommt über ‚Merk dir das')". `{Zone}`: IANA-Zeitzone
-(z. B. `Europe/Berlin`) aus Adresse, Impressum oder Gedächtnis;
-nichts gefunden → `Europe/Berlin`. Nicht fragen. `{K}`: leer → „(Noch keine Projekte.
-Projekte leben in `Projekte/`, jedes mit eigener KONTEXT.md.)";
-sonst „Laufende Vorhaben, noch ohne eigenen Ordner — werden
-Projekte, sobald daran gearbeitet wird: …" mit den Vorhaben als
-Liste. Markenwerte: Variante 1, wenn D gefüllt, sonst
+leere durch „(noch zu schärfen)" — außer D, J und K, für sie
+gilt das Folgende. `{Anrede}`: „du-Form" oder „Sie-Form". `{J}`:
+die Wortwahl, leer → „(noch zu schärfen — kommt über ‚Merk dir
+das')". `{Zone}`: IANA-Zeitzone (z. B. `Europe/Berlin`) aus
+Adresse, Impressum, Gedächtnis oder Angaben im Chat; nichts
+gefunden → `Europe/Berlin`. Nicht fragen. `{K}`: leer → „(Noch
+keine Projekte. Projekte leben in `Projekte/`, jedes mit eigener
+KONTEXT.md.)"; sonst „Laufende Vorhaben, noch ohne eigenen
+Ordner — werden Projekte, sobald daran gearbeitet wird: …" mit
+den Vorhaben als Liste. Markenwerte: Variante 1, wenn D gefüllt, sonst
 Variante 2; die Varianten-Zeilen selbst fallen weg. Ein `|` in
 einem Tabellenwert als `\|` schreiben. Sonst nichts ändern.
 
@@ -292,14 +300,16 @@ Block als Datei schreiben.
 SCHRITT 7a — ABOUT ME IN DIE KONTO-ANWEISUNGEN
 
 Aus den Feldern E–H den Block bauen, fünf bis zehn Zeilen plus
-Schlusssatz. Stichworte ohne Anrede („Geschäftsführer, Trier,
-vormittags Deep Work"), keine Du- oder Ich-Sätze. Sage:
+Schlusssatz. Die Felder als Stichworte ohne Anrede
+(„Geschäftsführer, Trier, vormittags Deep Work"), keine Du- oder
+Ich-Sätze; „Kommunikation" und der Schlusssatz bleiben wörtlich
+wie in der Vorlage. Sage:
 
 "Erster Block: dein About Me. Es beschreibt dich, nicht deine
 Werkbank — deshalb lebt es in deinem Konto und gilt in jedem
 Chat. Der Weg:
 
-  Einstellungen → Konto → 'Anweisungen für Claude'
+  Einstellungen → Dein Claude → Anweisungen
 
 Block mit dem Copy-Button kopieren, dort einfügen, speichern."
 
@@ -378,8 +388,9 @@ Mit Tools prüfen, nicht aus dem Gedächtnis:
    Verzeichnisse und den End-Marker jeder Werkzeug-Datei.)
 3. Jede in Schritt 3 gelieferte Quelle liegt in `Quellen/`.
 4. KONTEXT.md ohne unersetzte Platzhalter. Suchmuster: `{A}`,
-   `{B}`, `{C}`, `{J}`, `{K}`, `{Zone}`, `{…}`, `{I`, `{Anrede}`, `{Variante`. Treffer →
-   nicht fertig. „(noch zu schärfen)" ist erlaubt.
+   `{B}`, `{C}`, `{J}`, `{K}`, `{Zone}`, `{…}`, `{I`, `{Anrede}`,
+   `{Variante`. Treffer → nicht fertig. „(noch zu schärfen)" ist
+   erlaubt.
 5. KONTEXT.md enthält `Verboten — Vermenschlichung`,
    `## Arbeitsmodus`, `MUSS eine Rolle aktiv`, den
    Sparringpartner als Default im Rollen-Index und die Zeile

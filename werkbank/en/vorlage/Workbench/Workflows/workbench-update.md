@@ -29,7 +29,7 @@ It asks the package whether there is a newer version and asks you once whether t
 ## Zones
 
 - **Source:** the package `holderbaum-werkbank`.
-- **Scratch:** run folder `Workbench/logs/workbench-update-<timestamp>/` (created by the package: `UPDATE.md`, `run.md`, backup `alt/`).
+- **Scratch:** run folder `Workbench/logs/workbench-update-<timestamp>/` (created by the package: `UPDATE.md`, `run.md`, backup `alt/` and file list `before.txt`).
 - **Target:** tool files and CONTEXT.md of the workbench.
 
 ## The steps
@@ -40,7 +40,7 @@ It asks the package whether there is a newer version and asks you once whether t
 Already current → "Your workbench is up to date." End.
 
 ### Halt 1 — Apply? · YOUR TURN
-presents, in two sentences of everyday language: "There is an update for your workbench. Your own content, rules, roles, workflows and projects are kept." If the package reported own changes to tool files, a third sentence: "Your own adjustments to the Sparring Partner or the workbench rule are carried over." Then: "Apply?"
+The agent presents, in two sentences of everyday language: "There is an update for your workbench. Your own content, rules, roles, workflows and projects are kept." If the package reported own changes to tool files, a third one follows: "Your own adjustments to the Sparring Partner or the workbench rule are carried over." Then the question: "Apply?"
 
 ### 2. Apply and work through
 *Judgment*
@@ -52,5 +52,5 @@ As in `UPDATE.md` step D: three to five lines, everyday language.
 
 ## Reference
 
-**Undo the update:** `npx holderbaum-werkbank@latest update --undo` in the root directory. Brings back the complete state before the last update; if the command reports files it was not allowed to delete, remove them after the user's approval. One-sentence report.
+**Undo the update:** First one sentence to the user: "This also loses changes made to the workbench description since the update." Then `npx holderbaum-werkbank@latest update --undo` in the root directory. Restores the state before the last update; if the command reports files it was not allowed to delete, remove them after the user's approval. One-sentence report.
 ===== HOLDERBAUM WERKSTATT · FILE FULLY LOADED =====

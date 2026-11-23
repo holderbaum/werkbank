@@ -19,6 +19,9 @@ Deshalb:
 - Alles ist umkehrbar: `alt/` hält die Dateien, die das Update
   anfasst, `vorher.txt` die Liste aller Dateien davor; „Update
   rückgängig machen" stellt damit den Stand vor dem Update her.
+- `CLAUDE.md` im Wurzelverzeichnis ist eine Werkzeug-Datei für
+  Claude Code (lädt die KONTEXT.md). Nichts tun, im Chat nicht
+  erwähnen.
 - Diese Anleitung geht der gerade geladenen Rolle und der alten
   Werkbank-Regel vor. Die Freigabe des Nutzers liegt mit dem Update-Auftrag
   vor — auch für die Änderungen an der KONTEXT.md.
@@ -65,8 +68,9 @@ Wird angeglichen (nur, was abweicht):
  3. § Always-Regeln: Block „Sprache" und „Verboten —
     Vermenschlichung" aus der Vorlage; `{Anrede}` aus der
     bisherigen Anrede (Duzen → du-Form, Siezen → Sie-Form). Die
-    bisherigen Zeilen des Nutzers (Tonalität, Vermeiden, eigene)
-    kommen unter „Weitere"; doppelte Anrede-Zeile entfällt.
+    bisherigen Zeilen (etwa „Tonalität", „Vermeiden", eigene —
+    soweit vorhanden) kommen unter „Weitere"; eine alte Zeile zur
+    Anrede (Duzen/Siezen) entfällt, weil `{Anrede}` sie ersetzt.
  4. Unter „Weitere" die Zeilen „Dateien vom Nutzer" und
     „Knapp halten" der Vorlage, falls sie fehlen. Die Größe der
     KONTEXT.md spielt beim Update keine Rolle — nicht kürzen, nicht
@@ -82,9 +86,12 @@ Wird angeglichen (nur, was abweicht):
     bleiben.
 10. Kein Verweis auf holderbaum.io als Quelle für Updates oder
     Bauanleitung. Andere Erwähnungen (Website, Mail, Links) bleiben.
-11. Regel-Index: die Zeile der Werkbank-Regel wie in der Vorlage;
-    eigene Trigger, die dort zusätzlich standen, bleiben. Alte
-    Begriffe („Aufgabe", „SOP") werden zu „Workflow".
+11. Regel-Index: die Zeile der Werkbank-Regel wie in der Vorlage.
+    Keine eigenen Trigger, weil aus alten Vorlagen: „Aufgabe
+    anlegen", „mach das zur Aufgabe", „SOP schreiben", „genau so",
+    „perfekt, merk dir das", „gibt Feedback". Jeder andere Trigger,
+    der dort zusätzlich stand, ist eigener und bleibt; alte Begriffe
+    darin („Aufgabe", „SOP") werden zu „Workflow".
 12. Steht ein Thema in Vorlage und Bestand (z. B. Dateinamen,
     Verweise), gilt die Fassung der Vorlage; was der Nutzer darin
     selbst ergänzt hatte, bleibt als eigener Satz.
@@ -99,7 +106,8 @@ Wird angeglichen (nur, was abweicht):
     Ressourcen") bleiben, wie sie sind.
 15. Verweise auf Dateien, die es nicht gibt: entfernen und im
     Bericht nicht erwähnen, außer es war eine eigene Datei des
-    Nutzers (dann: Hinweis in einem Satz).
+    Nutzers (dann: Hinweis in einem Satz). Verweise in den Ordner
+    `Quellen/` bleiben immer stehen.
 16. Zeile „Zeitzone" unter „Weitere": Zone aus dem Inhalt der
     Werkbank ableiten (Firmensitz, Adresse); nichts zu finden →
     `Europe/Berlin`. Nicht fragen.
@@ -123,7 +131,9 @@ Zeile oder den Block zeigen, den Weg nennen, auf die Antwort des Nutzers warten 
 SCHRITT D — ABSCHLUSS
 ================================================================
 
-In `lauf.md` dieses Ordners: was in Schritt A–C passiert ist.
+In `lauf.md` dieses Ordners: was in Schritt A–C passiert ist und
+welche Dateien in Schritt A–B neu angelegt wurden (z. B. eine
+eigene Regel).
 
 Bericht an den Nutzer, drei bis fünf Zeilen, Alltagssprache, keine
 Dateinamen und Pfade:
@@ -132,14 +142,14 @@ Dateinamen und Pfade:
   schlankere Rollen, Dateien per Drag & Drop in den Chat, Updates
   künftig mit „Werkbank updaten". War sie schon auf v5.0:
   „Werkbank ist aktualisiert." und, falls Schritt C etwas verlangt
-  hat, was es bringt (z. B. „Die Uhrzeit stimmt jetzt überall.").
+  hat und der Nutzer es bestätigt hat, was es bringt (z. B. „Die
+  Uhrzeit stimmt jetzt überall.").
 - Dass eigene Regeln, Rollen, Workflows, Projekte und alles, was
   über dich und dein Unternehmen in der Werkbank steht, erhalten
   sind — und falls in Schritt A eigene Ergänzungen übernommen
   wurden, in einem Satz, was daraus geworden ist.
 - „Rückgängig machen geht jederzeit: 'Update rückgängig
-  machen'." (Dann: `npx holderbaum-werkbank@latest update
-  --rueckgaengig`.)
+  machen'."
 
-In `lauf.md` außerdem eintragen, welche Dateien in Schritt A–B
-neu angelegt wurden (z. B. eine eigene Regel).
+Sagt der Nutzer später „Update rückgängig machen": der Workflow
+`werkbank-update`, Referenz.
