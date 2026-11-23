@@ -131,6 +131,13 @@ for (const name of fs.readdirSync(REF).sort()) {
     assert.doesNotMatch(p.stdout, /Auf dem aktuellen Stand/, 'Paket: ' + alt + ' gilt als aktuell');
     assert.match(p.stdout, /Installiertes Paket: /, 'Paket: Befund ohne Paketzeile');
   }
+  // Rückgängig lässt Ordner stehen, die vorher da waren — auch leere
+  fs.mkdirSync(path.join(tmp, 'Projekte/Leer'), { recursive: true });
+  fs.writeFileSync(vermerk, 'holderbaum-werkbank 5.0.0\n');
+  assert.strictEqual(run(['update'], tmp).status, 0);
+  assert.strictEqual(run(['update', '--rueckgaengig'], tmp).status, 0);
+  assert.ok(fs.existsSync(path.join(tmp, 'Projekte/Leer')), 'Rückgängig: leerer Ordner des Nutzers gelöscht');
+  assert.strictEqual(fs.readFileSync(vermerk, 'utf8'), 'holderbaum-werkbank 5.0.0\n', 'Rückgängig: Vermerk nicht zurückgeholt');
   // Werkbank aus 5.0.2: alter Workflow werkbank-update gilt als ausgelieferte Fassung, nicht als eigene Änderung
   fs.copyFileSync(path.join(__dirname, 'referenz/quellen/paket-5.0.2/de/Werkbank/Workflows/werkbank-update.md'),
     path.join(tmp, 'Werkbank/Workflows/werkbank-update.md'));

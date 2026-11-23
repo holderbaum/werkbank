@@ -37,8 +37,8 @@ Session):
   kladde/             Zwischenstände
 
 Nichts aus dem Lauf-Ordner kommt in die Werkbank. Nach der
-Einrichtung bleiben dort nur KONTEXT.md, Werkzeuge, Quellen/ und
-Projekte/. Die Werkzeuge sind vollständig (vom Paket geprüft)
+Einrichtung bleiben dort nur KONTEXT.md, CLAUDE.md, die Werkzeuge,
+`Werkbank/version.txt`, Quellen/ und Projekte/. Die Werkzeuge sind vollständig (vom Paket geprüft)
 und werden für den Aufbau nicht gelesen.
 
 ================================================================
@@ -59,7 +59,8 @@ Die zwei Ebenen (Schritt 7): Das About Me gehört zur Person und
 steht in den Konto-Anweisungen. Die Projektanweisung gehört zum
 Projekt und sagt, dass dieser Ordner eine Werkbank ist.
 
-Sprache: Deutsch. Anrede an den Nutzer: Duzen.
+Sprache: Deutsch. Anrede an den Nutzer: Duzen, bis er in Schritt 5
+etwas anderes wählt.
 
 TONFALL DES AUFBAUS
 Die Werkbank ist ein Werkzeug, kein Gegenüber:

@@ -456,7 +456,11 @@ function befehlRueckgaengig(args) {
   const alt = path.join(ziel, lauf, 'alt');
   const gesichert = new Set(dateien(alt));
   const liste = ['vorher.txt', 'before.txt'].map((n) => path.join(ziel, lauf, n)).find(ex) || path.join(ziel, lauf, 'vorher.txt');
-  const vorher = ex(liste) ? new Set(lies(liste).split('\n').filter(Boolean)) : gesichert;
+  const vorherZeilen = ex(liste) ? lies(liste).split('\n').filter(Boolean) : [...gesichert];
+  const vorher = new Set(vorherZeilen.filter((z) => !z.endsWith('/')));
+  // Ordner, die vor dem Update da waren (auch leere), bleiben; ältere Listen ohne Ordner: Projekte/ schützen.
+  const vorherOrdner = new Set(vorherZeilen.filter((z) => z.endsWith('/')).map((z) => z.slice(0, -1)));
+  for (const p of ['Projekte', 'Projects']) if (ex(path.join(ziel, p)) && !vorherZeilen.some((z) => z.endsWith('/'))) vorherOrdner.add(p);
   const nichtGeloescht = [];
   for (const rel of sicherbar(ziel)) {
     if (vorher.has(rel)) continue;
@@ -473,12 +477,13 @@ function befehlRueckgaengig(args) {
       const r = rel ? rel + '/' + e.name : e.name;
       if (/^(Werkbank\/protokolle|Workbench\/logs|Quellen|Sources)/.test(r)) continue;
       ordner(dir, r);
-      try { if (!fs.readdirSync(path.join(dir, r)).length) fs.rmdirSync(path.join(dir, r)); } catch (x) { /* bleibt */ }
+      try { if (!vorherOrdner.has(r) && !fs.readdirSync(path.join(dir, r)).length) fs.rmdirSync(path.join(dir, r)); } catch (x) { /* bleibt */ }
     }
   };
   ordner(ziel);
-  schreibe(path.join(ziel, lauf, 'rueckgaengig.md'), '# ' + zeitstempel() + '\n\n' + gesichert.size + ' Dateien zurückgeholt.\n' +
-    (nichtGeloescht.length ? 'Nicht gelöscht: ' + nichtGeloescht.join(', ') + '\n' : ''));
+  schreibe(path.join(ziel, lauf, en ? 'undo.md' : 'rueckgaengig.md'), '# ' + zeitstempel() + '\n\n' + gesichert.size +
+    (en ? ' files restored.\n' : ' Dateien zurückgeholt.\n') +
+    (nichtGeloescht.length ? (en ? 'Not deleted: ' : 'Nicht gelöscht: ') + nichtGeloescht.join(', ') + '\n' : ''));
   aus((en ? 'Update undone: ' : 'Update rückgängig gemacht: ') + gesichert.size + (en ? ' files restored from ' : ' Dateien zurückgeholt aus ') + lauf + '/alt/.');
   if (nichtGeloescht.length) {
     aus((en ? 'Could not delete (no permission) — remove by hand: ' : 'Nicht löschbar (keine Berechtigung) — von Hand entfernen: ') + nichtGeloescht.join(', '));
@@ -510,7 +515,9 @@ function befehlUpdate(args) {
   // Grundlage für --rueckgaengig: Liste aller Dateien vorher (vorher.txt) und Kopien dessen, was das
   // Update anfasst — Werkzeuge und KONTEXT; bei einem Struktur-Umzug alle Dateien (alte, kleine Werkbänke).
   const vorherListe = sicherbar(ziel);
-  schreibe(path.join(lauf, b.sprache === 'en' ? 'before.txt' : 'vorher.txt'), vorherListe.join('\n') + '\n');
+  const ordnerListe = (dir, rel = '') => fs.readdirSync(path.join(dir, rel), { withFileTypes: true }).filter((e) => e.isDirectory())
+    .flatMap((e) => { const r = rel ? rel + '/' + e.name : e.name; return /^(Werkbank\/protokolle|Workbench\/logs)/.test(r) ? [] : [r + '/', ...ordnerListe(dir, r)]; });
+  schreibe(path.join(lauf, b.sprache === 'en' ? 'before.txt' : 'vorher.txt'), [...vorherListe, ...ordnerListe(ziel)].join('\n') + '\n');
   const zuSichern = b.umzug.length ? vorherListe
     : [...new Set([...b.gefunden.map((g) => g.rel), b.kontextName, ...werkzeuge(b.sprache), s.paket])].filter((r) => ex(path.join(ziel, r)));
   for (const rel of zuSichern) {

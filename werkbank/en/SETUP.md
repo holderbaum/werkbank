@@ -35,7 +35,8 @@ temporary directory, gone with the session):
   scratch/             intermediate states
 
 Nothing from the run folder goes into the workbench. After setup
-only CONTEXT.md, tools, Sources/ and Projects/ remain there. The
+only CONTEXT.md, CLAUDE.md, the tools, `Workbench/version.txt`,
+Sources/ and Projects/ remain there. The
 tools are complete (checked by the package) and are not read for
 the setup.
 
@@ -57,7 +58,8 @@ The two levels (step 7): About Me belongs to the person and sits
 in the account instructions. The project instructions belong to
 the project and say that this folder is a workbench.
 
-Language: English. Address the user informally (first name).
+Language: English. Address the user informally (first name) until
+they choose otherwise in step 5.
 
 TONE OF THE SETUP
 The workbench is a tool, not a counterpart:

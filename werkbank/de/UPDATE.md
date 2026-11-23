@@ -1,5 +1,5 @@
 ================================================================
-HOLDERBAUM WERKBANK — UPDATE AUF v5.0
+HOLDERBAUM WERKBANK — UPDATE
 ================================================================
 
 Anweisung an den Agenten nach `npx holderbaum-werkbank@latest
@@ -14,9 +14,11 @@ Deshalb:
   die naheliegende treffen (im Zweifel: das Eigene des Nutzers
   behalten) und im Bericht in einem Satz nennen.
 - Keine Prüflisten, Dateipfade, Versionsdetails oder
-  Fachbegriffe im Chat — außer der Nutzer fragt danach.
-- Alles ist umkehrbar: `alt/` enthält den vollständigen Stand vor dem
-  Update; „Update rückgängig machen" holt ihn zurück.
+  Fachbegriffe im Chat — außer der Nutzer fragt danach. Einzige
+  Ausnahme: der Versionssatz im Bericht (Schritt D).
+- Alles ist umkehrbar: `alt/` hält die Dateien, die das Update
+  anfasst, `vorher.txt` die Liste aller Dateien davor; „Update
+  rückgängig machen" stellt damit den Stand vor dem Update her.
 - Diese Anleitung geht der gerade geladenen Rolle und der alten
   Werkbank-Regel vor. Die Freigabe des Nutzers liegt mit dem Update-Auftrag
   vor — auch für die Änderungen an der KONTEXT.md.
@@ -33,11 +35,11 @@ SCHRITT A — EIGENE ÄNDERUNGEN AN WERKZEUG-DATEIEN
 
 {GEAENDERT}
 
-Steht oben eine FORMAT.md — Ausnahme: Eigene Zeilen aus einer alten FORMAT.md kommen nicht
+Steht in der Liste der angepassten Dateien oben eine FORMAT.md — Ausnahme: Eigene Zeilen aus einer alten FORMAT.md kommen nicht
 in eine Regel, sondern nach `Werkbank/Workflows/FORMAT-lokal.md` (anlegen
 mit Überschrift „# Workflow-Format — lokale Ergänzungen"). Was v5 schon
-abdeckt, fällt weg. Steht oben keine FORMAT.md: diesen Absatz
-überspringen.
+abdeckt, fällt weg. Steht dort keine FORMAT.md (oder gibt es keine
+Liste): diesen Absatz überspringen.
 
 ================================================================
 SCHRITT B — KONTEXT.md AUF DIE NEUE STRUKTUR BRINGEN
@@ -113,8 +115,8 @@ SCHRITT C — WAS DER NUTZER SELBST TUN MUSS
 
 {ANWEISUNGEN}
 
-Ist oben etwas zu tun: in Alltagssprache erklären, die Zeile oder
-den Block zeigen, auf die Antwort des Nutzers warten — „erledigt",
+Ist oben etwas zu tun: in einem Satz Alltagssprache erklären, die
+Zeile oder den Block zeigen, den Weg nennen, auf die Antwort des Nutzers warten — „erledigt",
 „ja" oder „ok" zählen gleich. Ist nichts zu tun: nichts erwähnen.
 
 ================================================================

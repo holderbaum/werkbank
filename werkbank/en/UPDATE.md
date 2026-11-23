@@ -1,5 +1,5 @@
 ================================================================
-HOLDERBAUM WORKBENCH — UPDATE TO v5.0
+HOLDERBAUM WORKBENCH — UPDATE
 ================================================================
 
 Instructions for the agent after `npx holderbaum-werkbank@latest
@@ -14,9 +14,11 @@ Therefore:
   obvious one (when in doubt: keep what is the user's own) and
   name it in one sentence in the report.
 - No checklists, file paths, version details or jargon in the
-  chat — unless the user asks.
-- Everything is reversible: `alt/` holds the complete state before
-  the update; "undo the update" brings it back.
+  chat — unless the user asks. Only exception: the version sentence
+  in the report (step D).
+- Everything is reversible: `alt/` holds the files the update
+  touches, `before.txt` the list of all files before it; "undo the
+  update" restores the state before the update with them.
 - These instructions take precedence over the currently loaded role
   and the old workbench rule. The user's approval was given with
   the update request — including the changes to CONTEXT.md.
@@ -33,10 +35,10 @@ STEP A — OWN CHANGES TO TOOL FILES
 
 {GEAENDERT}
 
-If a FORMAT.md is listed above — exception: own lines from an old FORMAT.md don't go into a rule
+If a FORMAT.md is in the list of adjusted files above — exception: own lines from an old FORMAT.md don't go into a rule
 but into `Workbench/Workflows/FORMAT-local.md` (create it with the heading
 "# Workflow format — local additions"). What v5 already covers goes. If no FORMAT.md is
-listed above: skip this paragraph.
+in that list (or there is no list): skip this paragraph.
 
 ================================================================
 STEP B — BRING CONTEXT.md TO THE NEW STRUCTURE
@@ -96,7 +98,7 @@ Gets aligned (only what differs):
     (then: one-sentence note).
 16. Line "Time zone" under "Further": derive the zone from the
     workbench's content (company seat, address); nothing found →
-    `Europe/Berlin`. Don't ask.
+    `Europe/London`. Don't ask.
 
 Then read CONTEXT.md again: is every piece of the user's content
 from `alt/` still there? Something missing → put it back.
@@ -109,8 +111,8 @@ STEP C — WHAT THE USER HAS TO DO THEMSELVES
 
 {ANWEISUNGEN}
 
-If something has to be done above: explain it in everyday words,
-show the line or the block, wait for the user's answer — "done",
+If something has to be done above: explain it in one sentence of
+everyday words, show the line or the block, name the path, wait for the user's answer — "done",
 "yes" or "ok" count the same. If nothing has to be done: mention
 nothing.
 

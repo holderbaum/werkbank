@@ -7,6 +7,8 @@
 - **Update-Anleitung:** „erledigt", „ja" oder „ok" zählen gleich als Antwort; Bericht ohne Dateinamen und Pfade; für Werkbänke, die schon auf v5.0 waren, ein eigener Berichtssatz; die Freigabe gilt auch, wenn das Update per Prompt angestoßen wurde; FORMAT-Absatz nur, wenn eine FORMAT.md betroffen ist; Sprache bei gemischten Inhalten.
 - **Workflow `werkbank-update`:** Die Rückfrage lautet „Es gibt ein Update für deine Werkbank" statt einer Versionsnummer, die bei Paket-Updates gleich bliebe.
 - **Sicherung:** Befund und `lauf.md` nennen alles, was gesichert wurde (auch KONTEXT.md); englische Werkbänke bekommen `before.txt` statt `vorher.txt`.
+- **Rückgängig:** Ordner, die vor dem Update da waren, bleiben stehen, auch leere (vorher wurde ein leeres `Projekte/` gelöscht). Englische Werkbänke bekommen ein englisches Protokoll (`undo.md`).
+- **Texte:** Update-Anleitung ohne Versionsnummer im Titel, Sicherung korrekt beschrieben, englischer Zeitzonen-Fallback `Europe/London`, Weg zur Projektanweisung in jedem Fall. Einrichtung: Liste dessen, was in der Werkbank bleibt, vollständig (CLAUDE.md, version.txt); Anrede bis zur Wahl in Schritt 5.
 
 ## 5.0.2
 
