@@ -17,7 +17,7 @@ Therefore:
   chat — unless the user asks. Only exception: the version sentence
   in the report (step D).
 - Everything is reversible: `alt/` holds the files the update
-  touches, `before.txt` the list of all files before it; "undo the
+  touches, `before.txt` the list of all files before it (except `Sources/`); "undo the
   update" restores the state before the update with them.
 - `CLAUDE.md` in the root is a tool file for Claude Code (it loads
   CONTEXT.md). Do nothing, don't mention it in the chat.
@@ -37,10 +37,12 @@ STEP A — OWN CHANGES TO TOOL FILES
 
 {GEAENDERT}
 
-If a FORMAT.md is in the list of adjusted files above — exception: own lines from an old FORMAT.md don't go into a rule
-but into `Workbench/Workflows/FORMAT-local.md` (create it with the heading
-"# Workflow format — local additions"). What v5 already covers goes. If no FORMAT.md is
-in that list (or there is no list): skip this paragraph.
+Exception FORMAT.md — only if a FORMAT.md is in the list of
+adjusted files above, otherwise skip this paragraph: own lines
+from an old FORMAT.md don't go into a rule but into
+`Workbench/Workflows/FORMAT-local.md` (create it with the heading
+"# Workflow format — local additions"). What v5 already covers
+goes.
 
 ================================================================
 STEP B — BRING CONTEXT.md TO THE NEW STRUCTURE

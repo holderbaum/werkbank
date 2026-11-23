@@ -17,7 +17,7 @@ Deshalb:
   Fachbegriffe im Chat — außer der Nutzer fragt danach. Einzige
   Ausnahme: der Versionssatz im Bericht (Schritt D).
 - Alles ist umkehrbar: `alt/` hält die Dateien, die das Update
-  anfasst, `vorher.txt` die Liste aller Dateien davor; „Update
+  anfasst, `vorher.txt` die Liste aller Dateien davor (außer `Quellen/`); „Update
   rückgängig machen" stellt damit den Stand vor dem Update her.
 - `CLAUDE.md` im Wurzelverzeichnis ist eine Werkzeug-Datei für
   Claude Code (lädt die KONTEXT.md). Nichts tun, im Chat nicht
@@ -38,11 +38,12 @@ SCHRITT A — EIGENE ÄNDERUNGEN AN WERKZEUG-DATEIEN
 
 {GEAENDERT}
 
-Steht in der Liste der angepassten Dateien oben eine FORMAT.md — Ausnahme: Eigene Zeilen aus einer alten FORMAT.md kommen nicht
-in eine Regel, sondern nach `Werkbank/Workflows/FORMAT-lokal.md` (anlegen
-mit Überschrift „# Workflow-Format — lokale Ergänzungen"). Was v5 schon
-abdeckt, fällt weg. Steht dort keine FORMAT.md (oder gibt es keine
-Liste): diesen Absatz überspringen.
+Ausnahme FORMAT.md — nur, wenn in der Liste der angepassten
+Dateien oben eine FORMAT.md steht, sonst diesen Absatz
+überspringen: Eigene Zeilen aus einer alten FORMAT.md kommen
+nicht in eine Regel, sondern nach `Werkbank/Workflows/FORMAT-lokal.md`
+(anlegen mit Überschrift „# Workflow-Format — lokale
+Ergänzungen"). Was v5 schon abdeckt, fällt weg.
 
 ================================================================
 SCHRITT B — KONTEXT.md AUF DIE NEUE STRUKTUR BRINGEN
